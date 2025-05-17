@@ -71,16 +71,16 @@ export default function About() {
 
       <div className="max-w-4xl">
         <Paragraph className="mt-4">
-          Hi, I’m Aidan O'Brien, and I am a computer science major at the University of
-          Wisconsin–Madison with a strong interest in software development, big
-          data systems, and machine learning. I'm passionate about building
-          scalable tools that solve complex real-world problems.
+          Hi, I&#39;m Aidan O&#39;Brien, and I am a computer science major at the
+          University of Wisconsin-Madison with a strong interest in software
+          development, big data systems, and machine learning. I&#39;m passionate
+          about building scalable tools that solve complex real-world problems.
         </Paragraph>
 
         <Paragraph className="mt-4">
           This past summer, I worked as one of the first full-stack engineers at{" "}
           <strong>Collectwise</strong>, an AI-powered debt collection startup in
-          Y Combinator’s Fall ‘24 batch. There, I helped build the company’s
+          Y Combinator&#39;s Fall &#39;24 batch. There, I helped build the company&#39;s
           early infrastructure, contributing to both backend APIs and frontend
           experiences in a fast-paced, high-ownership environment.
         </Paragraph>
@@ -94,15 +94,15 @@ export default function About() {
         </Paragraph>
 
         <Paragraph className="mt-4">
-          Outside of work, I’m an avid outdoors enthusiast and fitness junkie. I
+          Outside of work, I&#39;m an avid outdoors enthusiast and fitness junkie. I
           enjoy lifting, snowboarding, hiking, and I actively train in Brazilian
           Jiu-Jitsu. Growing up on the Jersey Shore, I also developed a love for
           surfing, New York sports, and classic boardwalk pizza.
         </Paragraph>
 
         <Paragraph className="mt-4">
-          When I’m not coding or on the mats, you’ll often find me reading,
-          playing chess, or experimenting with new recipes in the kitchen. I’m
+          When I&#39;m not coding or on the mats, you&#39;ll often find me reading,
+          playing chess, or experimenting with new recipes in the kitchen. I&#39;m
           always looking to expand my skills and connect with others who are
           passionate about technology, design, and building things that matter.
         </Paragraph>
