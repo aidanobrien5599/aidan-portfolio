@@ -6,10 +6,10 @@ import { motion } from "framer-motion";
 
 export default function About() {
   const images = [
-    "https://images.unsplash.com/photo-1692544350322-ac70cfd63614?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1692374227159-2d3592f274c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw4fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1692005561659-cdba32d1e4a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1692445381633-7999ebc03730?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzM3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+    "/images/Banff.png",
+    "/images/Family.png",
+    "/images/Surfing.JPG",
+    "/images/Yankee.JPG",
   ];
   return (
     <div>
@@ -70,48 +70,41 @@ export default function About() {
       </div>
 
       <div className="max-w-4xl">
-        <Paragraph className=" mt-4">
-          Hey there, I&apos;m John Doe - a passionate developer, avid writer,
-          and a connoisseur of awesome design. Welcome to my corner of the
-          digital world!
-        </Paragraph>
-        <Paragraph className=" mt-4">
-          Since the early days of my journey, I&apos;ve been captivated by the
-          art of crafting exceptional digital experiences. As a developer, I
-          thrive on turning lines of code into functional and elegant solutions.
-          My goal is to not just create software, but to build digital marvels
-          that seamlessly merge form and function.
+        <Paragraph className="mt-4">
+          Hi, I’m Aidan O'Brien, and I am a computer science major at the University of
+          Wisconsin–Madison with a strong interest in software development, big
+          data systems, and machine learning. I'm passionate about building
+          scalable tools that solve complex real-world problems.
         </Paragraph>
 
-        <Paragraph className=" mt-4">
-          But my journey doesn&apos;t stop at coding. With a heart full of words
-          and a mind brimming with ideas, I&apos;ve ventured into the realm of
-          writing. From tech articles that unravel complex concepts to creative
-          tales that ignite the imagination, I weave words to inform, entertain,
-          and inspire.
+        <Paragraph className="mt-4">
+          This past summer, I worked as one of the first full-stack engineers at{" "}
+          <strong>Collectwise</strong>, an AI-powered debt collection startup in
+          Y Combinator’s Fall ‘24 batch. There, I helped build the company’s
+          early infrastructure, contributing to both backend APIs and frontend
+          experiences in a fast-paced, high-ownership environment.
         </Paragraph>
-        <Paragraph className=" mt-4">
-          What sets me apart is my unwavering appreciation for design. I believe
-          that aesthetics and usability go hand in hand. My eye for awesome
-          design ensures that every project I undertake not only works
-          flawlessly under the hood but also looks stunning on the surface.
+
+        <Paragraph className="mt-4">
+          Previously, I conducted research on generative AI as part of a team
+          exploring how to generate high-fidelity materials from unstable
+          datasets using diffusion models. This experience deepened my
+          understanding of model optimization, training dynamics, and real-world
+          ML deployment challenges.
         </Paragraph>
-        <Paragraph className=" mt-4">
-          Through this website, I aim to share my insights, experiences, and
-          creations with you. Whether you&apos;re a fellow developer seeking
-          solutions, a fellow writer in search of inspiration, or simply someone
-          who appreciates the finer aspects of design, there&apos;s something
-          here for you.
+
+        <Paragraph className="mt-4">
+          Outside of work, I’m an avid outdoors enthusiast and fitness junkie. I
+          enjoy lifting, snowboarding, hiking, and I actively train in Brazilian
+          Jiu-Jitsu. Growing up on the Jersey Shore, I also developed a love for
+          surfing, New York sports, and classic boardwalk pizza.
         </Paragraph>
-        <Paragraph className=" mt-4">
-          Join me on this journey of bytes and narratives, logic and creativity,
-          code and prose. Together, we can explore the boundless possibilities
-          of technology and storytelling, all while reveling in the sheer beauty
-          of thoughtful design.
-        </Paragraph>
-        <Paragraph className=" mt-4">
-          Thank you for being here, and I can&apos;t wait to embark on this
-          adventure with you.
+
+        <Paragraph className="mt-4">
+          When I’m not coding or on the mats, you’ll often find me reading,
+          playing chess, or experimenting with new recipes in the kitchen. I’m
+          always looking to expand my skills and connect with others who are
+          passionate about technology, design, and building things that matter.
         </Paragraph>
       </div>
     </div>

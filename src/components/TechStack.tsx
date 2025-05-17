@@ -18,12 +18,6 @@ export const TechStack = () => {
       className: "h-10 w-10",
     },
     {
-      title: "Figma",
-      src: "/images/logos/figma.png",
-
-      className: "h-10 w-8",
-    },
-    {
       title: "Framer Motion",
       src: "/images/logos/framer.webp",
 
@@ -47,6 +41,20 @@ export const TechStack = () => {
 
       className: "h-10 w-24",
     },
+    {
+      title: "Python",
+      src: "/images/logos/python.png",
+
+      className: "h-10 w-12",
+    },
+    { title: "Pytorch",
+      src: "/images/logos/pytorch.png",
+      className: "h-10 w-12",
+    },
+    { title: "Java",
+      src: "/images/logos/java.png",
+      className: "h-10 w-12",
+    }
   ];
   return (
     <div>

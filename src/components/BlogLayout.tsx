@@ -32,7 +32,7 @@ export function BlogLayout({
 
   return (
     <Container>
-      <article>
+      <article> 
         <header className="flex flex-col">
           <Link
             type="button"
