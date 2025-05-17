@@ -1,7 +1,7 @@
 ## Built with
 - Next.js
 - Tailwindcss
-- Framer motion
+- Framer Motion
 - MDX
 
 
