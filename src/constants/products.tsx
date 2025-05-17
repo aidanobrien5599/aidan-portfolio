@@ -27,7 +27,7 @@ export const products = [
         <p>
           Teeko is a two-player abstract strategy game that was solved in 1998
           by Guy Steele using a supercomputer. Since I only had a MacBook, I
-          couldn't brute-force the solution — so I took a smarter route.
+          couldn&#39;t brute-force the solution — so I took a smarter route.
         </p>
         <p>
           I implemented a <strong>minimax algorithm</strong> to simulate and
@@ -37,7 +37,7 @@ export const products = [
           crucial scenarios, ensuring a consistent and competitive AI.
         </p>
         <p>
-          The current version runs in the command line, but I'm actively working
+          The current version runs in the command line, but I&#39;m actively working
           on a <strong>web-based GUI</strong> so anyone can play against the AI
           in a live demo.
         </p>
@@ -210,7 +210,7 @@ export const products = [
         <p>
           The <strong>useless-addition-package</strong> is a deliberately simple
           JavaScript package that exports a single `add` function. The real
-          purpose of this project wasn't the functionality; it was to learn how
+          purpose of this project wasn&#39;t the functionality; it was to learn how
           to:
         </p>
         <ul>
