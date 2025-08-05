@@ -1,60 +1,115 @@
-"use client";
-import React from "react";
-import { Heading } from "./Heading";
-import { Product } from "@/types/products";
-import { products } from "@/constants/products";
-import Link from "next/link";
-import Image from "next/image";
-import { Paragraph } from "./Paragraph";
-import { motion } from "framer-motion";
+"use client"
+
+import { useRef } from "react"
+import { Heading } from "./Heading"
+import type { Product } from "@/types/products"
+import { products } from "@/constants/products"
+import Link from "next/link"
+import Image from "next/image"
+import { Paragraph } from "./Paragraph"
+import { motion, useInView } from "framer-motion"
 
 export const Products = () => {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, amount: 0.2 }) // Trigger once when 20% of the element is visible
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        staggerChildren: 0.1, // Stagger each project item
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  }
+
+  const featuredProduct = products[0]
+  const otherProducts = products.slice(1)
+
   return (
-    <div>
-      <div className="grid grid-cols-1  gap-10">
-        {products.map((product: Product, idx: number) => (
-          <motion.div
-            key={product.href}
-            initial={{
-              opacity: 0,
-              x: -50,
-            }}
-            animate={{
-              opacity: 1,
-              x: 0,
-            }}
-            transition={{ duration: 0.2, delay: idx * 0.1 }}
+    <motion.section
+      ref={ref}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      variants={containerVariants}
+      className="container mx-auto py-12 px-4 md:px-6"
+    >
+
+      {/* Featured Project */}
+      {featuredProduct && (
+        <motion.div variants={itemVariants} className="mb-16">
+          <Link
+            href={featuredProduct.slug ? `/projects/${featuredProduct.slug}` : featuredProduct.href}
+            className="group flex flex-col lg:flex-row items-center lg:items-start space-y-6 lg:space-y-0 lg:space-x-8 p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100"
           >
+            <div className="relative w-full lg:w-1/2 aspect-video overflow-hidden rounded-lg flex-shrink-0">
+              <Image
+                src={featuredProduct.thumbnail || "/placeholder.svg"}
+                alt={featuredProduct.title}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-300 ease-in-out"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+            <div className="flex flex-col justify-between flex-grow text-center lg:text-left">
+              <div>
+                <Heading as="h3" className="font-extrabold text-3xl md:text-4xl text-blue-600 mb-2">
+                  {featuredProduct.title} (Featured)
+                </Heading>
+                <Paragraph className="text-lg md:text-xl text-gray-700 leading-relaxed">
+                  {featuredProduct.description}
+                </Paragraph>
+              </div>
+              <div className="flex flex-wrap justify-center lg:justify-start gap-2 mt-4">
+                {featuredProduct.stack?.map((stack: string) => (
+                  <span key={stack} className="text-sm font-medium bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+                    {stack}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </Link>
+        </motion.div>
+      )}
+
+      {/* Other Projects Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {otherProducts.map((product: Product, idx: number) => (
+          <motion.div key={product.slug || product.href} variants={itemVariants}>
             <Link
               href={product.slug ? `/projects/${product.slug}` : product.href}
-              key={product.href}
-              className="group flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 hover:bg-gray-50 rounded-2xl transition duration-200 pt-4"
+              className="group flex flex-col space-y-4 p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-200 ease-in-out border border-gray-100 h-full"
             >
-              <Image
-                src={product.thumbnail}
-                alt="thumbnail"
-                height="200"
-                width="200"
-                className="rounded-md"
-              />
-              <div className="flex flex-col justify-between">
+              <div className="relative w-full aspect-video overflow-hidden rounded-md flex-shrink-0">
+                <Image
+                  src={product.thumbnail || "/placeholder.svg"}
+                  alt={product.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300 ease-in-out"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
+              </div>
+              <div className="flex flex-col justify-between flex-grow">
                 <div>
                   <Heading
                     as="h4"
-                    className="font-black text-lg md:text-lg lg:text-lg "
+                    className="font-bold text-xl text-gray-900 group-hover:text-blue-600 transition-colors duration-200"
                   >
                     {product.title}
                   </Heading>
-                  <Paragraph className="text-sm md:text-sm lg:text-sm mt-2 max-w-xl">
-                    {product.description}
-                  </Paragraph>
+                  <Paragraph className="text-sm text-gray-600 mt-2 line-clamp-3">{product.description}</Paragraph>
                 </div>
-                <div className="flex space-x-2 md:mb-1 mt-2 md:mt-0">
+                <div className="flex flex-wrap gap-1 mt-3">
                   {product.stack?.map((stack: string) => (
-                    <span
-                      key={stack}
-                      className="text-xs  md:text-xs lg:text-xs bg-gray-50 px-2 py-1 rounded-sm text-secondary"
-                    >
+                    <span key={stack} className="text-xs font-medium bg-gray-100 text-gray-700 px-2 py-0.5 rounded-sm">
                       {stack}
                     </span>
                   ))}
@@ -64,6 +119,6 @@ export const Products = () => {
           </motion.div>
         ))}
       </div>
-    </div>
-  );
-};
+    </motion.section>
+  )
+}
