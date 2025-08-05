@@ -1,62 +1,102 @@
 export const timeline = [
+
+
+
   {
-    company: "Amazon",
-    title: "Senior Software Engineer",
-    date: "2022 - Present",
-    description: "Building the future of e-commerce",
+   
+    company: "CargoLabs",
+    title: "Software Engineer Intern",
+    date: "May 2025 - Present",
+    description: "",
     responsibilities: [
-      "Developed a new feature that improves the shopping experience",
-      "Implemented a recommendation algorithm to suggest products",
-      "Enhanced the checkout process making it more intuitive and user-friendly",
-      "Built a feature for tracking packages in real-time",
+      "Architected and shipped end-to-end features using Next.js, AWS, and MySQL in monorepo architecture",
+      "Eliminated 8+ hours/month of manual work by automating bordereau reporting with an AWS + SQL cron job",
+      "Boosted UX and session stability by refactoring UI + auth flows with Tailwind CSS, Shadcn/UI, and Cognito",
+      "Guided other interns on secure coding and API design, conducting reviews to ensure security protocol compliance",
+    ],
+
+
+
+  },
+  {
+
+
+
+    company: "CargoLabs",
+    title: "Software Engineer Intern",
+    date: "May 2025 - Present",
+    description: "",
+    responsibilities: [
+      "Architected and shipped end-to-end features using Next.js, AWS, and MySQL in monorepo architecture",
+      "Eliminated 8+ hours/month of manual work by automating bordereau reporting with an AWS + SQL cron job",
+      "Boosted UX and session stability by refactoring UI + auth flows with Tailwind CSS, Shadcn/UI, and Cognito",
+      "Guided other interns on secure coding and API design, conducting reviews to ensure security protocol compliance",
     ],
   },
   {
-    company: "Google",
-    title: "Senior Software Engineer",
-    date: "2021 - 2022",
-    description: "Building the future of search",
+    company: "Collectwise",
+    title: "Software Engineer Intern",
+    date: "June 2024 - August 2024",
+    description: "",
     responsibilities: [
-      "Improved the search algorithm to provide more relevant results",
-      "Developed a new feature that personalizes search results",
-      "Enhanced the search functionality making it more intuitive and user-friendly",
-      "Implemented a feature for tracking search history",
+      "Developed full-stack for Collectwise, a Y Combinator-backed debt collection startup powered by generative AI.",
+      "Automated debtor reports by analyzing thousands of Firestore documents with Node endpoints.",
+      "Created the file upload and download system seen on the website with React and Firebase.",
+    ],
+  },
+
+
+  {
+    company: "Collectwise",
+    title: "Software Engineer Intern",
+    date: "June 2024 - August 2024",
+    description: "",
+    responsibilities: [
+      "Developed full-stack for Collectwise, a Y Combinator-backed debt collection startup powered by generative AI.",
+      "Automated debtor reports by analyzing thousands of Firestore documents with Node endpoints.",
+      "Created the file upload and download system seen on the website with React and Firebase.",
     ],
   },
   {
-    company: "Facebook",
-    title: "Senior Software Engineer",
-    date: "2020 - 2021",
-    description: "Building the future of social networking",
+    company: "UW-Madison",
+    title: "Research Assistant",
+    date: "September 2024 - December 2024",
+    description: "",
     responsibilities: [
-      "Developed a new feature that improves the user experience",
-      "Implemented a recommendation algorithm to suggest friends",
-      "Enhanced the news feed algorithm to show more relevant posts",
-      "Built a feature for tracking user activity",
+      "Leveraged CHTC high-throughput computing to efficiently train and evaluate models, optimizing resources",
+      "Enabled material property determination without synthesis, increasing efficiency in material science research.",
     ],
   },
   {
-    company: "Apple",
-    title: "Senior Software Engineer",
-    date: "2019 - 2020",
-    description: "Building the future of technology",
+    company: "UW-Madison",
+    title: "Research Assistant",
+    date: "September 2024 - December 2024",
+    description: "",
     responsibilities: [
-      "Improved the iOS operating system to enhance user experience",
-      "Developed a new feature that personalizes user interface",
-      "Enhanced the app store algorithm to suggest more relevant apps",
-      "Implemented a feature for tracking app usage",
+      "Leveraged CHTC high-throughput computing to efficiently train and evaluate models, optimizing resources",
+      "Enabled material property determination without synthesis, increasing efficiency in material science research.",
     ],
   },
   {
-    company: "Microsoft",
-    title: "Senior Software Engineer",
-    date: "2018 - 2019",
-    description: "Building the future of software",
+    company: "Humorology",
+    title: "Cast Director",
+    date: "June 2024 - May 2025",
+    description: "",
     responsibilities: [
-      "Improved the Windows operating system to enhance user experience",
-      "Developed a new feature that personalizes user interface",
-      "Enhanced the office suite to improve productivity",
-      "Implemented a feature for tracking software usage",
+      "Lead a cast of students that raised $75,000 for a local charity in an annual theatrical charity competition.",
+      "Co-wrote the script for the team's theatrical production, showcasing creativity and ingenuity.",
+      "Honed leadership and project management skills by consistently driving timely completion of team objectives.",
+    ],
+  },
+  {
+    company: "Humorology",
+    title: "Cast Director",
+    date: "June 2024 - May 2025",
+    description: "",
+    responsibilities: [
+      "Lead a cast of students that raised $75,000 for a local charity in an annual theatrical charity competition.",
+      "Co-wrote the script for the team's theatrical production, showcasing creativity and ingenuity.",
+      "Honed leadership and project management skills by consistently driving timely completion of team objectives.",
     ],
   },
 ];

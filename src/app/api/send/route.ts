@@ -2,7 +2,6 @@ import { Resend } from "resend";
 import { NextResponse } from "next/server";
 import { EmailTemplate } from '../../../components/EmailTemplate';
 
-const { add } = require('useless-addition-package');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 

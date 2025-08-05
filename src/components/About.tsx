@@ -1,8 +1,9 @@
-"use client";
+"use client"
+
 import { Paragraph } from "@/components/Paragraph";
 import Image from "next/image";
-
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 export default function About() {
   const images = [
@@ -11,102 +12,78 @@ export default function About() {
     "/images/Surfing.JPG",
     "/images/Yankee.JPG",
   ];
+
+  const textRef = useRef(null);
+  const textInView = useInView(textRef, { once: true, amount: 0.2 });
+
   return (
-    <div>
+    <section className="container mx-auto py-12 px-4 md:px-6">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-10 my-10">
-        {images.map((image, index) => (
-          <motion.div
-            key={image}
-            initial={{
-              opacity: 0,
-              y: -50,
-              rotate: 0,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-              rotate: index % 2 === 0 ? 3 : -3,
-            }}
-            transition={{ duration: 0.2, delay: index * 0.1 }}
-          >
-            <Image
-              src={image}
-              width={200}
-              height={400}
-              alt="about"
-              className="rounded-md object-cover transform rotate-3 shadow-xl block w-full h-40 md:h-60 hover:rotate-0 transition duration-200"
-            />
-          </motion.div>
-        ))}
-        {/* 
-        // <Image
-        //   src="https://images.unsplash.com/photo-1692544350322-ac70cfd63614?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60"
-        //   width={200}
-        //   height={400}
-        //   alt="about"
-        //   className="rounded-md object-cover transform rotate-3 shadow-xl block w-full h-40 md:h-60 hover:rotate-0 transition duration-200"
-        // />
-        // <Image
-        //   src="https://images.unsplash.com/photo-1692374227159-2d3592f274c9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw4fHx8ZW58MHx8fHx8&auto=format&fit=crop&w=800&q=60"
-        //   width={200}
-        //   height={400}
-        //   alt="about"
-        //   className="rounded-md object-cover transform -rotate-3 shadow-xl block w-full h-40 md:h-60  hover:rotate-0 transition duration-200"
-        // />
-        // <Image
-        //   src="https://images.unsplash.com/photo-1692005561659-cdba32d1e4a1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
-        //   width={200}
-        //   height={400}
-        //   alt="about"
-        //   className="rounded-md object-cover transform rotate-3 shadow-xl block w-full h-40 md:h-60  hover:rotate-0 transition duration-200"
-        // />
-        // <Image
-        //   src="https://images.unsplash.com/photo-1692445381633-7999ebc03730?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzM3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
-        //   width={200}
-        //   height={400}
-        //   alt="about"
-        //   className="rounded-md object-cover transform -rotate-3 shadow-xl block w-full h-40 md:h-60  hover:rotate-0 transition duration-200"
-        // /> */}
+        {images.map((image, index) => {
+          const ref = useRef(null);
+          const inView = useInView(ref, { once: true, amount: 0.2 });
+
+          return (
+            <motion.div
+              ref={ref}
+              key={image}
+              initial={{ opacity: 0, y: -50, rotate: 0 }}
+              animate={
+                inView
+                  ? {
+                      opacity: 1,
+                      y: 0,
+                      rotate: index % 2 === 0 ? 3 : -3,
+                    }
+                  : { opacity: 0 }
+              }
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <Image
+                src={image}
+                width={200}
+                height={400}
+                alt="about"
+                className="rounded-md object-cover transform rotate-3 shadow-xl block w-full h-40 md:h-60 hover:rotate-0 transition duration-200"
+              />
+            </motion.div>
+          );
+        })}
       </div>
 
-      <div className="max-w-4xl">
+
+      <motion.div
+        ref={textRef}
+        initial={{ opacity: 0, y: 20 }}
+        animate={textInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="max-w-4xl"
+      >
         <Paragraph className="mt-4">
-          Hi, I&#39;m Aidan O&#39;Brien, and I am a computer science major at the
-          University of Wisconsin-Madison with a strong interest in software
-          development, big data systems, and machine learning. I&#39;m passionate
-          about building scalable tools that solve complex real-world problems.
+          Hi, I'm Aidan O'Brien, a computer science major at the University of
+          Wisconsin-Madison with a passion for software development, big data
+          systems, and machine learning.
         </Paragraph>
 
         <Paragraph className="mt-4">
-          This past summer, I worked as one of the first full-stack engineers at{" "}
-          <strong>Collectwise</strong>, an AI-powered debt collection startup in
-          Y Combinator&#39;s Fall &#39;24 batch. There, I helped build the company&#39;s
-          early infrastructure, contributing to both backend APIs and frontend
-          experiences in a fast-paced, high-ownership environment.
+          Currently, I'm a software engineer intern at <strong>CargoLabs</strong>, an
+          insurance marketplace startup building the future of supply chain. I'm also
+          the creator of <strong>BadgerBase</strong>, a web app with <strong>500+</strong> users helping
+          UW-Madison students find the best courses.
         </Paragraph>
 
         <Paragraph className="mt-4">
-          Previously, I conducted research on generative AI as part of a team
-          exploring how to generate high-fidelity materials from unstable
-          datasets using diffusion models. This experience deepened my
-          understanding of model optimization, training dynamics, and real-world
-          ML deployment challenges.
+          Previously, I was one of the first full-stack engineers at <strong>Collectwise</strong>, an
+          AI-powered debt collection startup in Y Combinator's Fall '24 batch, and
+          conducted research at school on generative AI using diffusion models.
         </Paragraph>
 
         <Paragraph className="mt-4">
-          Outside of work, I&#39;m an avid outdoors enthusiast and fitness junkie. I
-          enjoy lifting, snowboarding, hiking, and I actively train in Brazilian
-          Jiu-Jitsu. Growing up on the Jersey Shore, I also developed a love for
-          surfing, New York sports, and classic boardwalk pizza.
+          When I'm not coding, you'll find me training Brazilian Jiu-Jitsu, playing
+          chess or guitar, or just hanging out with friends. Originally from the Jersey
+          Shore, I'm always looking to build things that help those around me.
         </Paragraph>
-
-        <Paragraph className="mt-4">
-          When I&#39;m not coding or on the mats, you&#39;ll often find me reading,
-          playing chess, or experimenting with new recipes in the kitchen. I&#39;m
-          always looking to expand my skills and connect with others who are
-          passionate about technology, design, and building things that matter.
-        </Paragraph>
-      </div>
-    </div>
+      </motion.div>
+    </section>
   );
 }

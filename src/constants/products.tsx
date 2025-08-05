@@ -11,9 +11,45 @@ import sidefolioInvestmentCalc3 from "public/images/sidefolio-investmentcalc3.pn
 import sidefolioSocialMedia from "public/images/sidefolio-socialmedia.png";
 import heapSimulator from "public/images/heap-simulator.png";
 import additionIcon from "public/images/NodePackage.png";
+import sidefolioBadgerBase from "public/images/BadgerBase.png";
+import sidefolioBadgerBase2 from "public/images/BadgerBaseScreenshot.png";
 
 export const products = [
+
   {
+
+
+    
+    href: "https://badgerbase.app",
+    linktype: "Demo",
+    title: "BadgerBase",
+    description: "A web app with 500+ users helping UW-Madison students find the best courses.",
+    thumbnail: sidefolioBadgerBase,
+    images: [sidefolioBadgerBase, sidefolioBadgerBase2],
+    stack: ["Next.js", "Railway", "API Development", "MySQL", "Vercel", "TypeScript"],
+    slug: "badgerbase",
+    content: (
+      <div>
+        <p>
+        With<strong> over 500 users</strong>, BadgerBase is a comprehensive data aggregator that revolutionizes the course search experience at UW-Madison. Sourcing data from UW-Madison's live course catalog, Rate My Professor, and Madgrades for an all-in-one course search experience.
+
+         
+        </p>
+        <p>
+          I built the backend with automated data collection pipelines by reverse engineering the source websites APIs. 
+          The MySQL database is hosted on Railway, ads well as the API server. 
+      
+        </p>
+        <p>
+          The frontend is built with Next.js, Tailwind CSS, and Shadcn/UI hosted on Vercel.
+        </p>
+      </div>
+    ),
+  },
+  {
+
+
+
     href: "https://github.com/aidanobrien5599/TeekoAI",
     linktype: "Github",
     title: "Teeko AI Bot",
