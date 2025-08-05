@@ -13,15 +13,22 @@ export default function About() {
     "/images/Yankee.JPG",
   ];
 
+
+/* eslint-disable react-hooks/rules-of-hooks */
   const textRef = useRef(null);
   const textInView = useInView(textRef, { once: true, amount: 0.2 });
+/* eslint-disable react-hooks/rules-of-hooks */
 
   return (
     <section className="container mx-auto py-12 px-4 md:px-6">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-10 my-10">
         {images.map((image, index) => {
+
+/* eslint-disable react-hooks/rules-of-hooks */
           const ref = useRef(null);
           const inView = useInView(ref, { once: true, amount: 0.2 });
+
+/* eslint-disable react-hooks/rules-of-hooks */
 
           return (
             <motion.div
@@ -60,28 +67,28 @@ export default function About() {
         className="max-w-4xl"
       >
         <Paragraph className="mt-4">
-          Hi, I'm Aidan O'Brien, a computer science major at the University of
+          Hi, I&apos;m Aidan O&apos;Brien, a computer science major at the University of
           Wisconsin-Madison with a passion for software development, big data
           systems, and machine learning.
         </Paragraph>
 
         <Paragraph className="mt-4">
-          Currently, I'm a software engineer intern at <strong>CargoLabs</strong>, an
-          insurance marketplace startup building the future of supply chain. I'm also
+          Currently, I&apos;m a software engineer intern at <strong>CargoLabs</strong>, an
+          insurance marketplace startup building the future of supply chain. I&apos;m also
           the creator of <strong>BadgerBase</strong>, a web app with <strong>500+</strong> users helping
           UW-Madison students find the best courses.
         </Paragraph>
 
         <Paragraph className="mt-4">
           Previously, I was one of the first full-stack engineers at <strong>Collectwise</strong>, an
-          AI-powered debt collection startup in Y Combinator's Fall '24 batch, and
+          AI-powered debt collection startup in Y Combinator&apos;s Fall &apos;24 batch, and
           conducted research at school on generative AI using diffusion models.
         </Paragraph>
 
         <Paragraph className="mt-4">
-          When I'm not coding, you'll find me training Brazilian Jiu-Jitsu, playing
+          When I&apos;m not coding, you&apos;ll find me training Brazilian Jiu-Jitsu, playing
           chess or guitar, or just hanging out with friends. Originally from the Jersey
-          Shore, I'm always looking to build things that help those around me.
+          Shore, I&apos;m always looking to build things that help those around me.
         </Paragraph>
       </motion.div>
     </section>

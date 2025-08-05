@@ -98,7 +98,7 @@ export const Contact = () => {
       variants={containerVariants}
     >
       <Paragraph className="text-left text-gray-700 mb-10 max-w-2xl">
-        Have a question, a project idea, or just want to say hello? Feel free to reach out! I'd love to hear from you.
+        Have a question, a project idea, or just want to say hello? Feel free to reach out! I&apos;d love to hear from you.
       </Paragraph>
 
       <form onSubmit={handleSubmit} className="space-y-6 p-8 bg-white rounded-xl shadow-lg border border-gray-100">

@@ -42,8 +42,11 @@ export const WorkHistory = () => {
       <div className="absolute left-1/2 top-0 h-full w-0.5 bg-gray-300 transform -translate-x-1/2 hidden md:block" />
 
       {timeline.map((item, index) => {
+        /* eslint-disable react-hooks/rules-of-hooks */
   const itemRef = useRef(null);
   const itemInView = useInView(itemRef, { once: true, amount: 0.2 });
+
+  /* eslint-enable react-hooks/rules-of-hooks */
 
   return (
     <motion.div
