@@ -31,7 +31,7 @@ export const products = [
     content: (
       <div>
         <p>
-        With<strong> over 500 users</strong>, BadgerBase is a comprehensive data aggregator that revolutionizes the course search experience at UW-Madison. Sourcing data from UW-Madison&apos;s live course catalog, Rate My Professor, and Madgrades for an all-in-one course search experience.
+        With<strong> over 1500 users</strong>, BadgerBase is a comprehensive data aggregator that revolutionizes the course search experience at UW-Madison. Sourcing data from UW-Madison&apos;s live course catalog, Rate My Professor, and Madgrades for an all-in-one course search experience.
 
          
         </p>
