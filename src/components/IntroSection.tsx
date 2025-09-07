@@ -35,7 +35,7 @@ export function IntroSection() {
           👋
         </div>
         
-        <Heading className="font-black text-5xl md:text-6xl lg:text-7xl mt-4 leading-tight bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-white dark:via-gray-100 dark:to-white bg-clip-text text-transparent animate-fade-in-up">
+        <Heading className="font-black text-5xl md:text-6xl lg:text-7xl mt-4 leading-tight bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900  bg-clip-text text-transparent animate-fade-in-up">
           <span className="inline-block hover:animate-pulse">Hello</span>{" "}
           <span className="inline-block hover:animate-pulse delay-100">there!</span>{" "}
           <span className="inline-block hover:animate-pulse delay-200">I&apos;m</span>{" "}
@@ -46,10 +46,10 @@ export function IntroSection() {
         
         <div className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
           <p className="animate-fade-in-up delay-500 hover:text-foreground transition-colors duration-300">
-            A software engineer interested in{" "}
+            A software engineer and student interested in{" "}
             <span className="relative inline-block">
               <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-semibold hover:from-purple-600 hover:to-pink-600 transition-colors duration-500">
-                building things that help people
+                building innovative tools
               </span>
               <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transform scale-x-0 hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </span>

@@ -75,7 +75,7 @@ export default function About() {
         <Paragraph className="mt-4">
           Currently, I&apos;m a software engineer intern at <strong>CargoLabs</strong>, an
           insurance marketplace startup building the future of supply chain. I&apos;m also
-          the creator of <strong>BadgerBase</strong>, a web app with <strong>500+</strong> users helping
+          the creator of <strong>BadgerBase</strong>, a web app with <strong>1500+</strong> users helping
           UW-Madison students find the best courses.
         </Paragraph>
 
@@ -88,7 +88,7 @@ export default function About() {
         <Paragraph className="mt-4">
           When I&apos;m not coding, you&apos;ll find me training Brazilian Jiu-Jitsu, playing
           chess or guitar, or just hanging out with friends. Originally from the Jersey
-          Shore, I&apos;m always looking to build things that help those around me.
+          Shore, I&apos;m a NY sports fan and an avid beach goer.
         </Paragraph>
       </motion.div>
     </section>
