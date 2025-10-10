@@ -4,7 +4,7 @@ import { Highlight } from "@/components/Highlight";
 import { Paragraph } from "@/components/Paragraph";
 import { SingleProduct } from "@/components/Product";
 import { Products } from "@/components/Projects";
-import { products } from "@/constants/products";
+import { products } from "@/constants/projects";
 import { Product } from "@/types/products";
 import { Metadata } from "next";
 import Image from "next/image";

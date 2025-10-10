@@ -23,7 +23,7 @@ export const products = [
     href: "https://badgerbase.app",
     linktype: "Demo",
     title: "BadgerBase",
-    description: "A web app with 500+ users helping UW-Madison students find the best courses.",
+    description: "A web app with 2000+ users helping UW-Madison students find the best courses.",
     thumbnail: sidefolioBadgerBase,
     images: [sidefolioBadgerBase, sidefolioBadgerBase2],
     stack: ["Next.js", "Railway", "API Development", "MySQL", "Vercel", "TypeScript"],
@@ -31,7 +31,7 @@ export const products = [
     content: (
       <div>
         <p>
-        With<strong> over 1500 users</strong>, BadgerBase is a comprehensive data aggregator that revolutionizes the course search experience at UW-Madison. Sourcing data from UW-Madison&apos;s live course catalog, Rate My Professor, and Madgrades for an all-in-one course search experience.
+        With<strong> over 2000 users</strong>, BadgerBase is a comprehensive data aggregator that revolutionizes the course search experience at UW-Madison. Sourcing data from UW-Madison&apos;s live course catalog, Rate My Professor, and Madgrades for an all-in-one course search experience.
 
          
         </p>
@@ -75,7 +75,7 @@ export const products = [
         <p>
           The current version runs in the command line, but I&#39;m actively working
           on a <strong>web-based GUI</strong> so anyone can play against the AI
-          in a live demo.
+          in a live demo. The was my favorite project from my Artificial Intelligence class.
         </p>
       </div>
     ),
@@ -226,7 +226,7 @@ export const products = [
           Though not open-source due to academic policies, this simulator
           reflects my foundational experience in{" "}
           <strong>systems programming</strong> and efficient data structure
-          manipulation.
+          manipulation. This project my favorite from my Computer Systems and Organization class.
         </p>
       </div>
     ),
