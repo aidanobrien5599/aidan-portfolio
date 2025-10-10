@@ -76,7 +76,7 @@ export const WorkHistory = () => {
           )}
         </div>
 
-        {index % 2 !== 0 ? (
+        {index % 2 === 0 ? (
           <div className="text-left pl-8">
             <Heading as="h5" className="text-lg md:text-xl lg:text-xl text-green-500">
               {item.company}
@@ -94,7 +94,23 @@ export const WorkHistory = () => {
             </ul>
           </div>
         ) : (
-          <div />
+          <div className="text-left pl-8">
+            <Paragraph className="font-semibold text-gray-600">{item.date}</Paragraph>
+            <Heading as="h5" className="text-lg md:text-xl lg:text-xl text-green-500">
+              {item.company}
+            </Heading>
+            <Paragraph className="text-base md:text-lg lg:text-lg font-semibold text-gray-800">
+              {item.title}
+            </Paragraph>
+            <Paragraph className="text-sm md:text-base lg:text-base mb-4 text-gray-700">
+              {item.description}
+            </Paragraph>
+            <ul className="space-y-2">
+              {item.responsibilities.map((responsibility, respIndex) => (
+                <Step  key={respIndex}>{responsibility}</Step>
+              ))}
+            </ul>
+          </div>
         )}
       </div>
 

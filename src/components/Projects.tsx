@@ -61,7 +61,7 @@ export const Products = () => {
             </div>
             <div className="flex flex-col justify-between flex-grow text-center lg:text-left">
               <div>
-                <Heading as="h3" className="font-extrabold text-3xl md:text-4xl text-green-700 mb-2">
+                <Heading as="h3" className="font-extrabold text-3xl md:text-4xl text-green-600 mb-2">
                   {featuredProduct.title} (Featured)
                 </Heading>
                 <Paragraph className="text-lg md:text-xl text-gray-700 leading-relaxed">
