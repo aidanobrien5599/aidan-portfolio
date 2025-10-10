@@ -11,7 +11,7 @@ import { motion, useInView } from "framer-motion"
 
 export const Products = () => {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, amount: 0.2 }) // Trigger once when 20% of the element is visible
+  const inView = useInView(ref, { once: true, amount: 0.1 }) // Trigger once when 10% of the element is visible
 
   const containerVariants = {
     hidden: { opacity: 0, y: 50 },
@@ -40,12 +40,17 @@ export const Products = () => {
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
       variants={containerVariants}
-      className="container mx-auto py-12 px-4 md:px-6"
+      className="w-full max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8"
     >
 
       {/* Featured Project */}
       {featuredProduct && (
-        <motion.div variants={itemVariants} className="mb-16">
+        <motion.div 
+          variants={itemVariants} 
+          className="mb-16"
+          initial="visible"
+          animate="visible"
+        >
           <Link
             href={featuredProduct.slug ? `/projects/${featuredProduct.slug}` : featuredProduct.href}
             className="group flex flex-col lg:flex-row items-center lg:items-start space-y-6 lg:space-y-0 lg:space-x-8 p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out border border-gray-100"
@@ -81,12 +86,17 @@ export const Products = () => {
       )}
 
       {/* Other Projects Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
         {otherProducts.map((product: Product, idx: number) => (
-          <motion.div key={product.slug || product.href} variants={itemVariants}>
+          <motion.div 
+            key={product.slug || product.href} 
+            variants={itemVariants}
+            initial="visible"
+            animate="visible"
+          >
             <Link
               href={product.slug ? `/projects/${product.slug}` : product.href}
-              className="group flex flex-col space-y-4 p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-200 ease-in-out border border-gray-100 h-full"
+              className="group flex flex-col space-y-4 p-4 bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-200 ease-in-out border border-gray-100 h-full min-h-0"
             >
               <div className="relative w-full aspect-video overflow-hidden rounded-md flex-shrink-0">
                 <Image
