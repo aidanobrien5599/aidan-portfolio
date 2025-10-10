@@ -3,7 +3,7 @@
 import { useRef } from "react"
 import { Heading } from "./Heading"
 import type { Product } from "@/types/products"
-import { products } from "@/constants/products"
+import { products } from "@/constants/projects"
 import Link from "next/link"
 import Image from "next/image"
 import { Paragraph } from "./Paragraph"

@@ -32,6 +32,9 @@ export const TechStack = () => {
   const stack = [
     { title: "Next.js", src: "/images/logos/next.png", className: "h-10 w-14" },
     { title: "AWS", src: "/images/logos/aws.webp", className: "h-10 w-10" },
+    { title: "C", src: "/images/logos/c.png", className: "h-10 w-10" },
+    { title: "TypeScript", src: "/images/logos/typescript.png", className: "h-10 w-10" },
+    { title: "Docker", src: "/images/logos/docker.png", className: "h-10 w-10" },
     { title: "Framer Motion", src: "/images/logos/framer.webp", className: "h-10 w-10" },
     { title: "Node.js", src: "/images/logos/node.png", className: "h-10 w-12" },
     { title: "Tailwind CSS", src: "/images/logos/tailwind.png", className: "h-10 w-24" },
@@ -42,6 +45,9 @@ export const TechStack = () => {
     { title: "Firebase", src: "/images/logos/firebase.png", className: "h-10 w-10" },
     { title: "Railway", src: "/images/logos/railway.svg", className: "h-10 w-10" },
     { title: "MySQL", src: "/images/logos/mysql.png", className: "h-10 w-10" },
+    
+
+
 
   ]
 
