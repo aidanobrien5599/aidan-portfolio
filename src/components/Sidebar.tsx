@@ -4,7 +4,7 @@ import { Navlink } from "@/types/navlink";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { twMerge } from "tailwind-merge";
 import { Heading } from "./Heading";
 import { socials } from "@/constants/socials";
@@ -17,6 +17,25 @@ import { IconDownload } from "@tabler/icons-react";
 
 export const Sidebar = () => {
   const [open, setOpen] = useState(isMobile() ? false : true);
+
+  // Handle responsive sidebar behavior
+  useEffect(() => {
+    const handleResize = () => {
+      const isCurrentlyMobile = window.innerWidth <= 1024;
+      setOpen(!isCurrentlyMobile); // Open on desktop, closed on mobile
+    };
+
+    // Set initial state based on current screen size
+    handleResize();
+
+    // Add event listener for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <>
@@ -33,7 +52,7 @@ export const Sidebar = () => {
               <SidebarHeader />
               <Navigation setOpen={setOpen} />
             </div>
-            <div onClick={() => isMobile() && setOpen(false)}>
+            <div onClick={() => window.innerWidth <= 1024 && setOpen(false)}>
               <Badge text="Download Resume" icon={<IconDownload className="w-4 h-4"/>} download="OBRIEN_AIDAN_RESUME.pdf"/>
             </div>
           </motion.div>
@@ -41,7 +60,12 @@ export const Sidebar = () => {
       </AnimatePresence>
       <button
         className="fixed lg:hidden bottom-4 right-4 h-8 w-8 border border-neutral-200 rounded-full backdrop-blur-sm flex items-center justify-center z-[100]"
-        onClick={() => setOpen(!open)}
+        onClick={() => {
+          // Only allow manual toggle on mobile screens
+          if (window.innerWidth <= 1024) {
+            setOpen(!open);
+          }
+        }}
       >
         <IconLayoutSidebarRightCollapse className="h-4 w-4 text-secondary" />
       </button>
@@ -64,7 +88,7 @@ export const Navigation = ({
         <Link
           key={link.href}
           href={link.href}
-          onClick={() => isMobile() && setOpen(false)}
+          onClick={() => window.innerWidth <= 1024 && setOpen(false)}
           className={twMerge(
             "text-secondary hover:text-primary transition duration-200 flex items-center space-x-2 py-2 px-2 rounded-md text-sm",
             isActive(link.href) && "bg-white shadow-lg text-primary"
