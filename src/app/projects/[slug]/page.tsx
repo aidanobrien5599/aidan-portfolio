@@ -3,7 +3,7 @@ import { Heading } from "@/components/Heading";
 import { Highlight } from "@/components/Highlight";
 import { Paragraph } from "@/components/Paragraph";
 import { SingleProduct } from "@/components/Product";
-import { Products } from "@/components/Products";
+import { Products } from "@/components/Projects";
 import { products } from "@/constants/products";
 import { Product } from "@/types/products";
 import { Metadata } from "next";

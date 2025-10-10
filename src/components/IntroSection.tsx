@@ -8,9 +8,9 @@ export function IntroSection() {
     <Container>
       {/* Animated background elements */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-blue-400/20 to-purple-600/20 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
-        <div className="absolute top-40 right-10 w-96 h-96 bg-gradient-to-r from-yellow-400/20 to-pink-600/20 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-1000"></div>
-        <div className="absolute -bottom-8 left-20 w-80 h-80 bg-gradient-to-r from-green-400/20 to-blue-600/20 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-2000"></div>
+        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-green-400/20 to-green-600/20 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
+        <div className="absolute top-40 right-10 w-96 h-96 bg-gradient-to-r from-green-300/20 to-green-700/20 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-1000"></div>
+        <div className="absolute -bottom-8 left-20 w-80 h-80 bg-gradient-to-r from-green-500/20 to-green-800/20 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-2000"></div>
       </div>
 
       {/* Floating particles */}
@@ -18,7 +18,7 @@ export function IntroSection() {
         {[...Array(6)].map((_, i) => (
           <div
             key={i}
-            className={`absolute w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-60 animate-float-${i + 1}`}
+            className={`absolute w-2 h-2 bg-gradient-to-r from-green-100 to-green-500 rounded-full opacity-60 animate-float-${i + 1}`}
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -36,22 +36,23 @@ export function IntroSection() {
         </div>
         
         <Heading className="font-black text-5xl md:text-6xl lg:text-7xl mt-4 leading-tight bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900  bg-clip-text text-transparent animate-fade-in-up">
-          <span className="inline-block hover:animate-pulse">Hello</span>{" "}
-          <span className="inline-block hover:animate-pulse delay-100">there!</span>{" "}
-          <span className="inline-block hover:animate-pulse delay-200">I&apos;m</span>{" "}
-          <span className="inline-block font-extrabold bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 dark:from-blue-400 dark:via-purple-400 dark:to-blue-600 bg-clip-text text-transparent hover:animate-pulse delay-300 hover:scale-105 transition-transform duration-300">
+          <span className="inline-block ">Hello</span>{" "}
+          <span className="inline-block">there!</span>{" "}
+          <span className="inline-block">I&apos;m</span>{" "}
+          <span className="inline-block font-extrabold bg-green-600  bg-clip-text text-transparent hover:animate-pulse delay-300 hover:scale-105 transition-transform duration-300">
             Aidan
           </span>
+          <span className="inline-block text-green-500 ml-2">{` ☘️`}</span>
         </Heading>
         
         <div className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
           <p className="animate-fade-in-up delay-500 hover:text-foreground transition-colors duration-300">
             A software engineer and student interested in{" "}
             <span className="relative inline-block">
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-semibold hover:from-purple-600 hover:to-pink-600 transition-colors duration-500">
+              <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent font-semibold transition-colors duration-500">
                 building innovative tools
               </span>
-              <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-blue-600 to-purple-600 transform scale-x-0 hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+              <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-green-200 to-green-600 transform scale-x-0 hover:scale-x-100 transition-transform duration-300 origin-left"></span>
             </span>
             .
           </p>
@@ -60,7 +61,7 @@ export function IntroSection() {
         {/* Scroll indicator */}
         <div className="mt-12 animate-fade-in-up delay-1000">
           <div className="mx-auto w-6 h-10 border-2 border-muted-foreground/30 rounded-full relative hover:border-foreground/50 transition-colors duration-300">
-            <div className="w-1 h-3 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full absolute left-1/2 top-2 transform -translate-x-1/2 animate-scroll-indicator"></div>
+            <div className="w-1 h-3 bg-gradient-to-b from-green-200 to-green-500 rounded-full absolute left-1/2 top-2 transform -translate-x-1/2 animate-scroll-indicator"></div>
           </div>
         </div>
       </div>

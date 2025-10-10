@@ -61,7 +61,7 @@ export const Products = () => {
             </div>
             <div className="flex flex-col justify-between flex-grow text-center lg:text-left">
               <div>
-                <Heading as="h3" className="font-extrabold text-3xl md:text-4xl text-blue-600 mb-2">
+                <Heading as="h3" className="font-extrabold text-3xl md:text-4xl text-green-700 mb-2">
                   {featuredProduct.title} (Featured)
                 </Heading>
                 <Paragraph className="text-lg md:text-xl text-gray-700 leading-relaxed">
@@ -70,7 +70,7 @@ export const Products = () => {
               </div>
               <div className="flex flex-wrap justify-center lg:justify-start gap-2 mt-4">
                 {featuredProduct.stack?.map((stack: string) => (
-                  <span key={stack} className="text-sm font-medium bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+                  <span key={stack} className="text-sm font-medium bg-zinc-100 text-green-600 px-3 py-1 rounded-full">
                     {stack}
                   </span>
                 ))}
@@ -101,7 +101,7 @@ export const Products = () => {
                 <div>
                   <Heading
                     as="h4"
-                    className="font-bold text-xl text-gray-900 group-hover:text-blue-600 transition-colors duration-200"
+                    className="font-bold text-xl text-gray-900 group-hover:text-green-600 transition-colors duration-200"
                   >
                     {product.title}
                   </Heading>

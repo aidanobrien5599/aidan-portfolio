@@ -75,7 +75,7 @@ export default function About() {
         <Paragraph className="mt-4">
           Currently, I&apos;m a software engineer intern at <strong>CargoLabs</strong>, an
           insurance marketplace startup building the future of supply chain. I&apos;m also
-          the creator of <strong>BadgerBase</strong>, a web app with <strong>1500+</strong> users helping
+          the creator of <strong>BadgerBase</strong>, a web app with <strong>2000+</strong> users helping
           UW-Madison students find the best courses.
         </Paragraph>
 

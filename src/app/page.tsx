@@ -1,7 +1,7 @@
 import About from "@/components/About"
 import { Container } from "@/components/Container"
 import { Heading } from "@/components/Heading"
-import { Products } from "@/components/Products"
+import { Products } from "@/components/Projects"
 import { TechStack } from "@/components/TechStack"
 import { IntroSection } from "@/components/IntroSection"
 import { WorkHistory } from "@/components/WorkHistory"

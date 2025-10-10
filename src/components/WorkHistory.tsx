@@ -68,7 +68,7 @@ export const WorkHistory = () => {
         )}
 
         <div className="relative w-full flex justify-center">
-          <div className="h-4 w-4 rounded-full bg-blue-500 border-2 border-white z-10" />
+          <div className="h-4 w-4 rounded-full bg-green-500 border-2 border-white z-10" />
           {index % 2 === 0 ? (
             <div className="absolute right-full top-1/2 h-0.5 w-8 bg-gray-300 transform -translate-y-1/2" />
           ) : (
@@ -78,7 +78,7 @@ export const WorkHistory = () => {
 
         {index % 2 !== 0 ? (
           <div className="text-left pl-8">
-            <Heading as="h5" className="text-lg md:text-xl lg:text-xl text-emerald-500">
+            <Heading as="h5" className="text-lg md:text-xl lg:text-xl text-green-500">
               {item.company}
             </Heading>
             <Paragraph className="text-base md:text-lg lg:text-lg font-semibold text-gray-800">
@@ -89,7 +89,7 @@ export const WorkHistory = () => {
             </Paragraph>
             <ul className="space-y-2">
               {item.responsibilities.map((responsibility, respIndex) => (
-                <Step key={respIndex}>{responsibility}</Step>
+                <Step  key={respIndex}>{responsibility}</Step>
               ))}
             </ul>
           </div>
@@ -101,7 +101,7 @@ export const WorkHistory = () => {
       {/* Mobile layout */}
       <div className="flex md:hidden space-x-4">
         <div className="relative flex flex-col items-center">
-          <div className="h-4 w-4 rounded-full bg-blue-500 border-2 border-white z-10 flex-shrink-0" />
+          <div className="h-4 w-4 rounded-full bg-green-500 border-2 border-white z-10 flex-shrink-0" />
           {index < timeline.length - 1 && (
             <div className="absolute top-4 bottom-0 w-0.5 bg-gray-300" />
           )}
@@ -109,7 +109,7 @@ export const WorkHistory = () => {
 
         <div className="flex-1">
           <Paragraph className="font-semibold text-gray-600 mb-2">{item.date}</Paragraph>
-          <Heading as="h5" className="text-lg text-emerald-500">
+          <Heading as="h5" className="text-lg text-green-500">
             {item.company}
           </Heading>
           <Paragraph className="text-base font-semibold text-gray-800">{item.title}</Paragraph>
@@ -132,7 +132,7 @@ export const WorkHistory = () => {
 const Step = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex space-x-2 items-start">
-      <IconCircleCheckFilled className="h-4 w-4 mt-1 text-blue-500 flex-shrink-0" />
+      <IconCircleCheckFilled className="h-4 w-4 mt-1 text-green-500 flex-shrink-0" />
       <Paragraph className="text-sm md:text-base lg:text-base text-gray-700">{children}</Paragraph>
     </div>
   )
