@@ -13,6 +13,8 @@ import heapSimulator from "public/images/heap-simulator.png";
 import additionIcon from "public/images/NodePackage.png";
 import sidefolioBadgerBase from "public/images/BadgerBase.png";
 import sidefolioBadgerBase2 from "public/images/BadgerBaseScreenshot.png";
+import sidefolioWSH from "public/images/bashgrep.png";
+import sidefolioGRPC from "public/images/address-search.png";
 
 export const products = [
 
@@ -85,34 +87,105 @@ export const products = [
 
     href: "",
     linktype: "None",
-    title: "",
-    description: "A strategic board game powered by a minimax AI bot.",
-    thumbnail: sidefolioTeeko2,
+    title: "WSH Shell",
+    description: "A Linux Shell made from scratch in C.",
+    thumbnail: sidefolioWSH,
     images: [],
-    stack: ["Python", "Minimax", "AI", "Game Dev"],
-    slug: "teeko-ai-bot",
+    stack: ["C", "Docker", "Systems Programming"],
+    slug: "wsh-shell",
     content: (
       <div>
         <p>
-          Teeko is a two-player abstract strategy game that was solved in 1998
-          by Guy Steele using a supercomputer. Since I only had a MacBook, I
-          couldn&#39;t brute-force the solution — so I took a smarter route.
+          For my Operating Systems class, I built a Linux Shell called wsh from scratch in C. The shell supports the following features:
+          <br />
+          <ul>
+            <li>
+              built in commands for exit, alias, unalias, history, which, path, and cd
+            </li>
+            <li>
+              batch mode and interactive mode execution 
+            </li>
+            <li>
+              piping of commands
+            </li>
+            <li>
+              support for external commands and external processes
+            </li>
+          
+          </ul>
+          
         </p>
         <p>
-          I implemented a <strong>minimax algorithm</strong> to simulate and
-          evaluate the game tree, using a custom{" "}
-          <strong>heuristic function</strong> to approximate the best move at
-          each turn. Guardrails were added to prevent obvious mistakes in
-          crucial scenarios, ensuring a consistent and competitive AI.
+          The shell is built with several files, a massive main .c file with the main program, and several other files for implementation of necessary data structures needed (dynamic array for history and hash table for aliases). Along with this were subsequent .h files. Testing was done using a combination of valgrind and given test cases to be run in a Docker container.
         </p>
         <p>
-          The current version runs in the command line, but I&#39;m actively working
-          on a <strong>web-based GUI</strong> so anyone can play against the AI
-          in a live demo. The was my favorite project from my Artificial Intelligence class.
+          Some challenges I faced were ensuring that the shell was able to handle all of the edge cases of the commands, properly preventing memory leaks, and all the different error cases that could arise. Piping was a particularly challenging feature to implement due to technical complexity of the system calls needed (dup2, fork, waitpid, etc.), making the code not entirely intuitive to understand.
+        </p>
+        <p>
+          This certainly has been my favorite project thus far in Operating Systems because it has demystified the internals of shells like bash and zsh that I have used for years.
         </p>
       </div>
     ),
   },
+
+  {
+    href: "https://github.com/yourusername/grpc-containers-project",
+    linktype: "GitHub",
+    title: "Address Search",
+    description: "A multi-container distributed system with gRPC, load balancing, and LRU caching for Madison property lookups.",
+    thumbnail: sidefolioGRPC,
+    images: [],
+    stack: ["Python", "gRPC", "Docker", "Flask", "Protocol Buffers"],
+    slug: "grpc-fault-tolerant-system",
+    content: (
+      <div>
+        <p>
+          For my Big Data Systems class, I built a fault-tolerant distributed system that serves Madison property addresses through a multi-container architecture. This project introduced me to the fascinating world of building resilient systems that can gracefully handle failures.
+          <br />
+          The system consists of two layers:
+          <ul>
+            <li>
+              <strong>Dataset Layer:</strong> Two replicated gRPC servers hosting the complete Madison address dataset, ensuring data availability even if one server fails
+            </li>
+            <li>
+              <strong>Cache Layer:</strong> Three HTTP servers with built-in LRU caches that distribute requests across dataset servers and implement retry logic with exponential backoff
+            </li>
+            <li>
+              Load balancing through round-robin request distribution between dataset replicas
+            </li>
+            <li>
+              Automatic failover with up to 5 retry attempts when servers go down
+            </li>
+            <li>
+              LRU cache of size 3 storing 8 addresses per zipcode to reduce dataset server load
+            </li>
+          </ul>
+        </p>
+        <p>
+          The architecture uses Protocol Buffers for efficient serialization, gRPC for high-performance inter-service communication, and Flask for the HTTP interface. Everything is orchestrated with Docker Compose, making the entire system reproducible and deployable with a single command.
+        </p>
+        <p>
+          What fascinated me most was designing the retry logic and cache invalidation strategy. When a dataset server fails, the cache layer automatically routes requests to the healthy server after a 100ms sleep. The LRU cache ensures that even if all dataset servers are down, users can still access recently queried zipcodes, providing graceful degradation rather than complete failure.
+        </p>
+        <p>
+          This project opened my eyes to the complexities of distributed systems and fault tolerance. It made me reflect on <strong>BadgerBase</strong>, my course search platform serving 2000+ UW-Madison students. Currently, BadgerBase runs on a single-server architecture with a MySQL database on Railway and a Hono API, both hosted on single instances. While the GitHub Actions-based data pipelines provide some resilience through scheduled retries, the core infrastructure lacks the redundancy I implemented in this gRPC project.
+        </p>
+        <p>
+          Moving forward, I'm considering how to apply these fault-tolerance principles to BadgerBase. Some ideas include:
+          <ul>
+            <li>Implementing read replicas for the MySQL database to handle increased load and provide failover capability</li>
+            <li>Adding a Redis caching layer similar to the LRU cache in this project to reduce database queries</li>
+            <li>Deploying multiple API server instances behind a load balancer</li>
+            <li>Setting up health checks and automatic container restarts</li>
+          </ul>
+        </p>
+        <p>
+          Building fault-tolerant systems is incredibly exciting to me because it's about designing for reality—systems fail, networks partition, and servers crash. Creating software that anticipates and handles these failures gracefully is both an engineering challenge and an art form. This project was just the beginning of my journey into distributed systems, and I can't wait to apply these lessons to make BadgerBase more resilient for its growing user base.
+        </p>
+      </div>
+    ),
+  },
+
   {
     href: "https://notegpt-87917.web.app/",
     linktype: "Demo",
