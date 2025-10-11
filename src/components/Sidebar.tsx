@@ -73,14 +73,63 @@ export const Sidebar = () => {
   );
 };
 
+// Custom hook for scroll-based navigation
+const useScrollSpy = (sectionIds: string[]) => {
+  const [activeSection, setActiveSection] = useState<string>("");
+
+  useEffect(() => {
+    const observerOptions = {
+      rootMargin: "-20% 0px -20% 0px", // Trigger when section is in the middle 60% of viewport
+      threshold: 0.3
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    // Observe all sections
+    sectionIds.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [sectionIds]);
+
+  return activeSection;
+};
+
 export const Navigation = ({
   setOpen,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const pathname = usePathname();
+  const sectionIds = ["home", "about", "work", "projects", "contact"];
+  const activeSection = useScrollSpy(sectionIds);
 
-  const isActive = (href: string) => pathname === href;
+  const isActive = (href: string) => {
+    // Handle scroll-based navigation
+    if (href === "/") {
+      return activeSection === "home"; // Home is active when home section is visible
+    }
+    if (href.startsWith("/#")) {
+      const sectionId = href.replace("/#", "");
+      return activeSection === sectionId;
+    }
+    // Fallback to pathname matching for other routes
+    return pathname === href;
+  };
 
   return (
     <div className="flex flex-col space-y-1 my-10 relative z-[100]">
@@ -97,7 +146,7 @@ export const Navigation = ({
           <link.icon
             className={twMerge(
               "h-4 w-4 flex-shrink-0",
-              isActive(link.href) && "text-sky-500"
+              isActive(link.href) && "text-green-500"
             )}
           />
           <span>{link.label}</span>
