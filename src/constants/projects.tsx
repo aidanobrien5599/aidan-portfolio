@@ -36,12 +36,12 @@ export const products = [
          
         </p>
         <p>
-          I built the backend with automated data collection pipelines by reverse engineering the source websites APIs. 
-          The MySQL database is hosted on Railway, ads well as the API server. 
+          The app relies on cron based automated data collection pipelines that utilize reverse engineering of the source websites APIs. These pipelines are triggered by GitHub Actions, and run every 12 hours. 
+          After the data is extractored and transormed into usable form, it is dumped into a MySQL database on Railway. 
       
         </p>
         <p>
-          The frontend is built with Next.js, Tailwind CSS, and Shadcn/UI hosted on Vercel.
+          From there, the data is served to the frontend via a RESTful API built with Hono on Bun runtime and hosted on Railway. The frontend is built with Next.js, Tailwind CSS, and Shadcn/UI hosted on Vercel.
         </p>
       </div>
     ),
@@ -53,6 +53,39 @@ export const products = [
     href: "https://github.com/aidanobrien5599/TeekoAI",
     linktype: "Github",
     title: "Teeko AI Bot",
+    description: "A strategic board game powered by a minimax AI bot.",
+    thumbnail: sidefolioTeeko2,
+    images: [],
+    stack: ["Python", "Minimax", "AI", "Game Dev"],
+    slug: "teeko-ai-bot",
+    content: (
+      <div>
+        <p>
+          Teeko is a two-player abstract strategy game that was solved in 1998
+          by Guy Steele using a supercomputer. Since I only had a MacBook, I
+          couldn&#39;t brute-force the solution — so I took a smarter route.
+        </p>
+        <p>
+          I implemented a <strong>minimax algorithm</strong> to simulate and
+          evaluate the game tree, using a custom{" "}
+          <strong>heuristic function</strong> to approximate the best move at
+          each turn. Guardrails were added to prevent obvious mistakes in
+          crucial scenarios, ensuring a consistent and competitive AI.
+        </p>
+        <p>
+          The current version runs in the command line, but I&#39;m actively working
+          on a <strong>web-based GUI</strong> so anyone can play against the AI
+          in a live demo. The was my favorite project from my Artificial Intelligence class.
+        </p>
+      </div>
+    ),
+  },
+
+  {
+
+    href: "",
+    linktype: "None",
+    title: "",
     description: "A strategic board game powered by a minimax AI bot.",
     thumbnail: sidefolioTeeko2,
     images: [],
