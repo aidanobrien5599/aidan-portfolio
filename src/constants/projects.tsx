@@ -171,7 +171,7 @@ export const products = [
           This project opened my eyes to the complexities of distributed systems and fault tolerance. It made me reflect on <strong>BadgerBase</strong>, my course search platform serving 2000+ UW-Madison students. Currently, BadgerBase runs on a single-server architecture with a MySQL database on Railway and a Hono API, both hosted on single instances. While the GitHub Actions-based data pipelines provide some resilience through scheduled retries, the core infrastructure lacks the redundancy I implemented in this gRPC project.
         </p>
         <p>
-          Moving forward, I'm considering how to apply these fault-tolerance principles to BadgerBase. Some ideas include:
+          Moving forward, I&apos;m considering how to apply these fault-tolerance principles to BadgerBase. Some ideas include:
           <ul>
             <li>Implementing read replicas for the MySQL database to handle increased load and provide failover capability</li>
             <li>Adding a Redis caching layer similar to the LRU cache in this project to reduce database queries</li>
@@ -180,7 +180,7 @@ export const products = [
           </ul>
         </p>
         <p>
-          Building fault-tolerant systems is incredibly exciting to me because it's about designing for reality—systems fail, networks partition, and servers crash. Creating software that anticipates and handles these failures gracefully is both an engineering challenge and an art form. This project was just the beginning of my journey into distributed systems, and I can't wait to apply these lessons to make BadgerBase more resilient for its growing user base.
+          Building fault-tolerant systems is incredibly exciting to me because it&apos;s about designing for reality—systems fail, networks partition, and servers crash. Creating software that anticipates and handles these failures gracefully is both an engineering challenge and an art form. This project was just the beginning of my journey into distributed systems, and I can&apos;t wait to apply these lessons to make BadgerBase more resilient for its growing user base.
         </p>
       </div>
     ),
