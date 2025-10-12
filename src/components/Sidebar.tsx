@@ -17,6 +17,8 @@ import { IconDownload } from "@tabler/icons-react";
 export const Sidebar = () => {
   const [open, setOpen] = useState(false); // Start with false to avoid SSR mismatch
   const [isMounted, setIsMounted] = useState(false);
+  const [hovered, setHovered] = useState<string | null>(null);
+  
 
   // Handle responsive sidebar behavior
   useEffect(() => {
@@ -69,7 +71,7 @@ export const Sidebar = () => {
           >
             <div className="flex-1 overflow-auto">
               <SidebarHeader />
-              <Navigation setOpen={setOpen} />
+              <Navigation setOpen={setOpen} hovered={hovered} setHovered={setHovered} />
             </div>
             <div onClick={() => window.innerWidth <= 1024 && setOpen(false)}>
               <Badge text="Download Resume" icon={<IconDownload className="w-4 h-4"/>} download="OBRIEN_AIDAN_RESUME.pdf"/>
@@ -130,8 +132,12 @@ const useScrollSpy = (sectionIds: string[]) => {
 
 export const Navigation = ({
   setOpen,
+  hovered,
+  setHovered,
 }: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  hovered: string | null;
+  setHovered: React.Dispatch<React.SetStateAction<string | null>>;
 }) => {
   const pathname = usePathname();
   const sectionIds = ["home", "about", "work", "projects", "contact"];
@@ -157,6 +163,8 @@ export const Navigation = ({
           key={link.href}
           href={link.href}
           onClick={() => window.innerWidth <= 1024 && setOpen(false)}
+          onMouseEnter={() => setHovered(link.href)}
+          onMouseLeave={() => setHovered(null)}
           className={twMerge(
             "text-secondary hover:text-primary transition duration-200 flex items-center space-x-2 py-2 px-2 rounded-md text-sm",
             isActive(link.href) && "bg-white shadow-lg text-primary"
@@ -164,8 +172,9 @@ export const Navigation = ({
         >
           <link.icon
             className={twMerge(
-              "h-4 w-4 flex-shrink-0",
-              isActive(link.href) && "text-green-500"
+              "h-4 w-4 flex-shrink-0 transition-colors duration-200",
+              isActive(link.href) && "text-green-500",
+              hovered === link.href && "text-green-500"
             )}
           />
           <span>{link.label}</span>
@@ -179,14 +188,17 @@ export const Navigation = ({
         <Link
           key={link.href}
           href={link.href}
+          onMouseEnter={() => setHovered(link.href)}
+          onMouseLeave={() => setHovered(null)}
           className={twMerge(
             "text-secondary hover:text-primary transition duration-200 flex items-center space-x-2 py-2 px-2 rounded-md text-sm"
           )}
         >
           <link.icon
             className={twMerge(
-              "h-4 w-4 flex-shrink-0",
-              isActive(link.href) && "text-sky-500"
+              "h-4 w-4 flex-shrink-0 transition-colors duration-200",
+              isActive(link.href) && "text-green-500",
+              hovered === link.href && "text-green-500"
             )}
           />
           <span>{link.label}</span>
