@@ -11,22 +11,34 @@ import { socials } from "@/constants/socials";
 import { Badge } from "./Badge";
 import { AnimatePresence, motion } from "framer-motion";
 import { IconLayoutSidebarRightCollapse } from "@tabler/icons-react";
-import { isMobile } from "@/lib/utils";
 import { IconDownload } from "@tabler/icons-react";
 
 
 export const Sidebar = () => {
-  const [open, setOpen] = useState(isMobile() ? false : true);
+  const [open, setOpen] = useState(false); // Start with false to avoid SSR mismatch
+  const [isMounted, setIsMounted] = useState(false);
 
   // Handle responsive sidebar behavior
   useEffect(() => {
+    // Set mounted state to prevent hydration mismatch
+    setIsMounted(true);
+    
+    let timeoutId: NodeJS.Timeout;
+    
     const handleResize = () => {
-      const isCurrentlyMobile = window.innerWidth <= 1024;
-      setOpen(!isCurrentlyMobile); // Open on desktop, closed on mobile
+      // Clear previous timeout
+      clearTimeout(timeoutId);
+      
+      // Debounce resize events
+      timeoutId = setTimeout(() => {
+        const isCurrentlyMobile = window.innerWidth <= 1024;
+        setOpen(!isCurrentlyMobile); // Open on desktop, closed on mobile
+      }, 100);
     };
 
     // Set initial state based on current screen size
-    handleResize();
+    const isCurrentlyMobile = window.innerWidth <= 1024;
+    setOpen(!isCurrentlyMobile);
 
     // Add event listener for window resize
     window.addEventListener('resize', handleResize);
@@ -34,8 +46,15 @@ export const Sidebar = () => {
     // Cleanup event listener on component unmount
     return () => {
       window.removeEventListener('resize', handleResize);
+      clearTimeout(timeoutId);
     };
   }, []);
+
+  // Don't render until mounted to prevent hydration mismatch
+  if (!isMounted) {
+    // Return a placeholder to maintain layout during SSR
+    return <div className="hidden lg:block w-[14rem]" />;
+  }
 
   return (
     <>
@@ -46,7 +65,7 @@ export const Sidebar = () => {
             animate={{ x: 0 }}
             transition={{ duration: 0.2, ease: "linear" }}
             exit={{ x: -200 }}
-            className="px-6  z-[100] py-10 bg-neutral-100 max-w-[14rem] lg:w-fit  fixed lg:relative  h-screen left-0 flex flex-col justify-between"
+            className="px-6 z-[100] py-10 bg-neutral-100 max-w-[14rem] lg:w-fit fixed lg:relative h-screen left-0 flex flex-col justify-between"
           >
             <div className="flex-1 overflow-auto">
               <SidebarHeader />
