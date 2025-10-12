@@ -65,7 +65,7 @@ export const TechStack = () => {
           <motion.div
             key={item.src}
             variants={itemVariants}
-            className="flex flex-col items-center justify-center p-4 bg-white rounded-lg shadow-sm w-full max-w-[150px] h-[120px]"
+            className="flex flex-col items-center hover:text-green-600 hover:font-bold  justify-center p-4 bg-white rounded-lg shadow-sm w-full max-w-[150px] h-[120px] hover:bg-green-50 hover:shadow-lg transition-all duration-300 cursor-pointer"
           >
             <Image
               src={item.src || "/placeholder.svg"}
@@ -74,7 +74,7 @@ export const TechStack = () => {
               alt={item.title}
               className={twMerge("object-contain", item.className)} // item.className can override h/w
             />
-            <Paragraph className="mt-2 text-sm font-medium text-center text-gray-800">{item.title}</Paragraph>
+            <Paragraph className="mt-2 text-sm font-medium text-center text-gray-800transition-colors duration-300">{item.title}</Paragraph>
           </motion.div>
         ))}
       </motion.div>
