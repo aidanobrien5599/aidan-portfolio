@@ -101,7 +101,9 @@ export const Contact = () => {
         Have a question, a project idea, or just want to say hello? Feel free to reach out! I&apos;d love to hear from you.
       </Paragraph>
 
-      <form onSubmit={handleSubmit} className="space-y-6 p-8 bg-white rounded-xl shadow-lg border border-gray-100">
+      <form onSubmit={handleSubmit} className="space-y-6 p-8 bg-white rounded-xl shadow-lg border border-gray-100 relative overflow-hidden">
+        {/* Subtle green accent */}
+        <div className="absolute top-0 left-0 w-full bg-zinc-500/200"></div>
         <motion.div variants={itemVariants} className="flex flex-col md:flex-row justify-between gap-5">
           <label htmlFor="name" className="sr-only">
             Your Name
@@ -110,8 +112,8 @@ export const Contact = () => {
             type="text"
             id="name"
             placeholder="Your Name"
-            className="bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-200 px-2 py-2 rounded-md text-sm text-neutral-700 w-full"
-            value={formData.name.value}
+            className="bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500/50 px-2 py-2 rounded-md text-sm text-neutral-700 w-full transition-all duration-200"
+            value={formData.name.value}   
             onChange={(e) => {
               setFormData({
                 ...formData,
@@ -127,7 +129,7 @@ export const Contact = () => {
             type="email"
             id="email"
             placeholder="Your email address"
-            className="bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-200 px-2 py-2 rounded-md text-sm text-neutral-700 w-full"
+            className="bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500/50 px-2 py-2 rounded-md text-sm text-neutral-700 w-full transition-all duration-200"
             value={formData.email.value}
             onChange={(e) => {
               setFormData({
@@ -147,7 +149,7 @@ export const Contact = () => {
             id="message"
             placeholder="Your Message"
             rows={10}
-            className="bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-200 px-2 mt-4 py-2 rounded-md text-sm text-neutral-700 w-full"
+            className="bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500/50 px-2 mt-4 py-2 rounded-md text-sm text-neutral-700 w-full transition-all duration-200"
             value={formData.message.value}
             onChange={(e) => {
               setFormData({
@@ -161,7 +163,7 @@ export const Contact = () => {
 
         <motion.div variants={itemVariants}>
           <button
-            className="w-full px-2 py-2 mt-4 bg-neutral-100 rounded-md font-bold text-neutral-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-2 py-2 mt-4 bg-green-400 hover:bg-green-500 text-white rounded-md font-bold disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
             type="submit"
             disabled={isSubmitting}
           >
