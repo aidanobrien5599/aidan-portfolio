@@ -47,7 +47,7 @@ export function IntroSection() {
         
         <div className="mt-6 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
           <p className="animate-fade-in-up delay-500 hover:text-foreground transition-colors duration-300">
-            Asoftware engineer and student interested in{" "}
+            A software engineer and student interested in{" "}
             <span className="relative inline-block">
               <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent font-semibold transition-colors duration-500">
                 building innovative tools
