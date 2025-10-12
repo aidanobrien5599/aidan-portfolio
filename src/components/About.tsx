@@ -73,14 +73,14 @@ export default function About() {
         </Paragraph>
 
         <Paragraph className="mt-4">
-          Currently, I&apos;m a software engineer intern at <strong>CargoLabs</strong>, an
-          insurance marketplace startup building the future of supply chain. I&apos;m also
-          the creator of <strong>BadgerBase</strong>, a web app with <strong>2000+</strong> users helping
+          Currently, I&apos;m a software engineer intern at <strong className="text-green-600">CargoLabs</strong>, an
+          insurance marketplace startup building the future of supply chain. I&apos;m also helping
+          the creator of <strong className="text-green-600">BadgerBase</strong>, a web app with <strong className="text-green-600">2000+</strong> users helping
           UW-Madison students find the best courses.
         </Paragraph>
 
         <Paragraph className="mt-4">
-          Previously, I was one of the first full-stack engineers at <strong>Collectwise</strong>, an
+          Previously, I was one of the first full-stack engineers at <strong className="text-green-600">Collectwise</strong>, an
           AI-powered debt collection startup in Y Combinator&apos;s Fall &apos;24 batch, and
           conducted research at school on generative AI using diffusion models.
         </Paragraph>
