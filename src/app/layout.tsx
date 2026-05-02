@@ -1,21 +1,20 @@
-import { Sidebar } from "@/components/Sidebar";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { twMerge } from "tailwind-merge";
-import { Footer } from "@/components/Footer";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500"],
 });
 
 export const metadata: Metadata = {
-  title: "Aidan O'Brien - Student",
-  description:
-    "Aidan O'Brien is a computer science student studying at UW-Madison.",
+  title: "Aidan O'Brien",
+  description: "Software engineer. Computer science at UW–Madison.",
+  icons: {
+    icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☘️</text></svg>",
+  },
 };
 
 export default function RootLayout({
@@ -26,20 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={twMerge(
-          inter.className,
-          "flex antialiased h-screen overflow-hidden bg-gray-100"
-        )}
+        className={`${inter.className} bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-50 antialiased`}
       >
         <PostHogProvider>
-          <Sidebar />
-          <div className="lg:pl-2 lg:pt-2 bg-gray-100 flex-1 overflow-y-auto">
-            <div className="flex-1 bg-white min-h-screen lg:rounded-tl-xl border border-transparent lg:border-neutral-200 overflow-y-auto">
-              {children}
-              <Analytics />
-              <Footer />
-            </div>
-          </div>
+          {children}
+          <Analytics />
         </PostHogProvider>
       </body>
     </html>
