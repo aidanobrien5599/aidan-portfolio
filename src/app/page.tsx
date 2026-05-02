@@ -1,18 +1,18 @@
 const work = [
   {
-    year: "2025",
+    year: "2026",
     company: "Netflix",
-    title: "Software Engineer, Retention",
-    note: "incoming",
+    title: "Software Engineer Intern",
+    note: "Incoming in May",
   },
   {
-    year: "2025",
+    year: "2025-2026",
     company: "Intelligible",
-    title: "Founding Engineer, Data Connectors",
+    title: "Founding Engineer",
     note: null,
   },
   {
-    year: "2024",
+    year: "2025",
     company: "CargoLabs",
     title: "Software Engineer Intern",
     note: null,
@@ -23,68 +23,60 @@ const work = [
     title: "Software Engineer Intern",
     note: "YC F'24",
   },
-  {
-    year: "2024",
-    company: "UW–Madison",
-    title: "Research Assistant",
-    note: null,
-  },
 ];
 
 export default function Home() {
   return (
     <main className="max-w-xl mx-auto px-6 py-20 text-sm leading-relaxed">
       <header className="mb-16">
-        <h1 className="text-base font-medium text-gray-900 dark:text-gray-50 mb-1">
+        <h1 className="text-base font-medium text-zinc-900 dark:text-green-100 mb-1">
           Aidan O&apos;Brien{" "}
-          <span className="text-green-600 dark:text-green-500 text-xs">☘</span>
+          <span className="text-green-600 dark:text-green-600 text-xl">☘</span>
         </h1>
-        <p className="text-gray-500 dark:text-gray-400">
+        <p className="text-zinc-500 dark:text-zinc-400">
           Software engineer. Computer science @ UW–Madison.
         </p>
       </header>
 
-      <section className="mb-16 space-y-4 text-gray-600 dark:text-gray-300">
+      <section className="mb-16 space-y-4 text-zinc-600 dark:text-zinc-400">
         <p>
-          I&apos;m an incoming software engineer at{" "}
-          <span className="text-gray-900 dark:text-gray-100">Netflix</span>,
-          joining the retention team this summer. Before that I was a founding
+          I&apos;m an incoming software engineer intern at{" "}
+          <span className="text-zinc-900 dark:text-zinc-50">Netflix</span>,
+          joining the Retention team this summer. Before that I was a founding
           engineer at{" "}
-          <span className="text-gray-900 dark:text-gray-100">Intelligible</span>
+          <span className="text-zinc-900 dark:text-zinc-50">Intelligible</span>
           , building data connectors for an early-stage AI company.
         </p>
         <p>
           I&apos;ve also interned at{" "}
-          <span className="text-gray-900 dark:text-gray-100">CargoLabs</span>{" "}
+          <span className="text-zinc-900 dark:text-zinc-50">CargoLabs</span>{" "}
           and{" "}
-          <span className="text-gray-900 dark:text-gray-100">Collectwise</span>{" "}
-          (YC F&apos;24), and done ML research at school on generative AI and
-          diffusion models.
+          <span className="text-zinc-900 dark:text-zinc-50">Collectwise</span>{" "}
+          (YC F&apos;24), a YC agentic debt collection startup backed by 1984 Ventures.
         </p>
         <p>
-          Outside of work I train Brazilian Jiu-Jitsu, play chess, and read more
-          than I write — working on fixing that last one.
+          When I&apos;m not coding I&apos;m on the mat training BJJ or losing rating on chess.com.
         </p>
       </section>
 
       <section className="mb-16">
-        <h2 className="text-xs uppercase tracking-widest text-green-700 dark:text-green-500 mb-6">
+        <h2 className="text-xs uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
           Work
         </h2>
         <div className="space-y-3">
           {work.map((job, i) => (
-            <div key={i} className="flex gap-6 text-gray-600 dark:text-gray-300">
-              <span className="text-gray-400 dark:text-gray-600 w-10 flex-shrink-0">
+            <div key={i} className="flex gap-6 text-zinc-600 dark:text-zinc-400">
+              <span className="text-zinc-800 dark:text-zinc-300 w-20 flex-shrink-0">
                 {job.year}
               </span>
               <span>
-                <span className="text-gray-900 dark:text-gray-100">
+                <span className="text-zinc-600 dark:text-zinc-400">
                   {job.company}
                 </span>
                 {" · "}
                 {job.title}
                 {job.note && (
-                  <span className="text-green-600 dark:text-green-500 text-xs ml-2">
+                  <span className="text-green-600 dark:text-green-600 text-xs ml-2">
                     {job.note}
                   </span>
                 )}
@@ -95,72 +87,80 @@ export default function Home() {
       </section>
 
       <section className="mb-16">
-        <h2 className="text-xs uppercase tracking-widest text-green-700 dark:text-green-500 mb-6">
+        <h2 className="text-xs uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
           Projects
         </h2>
         <div>
           <p className="mb-2">
             <a
               href="https://badgerbase.app"
-              className="text-green-700 dark:text-green-400 hover:underline"
+              className="text-green-700 dark:text-green-600 hover:underline"
             >
               BadgerBase
             </a>
           </p>
-          <p className="text-gray-600 dark:text-gray-300">
+          <p className="text-zinc-600 dark:text-zinc-400">
             A course discovery tool for UW–Madison students. 2,000+ users use
             it to find, compare, and plan courses. Built with Next.js on top of
-            a custom data pipeline scraping the university&apos;s course catalog.
+            a custom data pipeline scraping Madgrades, RateMyProfessor, and the university&apos;s course catalog.
           </p>
         </div>
       </section>
 
       <section className="mb-16">
-        <h2 className="text-xs uppercase tracking-widest text-green-700 dark:text-green-500 mb-6">
+        <h2 className="text-xs uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
           Writing
         </h2>
-        <p className="text-gray-400 dark:text-gray-600">Nothing here yet.</p>
+        <p className="text-zinc-400 dark:text-zinc-600">Nothing here yet.</p>
       </section>
 
       <section className="mb-20">
-        <h2 className="text-xs uppercase tracking-widest text-green-700 dark:text-green-500 mb-6">
+        <h2 className="text-xs uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
           Contact
         </h2>
-        <p className="text-gray-600 dark:text-gray-300 mb-4">
+        <div className="flex items-center gap-4 mb-4">
           <a
             href="mailto:aob55992@gmail.com"
-            className="text-green-700 dark:text-green-400 hover:underline"
+            className="text-green-700 dark:text-green-400 hover:underline text-zinc-600 dark:text-zinc-300"
           >
             aob55992@gmail.com
           </a>
-        </p>
-        <div className="flex gap-4 text-gray-400 dark:text-gray-500 text-xs">
+          <span className="text-zinc-300 dark:text-zinc-600">·</span>
+          <a
+            href="/OBRIEN_AIDAN_RESUME.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-zinc-400 dark:text-zinc-500 hover:text-green-700 dark:hover:text-green-600 transition-colors"
+          >
+            Resume
+          </a>
+        </div>
+        <div className="flex gap-4 text-zinc-400 dark:text-zinc-500 text-xs">
           <a
             href="https://github.com/aidanobrien5599"
-            className="hover:text-green-700 dark:hover:text-green-400 transition-colors"
+            className="hover:text-green-700 dark:hover:text-green-600 transition-colors"
           >
             GitHub
           </a>
           <span>·</span>
           <a
             href="https://www.linkedin.com/in/aidan-o-brien-393486274/"
-            className="hover:text-green-700 dark:hover:text-green-400 transition-colors"
+            className="hover:text-green-700 dark:hover:text-green-600 transition-colors"
           >
             LinkedIn
           </a>
           <span>·</span>
-          {/* TODO: replace YOUR_USERNAME with your chess.com handle */}
           <a
-            href="https://chess.com/member/YOUR_USERNAME"
-            className="hover:text-green-700 dark:hover:text-green-400 transition-colors"
+            href="https://chess.com/member/aidanob917"
+            className="hover:text-green-700 dark:hover:text-green-600 transition-colors"
           >
-            chess.com
+            Chess.com
           </a>
         </div>
       </section>
 
-      <footer className="pt-8 border-t border-gray-100 dark:border-gray-800 text-xs text-gray-300 dark:text-gray-700">
-        {new Date().getFullYear()} — Aidan O&apos;Brien
+      <footer className="pt-8 border-t border-zinc-200 dark:border-zinc-800 text-xs text-zinc-300 dark:text-zinc-700">
+        {new Date().getFullYear()} — Aidan O&apos;Brien v3
       </footer>
     </main>
   );
