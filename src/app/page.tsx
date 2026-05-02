@@ -105,6 +105,20 @@ export default function Home() {
             a custom data pipeline scraping Madgrades, RateMyProfessor, and the university&apos;s course catalog.
           </p>
         </div>
+        <div className="mt-6">
+          <p className="mb-2">
+            <a
+              href="https://github.com/aidanobrien5599/MarchMadnessPredictor"
+              className="text-green-700 dark:text-green-600 hover:underline"
+            >
+              March Madness Predictor
+            </a>
+          </p>
+          <p className="text-zinc-600 dark:text-zinc-400">
+            My annual attempt to crack March Madness with historical data. Proud
+            winner of the $100 grand prize in my Jersey Shore friends&apos; 2026 pool.
+          </p>
+        </div>
       </section>
 
       <section className="mb-16">
