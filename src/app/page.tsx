@@ -28,17 +28,17 @@ const work = [
 export default function Home() {
   return (
     <main className="max-w-xl mx-auto px-6 py-20 text-sm leading-relaxed">
-      <header className="mb-16">
-        <h1 className="text-base font-medium text-zinc-900 dark:text-green-100 mb-1">
+      <header className="mb-12">
+        <h1 className="text-lg font-medium text-zinc-900 dark:text-green-100 mb-1">
           Aidan O&apos;Brien{" "}
-          <span className="text-green-600 dark:text-green-600 text-xl">☘</span>
+          <span className="text-green-600 dark:text-green-600 text-2xl">☘</span>
         </h1>
         <p className="text-zinc-500 dark:text-zinc-400">
           Software engineer. Computer science @ UW–Madison.
         </p>
       </header>
 
-      <section className="mb-16 space-y-4 text-zinc-600 dark:text-zinc-400">
+      <section className="mb-12 space-y-4 text-zinc-600 dark:text-zinc-400">
         <p>
           I&apos;m an incoming software engineer intern at{" "}
           <span className="text-zinc-900 dark:text-zinc-50">Netflix</span>,
@@ -59,8 +59,8 @@ export default function Home() {
         </p>
       </section>
 
-      <section className="mb-16">
-        <h2 className="text-xs uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
+      <section className="mb-12">
+        <h2 className="text-s uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
           Work
         </h2>
         <div className="space-y-3">
@@ -76,7 +76,7 @@ export default function Home() {
                 {" · "}
                 {job.title}
                 {job.note && (
-                  <span className="text-green-600 dark:text-green-600 text-xs ml-2">
+                  <span className="text-green-700 dark:text-green-600 text-xs ml-2">
                     {job.note}
                   </span>
                 )}
@@ -86,8 +86,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mb-16">
-        <h2 className="text-xs uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
+      <section className="mb-12">
+        <h2 className="text-s uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
           Projects
         </h2>
         <div>
@@ -121,15 +121,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mb-16">
-        <h2 className="text-xs uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
+      <section className="mb-12">
+        <h2 className="text-s uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
           Writing
         </h2>
         <p className="text-zinc-400 dark:text-zinc-600">Nothing here yet.</p>
       </section>
 
       <section className="mb-20">
-        <h2 className="text-xs uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
+        <h2 className="text-s uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
           Contact
         </h2>
         <div className="flex items-center gap-4 mb-4">
