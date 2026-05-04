@@ -28,7 +28,7 @@ const work = [
 export default function Home() {
   return (
     <main className="max-w-xl mx-auto px-6 py-20 text-sm leading-relaxed">
-      <header className="mb-12">
+      <header className="mb-8">
         <h1 className="text-lg font-medium text-zinc-900 dark:text-green-100 mb-1">
           Aidan O&apos;Brien{" "}
           <span className="text-green-600 dark:text-green-600 text-2xl">☘</span>
@@ -38,7 +38,7 @@ export default function Home() {
         </p>
       </header>
 
-      <section className="mb-12 space-y-4 text-zinc-600 dark:text-zinc-400">
+      <section className="mb-8 space-y-4 text-zinc-600 dark:text-zinc-400">
         <p>
           I&apos;m an incoming software engineer intern at{" "}
           <span className="text-zinc-900 dark:text-zinc-50">Netflix</span>,
@@ -59,11 +59,11 @@ export default function Home() {
         </p>
       </section>
 
-      <section className="mb-12">
+      <section className="mb-8">
         <h2 className="text-s uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
           Work
         </h2>
-        <div className="space-y-3">
+        <div className="space-y-2">
           {work.map((job, i) => (
             <div key={i} className="flex gap-6 text-zinc-600 dark:text-zinc-400">
               <span className="text-zinc-800 dark:text-zinc-300 w-20 flex-shrink-0">
@@ -86,7 +86,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mb-12">
+      <section className="mb-8">
         <h2 className="text-s uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
           Projects
         </h2>
@@ -121,7 +121,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mb-12">
+      <section className="mb-8">
         <h2 className="text-s uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
           Writing
         </h2>
