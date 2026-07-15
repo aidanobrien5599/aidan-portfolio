@@ -21,13 +21,13 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-heading: #DCE8DC;
-    --color-body: #9AB09A;
-    --color-muted: #6B8A6B;
-    --color-accent: #5BB88A;
-    --color-accent-hover: #7CCFA6;
-    --color-border: #1E3328;
-    --color-bg: #090E09;
+    --color-heading: #DDD;
+    --color-body: #AAA;
+    --color-muted: #666;
+    --color-accent: #6DCB9A;
+    --color-accent-hover: #8EDBB2;
+    --color-border: #2E2E2E;
+    --color-bg: #1A1A1A;
     --color-note-bg: transparent;
   }
 }
