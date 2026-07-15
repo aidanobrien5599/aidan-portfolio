@@ -25,7 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-50 antialiased`}
+        className={`${inter.className} antialiased`}
+        style={{
+          backgroundColor: "var(--color-bg)",
+          color: "var(--color-body)",
+        }}
       >
         <PostHogProvider>
           {children}
