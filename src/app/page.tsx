@@ -29,16 +29,24 @@ export default function Home() {
   return (
     <main className="max-w-xl mx-auto px-6 py-20 text-sm leading-relaxed">
       <header className="mb-8">
-        <h1 className="text-lg font-medium text-zinc-900 dark:text-green-100 mb-1">
+        <h1
+          className="mb-1 font-normal"
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: 26,
+            letterSpacing: "-0.01em",
+            color: "var(--color-heading)",
+          }}
+        >
           Aidan O&apos;Brien{" "}
-          <span className="text-green-600 dark:text-green-600 text-2xl">☘</span>
+          <span style={{ color: "var(--color-accent)", fontSize: 22 }}>☘</span>
         </h1>
-        <p className="text-zinc-500 dark:text-zinc-400">
+        <p style={{ color: "var(--color-muted)", fontSize: 13 }}>
           Software engineer. Computer science @ UW–Madison.
         </p>
       </header>
 
-      <section className="mb-8 space-y-4 text-zinc-600 dark:text-zinc-400">
+      <section className="mb-8 space-y-4" style={{ color: "var(--color-body)" }}>
         <img
           src="/headshot.jpeg"
           alt="Aidan O'Brien"
@@ -46,45 +54,32 @@ export default function Home() {
         />
         <p>
           I&apos;m an incoming software engineer intern at{" "}
-          <span className="text-zinc-900 dark:text-zinc-50">Netflix</span>,
-          joining the Retention team this summer. Before that I was a founding
-          engineer at{" "}
-          <span className="text-zinc-900 dark:text-zinc-50">Intelligible</span>
-          , building data connectors for an early-stage AI company.
+          <span className="highlight">Netflix</span>, joining the Retention
+          team this summer. Before that I was a founding engineer at{" "}
+          <span className="highlight">Intelligible</span>, building data
+          connectors for an early-stage AI company.
         </p>
         <p>
           I&apos;ve also interned at{" "}
-          <span className="text-zinc-900 dark:text-zinc-50">CargoLabs</span>{" "}
-          and{" "}
-          <span className="text-zinc-900 dark:text-zinc-50">Collectwise</span>{" "}
-          (YC F&apos;24), a YC agentic debt collection startup backed by 1984 Ventures.
+          <span className="highlight">CargoLabs</span> and{" "}
+          <span className="highlight">Collectwise</span> (YC F&apos;24), a YC
+          agentic debt collection startup backed by 1984 Ventures.
         </p>
         <p>
-          When I&apos;m not coding I&apos;m on the mat training BJJ or losing rating on chess.com.
+          When I&apos;m not coding I&apos;m on the mat training BJJ or losing
+          rating on chess.com.
         </p>
       </section>
 
       <section className="mb-8">
-        <h2 className="text-s uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
-          Work
-        </h2>
-        <div className="space-y-2">
+        <h2 className="section-heading">Work</h2>
+        <div>
           {work.map((job, i) => (
-            <div key={i} className="flex gap-6 text-zinc-600 dark:text-zinc-400">
-              <span className="text-zinc-800 dark:text-zinc-300 w-20 flex-shrink-0">
-                {job.year}
-              </span>
+            <div key={i} className="work-row">
+              <span className="work-year">{job.year}</span>
               <span>
-                <span className="text-zinc-600 dark:text-zinc-400">
-                  {job.company}
-                </span>
-                {" · "}
-                {job.title}
-                {job.note && (
-                  <span className="text-green-700 dark:text-green-600 text-xs ml-2">
-                    {job.note}
-                  </span>
-                )}
+                {job.company} · {job.title}
+                {job.note && <span className="work-note">{job.note}</span>}
               </span>
             </div>
           ))}
@@ -92,93 +87,83 @@ export default function Home() {
       </section>
 
       <section className="mb-8">
-        <h2 className="text-s uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
-          Projects
-        </h2>
+        <h2 className="section-heading">Projects</h2>
         <div>
           <p className="mb-2">
-            <a
-              href="https://badgerbase.app"
-              className="text-green-700 dark:text-green-600 hover:underline"
-            >
+            <a href="https://badgerbase.app" className="link-accent">
               BadgerBase
             </a>
           </p>
-          <p className="text-zinc-600 dark:text-zinc-400">
-            A course discovery tool for UW–Madison students. 2,000+ users use
-            it to find, compare, and plan courses. Built with Next.js on top of
-            a custom data pipeline scraping Madgrades, RateMyProfessor, and the university&apos;s course catalog.
+          <p style={{ color: "var(--color-body)" }}>
+            A course discovery tool for UW–Madison students. 2,000+ users use it
+            to find, compare, and plan courses. Built with Next.js on top of a
+            custom data pipeline scraping Madgrades, RateMyProfessor, and the
+            university&apos;s course catalog.
           </p>
         </div>
         <div className="mt-6">
           <p className="mb-2">
             <a
               href="https://github.com/aidanobrien5599/MarchMadnessPredictor"
-              className="text-green-700 dark:text-green-600 hover:underline"
+              className="link-accent"
             >
               March Madness Predictor
             </a>
           </p>
-          <p className="text-zinc-600 dark:text-zinc-400">
+          <p style={{ color: "var(--color-body)" }}>
             My annual attempt to crack March Madness with historical data. Proud
-            winner of the $100 grand prize in my Jersey Shore friends&apos; 2026 pool.
+            winner of the $100 grand prize in my Jersey Shore friends&apos; 2026
+            pool.
           </p>
         </div>
       </section>
 
       <section className="mb-8">
-        <h2 className="text-s uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
-          Writing
-        </h2>
-        <p className="text-zinc-400 dark:text-zinc-600">Nothing here yet.</p>
+        <h2 className="section-heading">Writing</h2>
+        <p style={{ color: "var(--color-muted)" }}>Nothing here yet.</p>
       </section>
 
       <section className="mb-20">
-        <h2 className="text-s uppercase tracking-widest text-green-900 dark:text-green-100 mb-6">
-          Contact
-        </h2>
+        <h2 className="section-heading">Contact</h2>
         <div className="flex items-center gap-4 mb-4">
-          <a
-            href="mailto:aob55992@gmail.com"
-            className="text-green-700 dark:text-green-400 hover:underline text-zinc-600 dark:text-zinc-300"
-          >
+          <a href="mailto:aob55992@gmail.com" className="link-accent">
             aob55992@gmail.com
           </a>
-          <span className="text-zinc-300 dark:text-zinc-600">·</span>
+          <span style={{ color: "var(--color-border)" }}>·</span>
           <a
             href="/OBRIEN_AIDAN_RESUME.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-zinc-400 dark:text-zinc-500 hover:text-green-700 dark:hover:text-green-600 transition-colors"
+            className="contact-link"
           >
             Resume
           </a>
         </div>
-        <div className="flex gap-4 text-zinc-400 dark:text-zinc-500 text-xs">
-          <a
-            href="https://github.com/aidanobrien5599"
-            className="hover:text-green-700 dark:hover:text-green-600 transition-colors"
-          >
+        <div className="flex gap-4 text-xs" style={{ color: "var(--color-muted)" }}>
+          <a href="https://github.com/aidanobrien5599" className="contact-link">
             GitHub
           </a>
           <span>·</span>
           <a
             href="https://www.linkedin.com/in/aidan-o-brien-393486274/"
-            className="hover:text-green-700 dark:hover:text-green-600 transition-colors"
+            className="contact-link"
           >
             LinkedIn
           </a>
           <span>·</span>
-          <a
-            href="https://chess.com/member/aidanob917"
-            className="hover:text-green-700 dark:hover:text-green-600 transition-colors"
-          >
+          <a href="https://chess.com/member/aidanob917" className="contact-link">
             Chess.com
           </a>
         </div>
       </section>
 
-      <footer className="pt-8 border-t border-zinc-200 dark:border-zinc-800 text-xs text-zinc-300 dark:text-zinc-700">
+      <footer
+        className="pt-8 text-xs"
+        style={{
+          borderTop: "1px solid var(--color-border)",
+          color: "var(--color-muted)",
+        }}
+      >
         {new Date().getFullYear()} — Aidan O&apos;Brien v3
       </footer>
     </main>
