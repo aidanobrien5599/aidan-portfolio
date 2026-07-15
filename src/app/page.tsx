@@ -39,6 +39,11 @@ export default function Home() {
       </header>
 
       <section className="mb-8 space-y-4 text-zinc-600 dark:text-zinc-400">
+        <img
+          src="/headshot.jpeg"
+          alt="Aidan O'Brien"
+          className="w-36 h-36 rounded-full object-cover mx-auto mb-4 sm:float-right sm:ml-6 sm:mb-2 sm:mx-0"
+        />
         <p>
           I&apos;m an incoming software engineer intern at{" "}
           <span className="text-zinc-900 dark:text-zinc-50">Netflix</span>,
