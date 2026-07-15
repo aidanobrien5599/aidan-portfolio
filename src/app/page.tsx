@@ -27,21 +27,21 @@ const work = [
 
 export default function Home() {
   return (
-    <main className="max-w-xl mx-auto px-6 py-20 text-sm leading-relaxed">
+    <main className="max-w-2xl mx-auto px-8 py-20 text-[15px] leading-relaxed">
       <header className="mb-8">
         <h1
           className="mb-1 font-normal"
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: 26,
+            fontSize: 32,
             letterSpacing: "-0.01em",
             color: "var(--color-heading)",
           }}
         >
           Aidan O&apos;Brien{" "}
-          <span style={{ color: "var(--color-accent)", fontSize: 22 }}>☘</span>
+          <span style={{ color: "var(--color-accent)", fontSize: 28 }}>☘</span>
         </h1>
-        <p style={{ color: "var(--color-muted)", fontSize: 13 }}>
+        <p style={{ color: "var(--color-muted)", fontSize: 15 }}>
           Software engineer. Computer science @ UW–Madison.
         </p>
       </header>
@@ -50,7 +50,7 @@ export default function Home() {
         <img
           src="/headshot.jpeg"
           alt="Aidan O'Brien"
-          className="w-36 h-36 rounded-full object-cover mx-auto mb-4 sm:float-right sm:ml-6 sm:mb-2 sm:mx-0"
+          className="w-44 h-44 rounded-full object-cover mx-auto mb-4 sm:float-right sm:ml-6 sm:mb-2 sm:mx-0"
         />
         <p>
           I&apos;m an incoming software engineer intern at{" "}
