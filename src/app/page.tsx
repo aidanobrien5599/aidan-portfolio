@@ -27,7 +27,10 @@ const work = [
 
 export default function Home() {
   return (
-    <main className="max-w-2xl mx-auto px-8 py-20 text-[15px] leading-relaxed">
+    <main
+      className="max-w-2xl mx-auto px-8 py-20 leading-relaxed"
+      style={{ fontFamily: "var(--font-display)", fontSize: 16 }}
+    >
       <header className="mb-8">
         <h1
           className="mb-1 font-normal"
@@ -41,7 +44,7 @@ export default function Home() {
           Aidan O&apos;Brien{" "}
           <span style={{ color: "var(--color-accent)", fontSize: 28 }}>☘</span>
         </h1>
-        <p style={{ color: "var(--color-muted)", fontSize: 15 }}>
+        <p style={{ color: "var(--color-muted)", fontSize: 15, fontStyle: "italic" }}>
           Software engineer. Computer science @ UW–Madison.
         </p>
       </header>

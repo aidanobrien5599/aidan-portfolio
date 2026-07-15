@@ -10,8 +10,8 @@
   --font-display: ui-serif, Georgia, "Times New Roman", serif;
 
   --color-heading: #1A2B1A;
-  --color-body: #4A5D4A;
-  --color-muted: #6B7C6B;
+  --color-body: #2A3D2A;
+  --color-muted: #5A6B5A;
   --color-accent: #2D6A4F;
   --color-accent-hover: #1B4332;
   --color-border: #D4E4D4;
@@ -48,7 +48,7 @@
 
 .highlight {
   color: var(--color-heading);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .link-accent {
@@ -63,7 +63,7 @@
 .work-row {
   display: flex;
   gap: 20px;
-  font-size: 14px;
+  font-size: 15px;
   color: var(--color-body);
   line-height: 1.6;
 }
