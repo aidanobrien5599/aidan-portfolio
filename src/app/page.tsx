@@ -271,7 +271,7 @@ export default function Home() {
                   fontSize: 13,
                   padding: "2px 10px",
                   borderRadius: 4,
-                  cursor: "default",
+                  cursor: "pointer",
                 }}
               >
                 {menu}
@@ -390,7 +390,7 @@ export default function Home() {
                   textDecoration: "none",
                   opacity: 0.7,
                   transition: "opacity 0.15s",
-                  cursor: "default",
+                  cursor: "pointer",
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
                 onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.7")}
