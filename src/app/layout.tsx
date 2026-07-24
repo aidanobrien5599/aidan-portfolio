@@ -1,13 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { PostHogProvider } from "@/components/PostHogProvider";
 import { Analytics } from "@vercel/analytics/next";
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-});
 
 export const metadata: Metadata = {
   title: "Aidan O'Brien",
@@ -25,8 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} antialiased`}
+        className="antialiased"
         style={{
+          fontFamily: "var(--font-mono)",
           backgroundColor: "var(--color-bg)",
           color: "var(--color-body)",
         }}
