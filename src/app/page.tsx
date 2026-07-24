@@ -30,12 +30,14 @@ export default function Home() {
   const [clock, setClock] = useState("");
   const [bouncingIcon, setBouncingIcon] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const dragRef = useRef<{ startX: number; startY: number; origX: number; origY: number } | null>(null);
   const windowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
+    setMounted(true);
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
@@ -146,11 +148,12 @@ export default function Home() {
     if (isMobile || termState === "maximized") {
       return {
         position: "fixed",
-        inset: isMobile ? "0" : "28px 0 0 0",
+        inset: 0,
+        zIndex: 200,
         width: "100%",
-        height: isMobile ? "100%" : "calc(100% - 28px)",
+        height: "100%",
         borderRadius: 0,
-        animation: "windowOpen 0.25s ease",
+        animation: mounted ? "windowOpen 0.25s ease" : "none",
       };
     }
     if (termState === "minimized" || termState === "closed") {
@@ -172,7 +175,6 @@ export default function Home() {
         transform: "translate(-50%, -50%)",
         width: `min(${termSize.w}px, calc(100vw - 48px))`,
         maxHeight: "calc(100vh - 140px)",
-        animation: "windowOpen 0.3s ease",
       };
     }
     return {
@@ -225,11 +227,13 @@ export default function Home() {
         flexDirection: "column",
         fontFamily: "var(--font-mono)",
         overflow: "hidden",
+        opacity: mounted ? 1 : 0,
+        transition: mounted ? "none" : "opacity 0s",
       }}
       onClick={() => activeMenu && closeMenu()}
     >
       {/* ── Menu bar ── */}
-      {!isMobile && (
+      {!isMobile && termState !== "maximized" && (
         <div
           style={{
             display: "flex",
@@ -721,7 +725,7 @@ export default function Home() {
       </div>
 
       {/* ── Dock ── */}
-      {!isMobile && (
+      {!isMobile && termState !== "maximized" && (
         <div
           style={{
             display: "flex",
