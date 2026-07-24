@@ -366,7 +366,7 @@ export default function Home() {
       )}
 
       {/* ── Desktop area ── */}
-      <div style={{ flex: 1, position: "relative", overflow: "hidden" }}>
+      <div style={{ flex: 1, position: "relative" }}>
         {/* Desktop icons */}
         {!isMobile && (
           <div
