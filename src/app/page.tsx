@@ -21,6 +21,31 @@ const links = {
 
 type WindowState = "open" | "minimized" | "maximized" | "closed";
 
+const START_PAGE = `<!DOCTYPE html><html><head><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#1C1C1C;color:#BABABA;font-family:ui-monospace,'SF Mono','Cascadia Code',monospace;display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:24px}
+@media(prefers-color-scheme:light){body{background:#FAFAFA;color:#444}input{background:#F0F0F0!important;border-color:#DDD!important;color:#333!important}input::placeholder{color:#999!important}.links a{color:#1A8A3A!important;border-color:#DDD!important}.links a:hover{background:#F0F0F0!important}h1{color:#333!important}}
+h1{font-size:32px;font-weight:700;color:#F0F0F0;letter-spacing:-0.5px}
+form{width:100%;max-width:480px}
+input{width:100%;padding:12px 16px;border-radius:8px;border:1px solid #333;background:#252525;color:#F0F0F0;font-size:14px;font-family:inherit;outline:none;transition:border-color 0.2s}
+input:focus{border-color:#28C840}
+input::placeholder{color:#555}
+.links{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.links a{color:#28C840;text-decoration:none;font-size:12px;padding:6px 12px;border:1px solid #2E2E2E;border-radius:6px;transition:background 0.15s}
+.links a:hover{background:#252525}
+</style></head><body>
+<h1>☘ Search</h1>
+<form onsubmit="window.top.postMessage({type:'browser-navigate',url:this.q.value},'*');return false">
+<input name="q" placeholder="Search DuckDuckGo or enter URL…" autofocus autocomplete="off"/>
+</form>
+<div class="links">
+<a href="#" onclick="window.top.postMessage({type:'browser-navigate',url:'https://www.coolmathgames.com'},'*');return false">Cool Math Games</a>
+<a href="#" onclick="window.top.postMessage({type:'browser-navigate',url:'https://aidanpobrien.com'},'*');return false">aidanpobrien.com</a>
+<a href="#" onclick="window.top.postMessage({type:'browser-navigate',url:'https://en.wikipedia.org'},'*');return false">Wikipedia</a>
+<a href="#" onclick="window.top.postMessage({type:'browser-navigate',url:'https://badgerbase.app'},'*');return false">BadgerBase</a>
+</div>
+</body></html>`;
+
 export default function Home() {
   const [termState, setTermState] = useState<WindowState>("open");
   const [termPos, setTermPos] = useState({ x: 0, y: 0 });
@@ -31,8 +56,19 @@ export default function Home() {
   const [bouncingIcon, setBouncingIcon] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [activeWindow, setActiveWindow] = useState<"terminal" | "browser">("terminal");
+
+  const [browserState, setBrowserState] = useState<WindowState>("closed");
+  const [browserPos, setBrowserPos] = useState({ x: 0, y: 0 });
+  const [browserCentered, setBrowserCentered] = useState(true);
+  const [browserUrl, setBrowserUrl] = useState("");
+  const [browserInputUrl, setBrowserInputUrl] = useState("");
+
   const dragRef = useRef<{ startX: number; startY: number; origX: number; origY: number } | null>(null);
+  const browserDragRef = useRef<{ startX: number; startY: number; origX: number; origY: number } | null>(null);
   const windowRef = useRef<HTMLDivElement>(null);
+  const browserRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -91,6 +127,126 @@ export default function Home() {
     },
     [termState, termPos, centered]
   );
+
+  const navigateBrowser = useCallback((input: string) => {
+    let url = input.trim();
+    if (!url) return;
+    if (url.includes(".") && !url.includes(" ") && !url.startsWith("http")) {
+      url = "https://" + url;
+    } else if (!url.startsWith("http")) {
+      url = "https://duckduckgo.com/?q=" + encodeURIComponent(url);
+    }
+    setBrowserUrl(url);
+    setBrowserInputUrl(url);
+  }, []);
+
+  useEffect(() => {
+    const handler = (e: MessageEvent) => {
+      if (e.data?.type === "browser-navigate") {
+        navigateBrowser(e.data.url);
+      }
+    };
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
+  }, [navigateBrowser]);
+
+  const handleBrowserDragStart = useCallback(
+    (e: React.MouseEvent) => {
+      if (browserState === "maximized") return;
+      const rect = browserRef.current?.getBoundingClientRect();
+      if (!rect) return;
+      if (browserCentered) {
+        setBrowserPos({ x: rect.left, y: rect.top });
+        setBrowserCentered(false);
+      }
+      browserDragRef.current = {
+        startX: e.clientX,
+        startY: e.clientY,
+        origX: browserCentered ? rect.left : browserPos.x,
+        origY: browserCentered ? rect.top : browserPos.y,
+      };
+      const onMove = (ev: MouseEvent) => {
+        if (!browserDragRef.current) return;
+        const dx = ev.clientX - browserDragRef.current.startX;
+        const dy = ev.clientY - browserDragRef.current.startY;
+        setBrowserPos({
+          x: browserDragRef.current.origX + dx,
+          y: Math.max(28, browserDragRef.current.origY + dy),
+        });
+      };
+      const onUp = () => {
+        browserDragRef.current = null;
+        document.removeEventListener("mousemove", onMove);
+        document.removeEventListener("mouseup", onUp);
+      };
+      document.addEventListener("mousemove", onMove);
+      document.addEventListener("mouseup", onUp);
+    },
+    [browserState, browserPos, browserCentered]
+  );
+
+  const openBrowser = () => {
+    setBrowserState("open");
+    setBrowserUrl("");
+    setBrowserInputUrl("");
+    setActiveWindow("browser");
+  };
+
+  const minimizeBrowser = () => {
+    setBrowserState("minimized");
+    setBouncingIcon("browser");
+    setTimeout(() => setBouncingIcon(null), 500);
+  };
+
+  const maximizeBrowser = () => {
+    if (browserState === "maximized") {
+      setBrowserState("open");
+    } else {
+      setBrowserState("maximized");
+    }
+  };
+
+  const getBrowserWindowStyle = (): React.CSSProperties => {
+    if (isMobile || browserState === "maximized") {
+      return {
+        position: "fixed",
+        inset: 0,
+        zIndex: 200,
+        width: "100%",
+        height: "100%",
+        borderRadius: 0,
+        animation: mounted ? "windowOpen 0.25s ease" : "none",
+      };
+    }
+    if (browserState === "minimized" || browserState === "closed") {
+      return {
+        position: "absolute",
+        left: "50%",
+        bottom: "60px",
+        transform: "translateX(-50%) scale(0.1)",
+        opacity: 0,
+        pointerEvents: "none",
+        transition: "all 0.35s cubic-bezier(0.2, 0, 0, 1)",
+      };
+    }
+    if (browserCentered) {
+      return {
+        position: "absolute",
+        left: "50%",
+        top: "50%",
+        transform: "translate(-50%, -50%)",
+        width: "min(820px, calc(100vw - 48px))",
+        maxHeight: "calc(100vh - 140px)",
+      };
+    }
+    return {
+      position: "absolute",
+      left: browserPos.x,
+      top: browserPos.y,
+      width: 820,
+      maxHeight: "calc(100vh - 100px)",
+    };
+  };
 
   const minimize = () => {
     setTermState("minimized");
@@ -191,6 +347,7 @@ export default function Home() {
     { emoji: "🐙", label: "GitHub", href: links.github },
     { emoji: "🔗", label: "LinkedIn", href: links.linkedin },
     { emoji: "♟️", label: "Chess.com", href: links.chess },
+    { emoji: "🌐", label: "Browser", action: openBrowser },
   ];
 
   const dockItems = [
@@ -208,6 +365,22 @@ export default function Home() {
       action: () => {
         if (termState === "minimized" || termState === "closed") restore();
         else minimize();
+      },
+    },
+    {
+      id: "browser",
+      label: "Browser",
+      icon: <span style={{ fontSize: 20 }}>🌐</span>,
+      bg: "#3B82F6",
+      border: "#2563EB",
+      active: browserState === "open" || browserState === "maximized",
+      action: () => {
+        if (browserState === "minimized" || browserState === "closed") {
+          setBrowserState("open");
+          setActiveWindow("browser");
+        } else {
+          minimizeBrowser();
+        }
       },
     },
     { id: "resume", label: "Resume", icon: <span style={{ fontSize: 20 }}>📄</span>, bg: "#E8E8E8", border: "#CCC", href: links.resume },
@@ -233,7 +406,7 @@ export default function Home() {
       onClick={() => activeMenu && closeMenu()}
     >
       {/* ── Menu bar ── */}
-      {!isMobile && termState !== "maximized" && (
+      {!isMobile && termState !== "maximized" && browserState !== "maximized" && (
         <div
           style={{
             display: "flex",
@@ -380,56 +553,78 @@ export default function Home() {
               zIndex: 1,
             }}
           >
-            {desktopIcons.map((icon) => (
-              <a
-                key={icon.label}
-                href={icon.href}
-                target={icon.href.startsWith("/") ? "_blank" : "_blank"}
-                rel="noopener noreferrer"
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  gap: 4,
-                  textDecoration: "none",
-                  opacity: 0.7,
-                  transition: "opacity 0.15s",
-                  cursor: "pointer",
-                }}
-                onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-                onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.7")}
-              >
-                <div
-                  style={{
-                    width: 52,
-                    height: 52,
-                    background: "rgba(255,255,255,0.06)",
-                    borderRadius: 12,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: 26,
-                  }}
+            {desktopIcons.map((icon) => {
+              const inner = (
+                <>
+                  <div
+                    style={{
+                      width: 52,
+                      height: 52,
+                      background: "rgba(255,255,255,0.06)",
+                      borderRadius: 12,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 26,
+                    }}
+                  >
+                    {icon.emoji}
+                  </div>
+                  <span
+                    style={{
+                      fontSize: 10,
+                      color: "var(--color-body)",
+                      textShadow: "0 1px 3px rgba(0,0,0,0.3)",
+                    }}
+                  >
+                    {icon.label}
+                  </span>
+                </>
+              );
+              const sharedStyle: React.CSSProperties = {
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 4,
+                textDecoration: "none",
+                opacity: 0.7,
+                transition: "opacity 0.15s",
+                cursor: "pointer",
+              };
+              if (icon.action) {
+                return (
+                  <div
+                    key={icon.label}
+                    onClick={icon.action}
+                    style={sharedStyle}
+                    onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+                    onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.7")}
+                  >
+                    {inner}
+                  </div>
+                );
+              }
+              return (
+                <a
+                  key={icon.label}
+                  href={icon.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={sharedStyle}
+                  onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+                  onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.7")}
                 >
-                  {icon.emoji}
-                </div>
-                <span
-                  style={{
-                    fontSize: 10,
-                    color: "var(--color-body)",
-                    textShadow: "0 1px 3px rgba(0,0,0,0.3)",
-                  }}
-                >
-                  {icon.label}
-                </span>
-              </a>
-            ))}
+                  {inner}
+                </a>
+              );
+            })}
           </div>
         )}
 
         {/* Terminal window */}
         <div
           ref={windowRef}
+          onMouseDown={() => setActiveWindow("terminal")}
           style={{
             ...getWindowStyle(),
             display: "flex",
@@ -437,7 +632,7 @@ export default function Home() {
             borderRadius: termState === "maximized" || isMobile ? 0 : 10,
             boxShadow: termState === "maximized" || isMobile ? "none" : "var(--window-shadow)",
             overflow: "hidden",
-            zIndex: 10,
+            zIndex: termState === "maximized" ? 200 : activeWindow === "terminal" ? 20 : 10,
           }}
         >
           {/* Window titlebar */}
@@ -689,7 +884,7 @@ export default function Home() {
         </div>
 
         {/* Minimized hint */}
-        {(termState === "minimized" || termState === "closed") && !isMobile && (
+        {(termState === "minimized" || termState === "closed") && browserState !== "open" && browserState !== "maximized" && !isMobile && (
           <div
             style={{
               position: "absolute",
@@ -722,10 +917,123 @@ export default function Home() {
             </div>
           </div>
         )}
+
+        {/* Browser window */}
+        {browserState !== "closed" && (
+          <div
+            ref={browserRef}
+            onMouseDown={() => setActiveWindow("browser")}
+            style={{
+              ...getBrowserWindowStyle(),
+              display: "flex",
+              flexDirection: "column",
+              borderRadius: browserState === "maximized" ? 0 : 10,
+              boxShadow: browserState === "maximized" ? "none" : "var(--window-shadow)",
+              overflow: "hidden",
+              zIndex: browserState === "maximized" ? 200 : activeWindow === "browser" ? 20 : 10,
+              height: browserState === "maximized" ? "100%" : 560,
+            }}
+          >
+            {/* Browser titlebar */}
+            <div
+              onMouseDown={handleBrowserDragStart}
+              onDoubleClick={maximizeBrowser}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "10px 16px",
+                background: "var(--titlebar-bg)",
+                borderBottom: "1px solid var(--color-border)",
+                flexShrink: 0,
+                cursor: browserState === "maximized" ? "default" : "grab",
+                userSelect: "none",
+              }}
+            >
+              <span
+                onClick={(e) => { e.stopPropagation(); setBrowserState("closed"); setBrowserUrl(""); setBrowserInputUrl(""); }}
+                style={{ width: 12, height: 12, borderRadius: "50%", background: "var(--color-dot-r)", cursor: "pointer", flexShrink: 0 }}
+              />
+              <span
+                onClick={(e) => { e.stopPropagation(); minimizeBrowser(); }}
+                style={{ width: 12, height: 12, borderRadius: "50%", background: "var(--color-dot-y)", cursor: "pointer", flexShrink: 0 }}
+              />
+              <span
+                onClick={(e) => { e.stopPropagation(); maximizeBrowser(); }}
+                style={{ width: 12, height: 12, borderRadius: "50%", background: "var(--color-dot-g)", cursor: "pointer", flexShrink: 0 }}
+              />
+              {/* URL bar */}
+              <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 6, marginLeft: 4 }}>
+                <button
+                  onClick={(e) => { e.stopPropagation(); setBrowserUrl(""); setBrowserInputUrl(""); }}
+                  style={{
+                    background: "transparent", border: "none", color: "var(--color-muted)",
+                    fontSize: 14, cursor: "pointer", padding: "2px 4px", fontFamily: "inherit",
+                  }}
+                  title="Home"
+                >
+                  🏠
+                </button>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    navigateBrowser(browserInputUrl);
+                  }}
+                  style={{ flex: 1 }}
+                >
+                  <input
+                    type="text"
+                    value={browserInputUrl}
+                    onChange={(e) => setBrowserInputUrl(e.target.value)}
+                    placeholder="Search or enter URL…"
+                    onMouseDown={(e) => e.stopPropagation()}
+                    style={{
+                      width: "100%",
+                      padding: "5px 10px",
+                      borderRadius: 6,
+                      border: "1px solid var(--color-border)",
+                      background: "var(--color-bg)",
+                      color: "var(--color-body)",
+                      fontSize: 12,
+                      fontFamily: "inherit",
+                      outline: "none",
+                    }}
+                  />
+                </form>
+              </div>
+            </div>
+
+            {/* Browser body */}
+            <div style={{ flex: 1, background: "var(--color-bg)", overflow: "hidden" }}>
+              <iframe
+                ref={iframeRef}
+                {...(browserUrl ? { src: browserUrl } : { srcDoc: START_PAGE })}
+                style={{ width: "100%", height: "100%", border: "none" }}
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
+                title="Browser"
+                onLoad={() => {
+                  if (!browserUrl || !iframeRef.current) return;
+                  try {
+                    const doc = iframeRef.current.contentDocument;
+                    if (doc && doc.title === "" && doc.body && doc.body.children.length === 0) {
+                      window.open(browserUrl, "_blank");
+                      setBrowserUrl("");
+                      setBrowserInputUrl("");
+                    }
+                  } catch {
+                    window.open(browserUrl, "_blank");
+                    setBrowserUrl("");
+                    setBrowserInputUrl("");
+                  }
+                }}
+              />
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ── Dock ── */}
-      {!isMobile && termState !== "maximized" && (
+      {!isMobile && termState !== "maximized" && browserState !== "maximized" && (
         <div
           style={{
             display: "flex",
