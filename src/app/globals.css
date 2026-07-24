@@ -66,6 +66,7 @@ html, body {
   overflow: hidden;
   height: 100%;
   width: 100%;
+  overscroll-behavior: none;
 }
 
 @keyframes blink { 50% { opacity: 0; } }
