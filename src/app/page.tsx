@@ -495,6 +495,7 @@ export default function Home() {
               lineHeight: 1.7,
               color: "var(--color-body)",
               cursor: "text",
+              overscrollBehavior: "contain",
             }}
           >
             <header style={{ marginBottom: 28 }}>
