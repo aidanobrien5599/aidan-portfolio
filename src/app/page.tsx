@@ -225,7 +225,6 @@ export default function Home() {
         flexDirection: "column",
         fontFamily: "var(--font-mono)",
         overflow: "hidden",
-        userSelect: "none",
       }}
       onClick={() => activeMenu && closeMenu()}
     >
@@ -247,6 +246,7 @@ export default function Home() {
             flexShrink: 0,
             zIndex: 100,
             position: "relative",
+            userSelect: "none",
           }}
         >
           <span
@@ -449,6 +449,7 @@ export default function Home() {
               borderBottom: "1px solid var(--color-border)",
               flexShrink: 0,
               cursor: termState === "maximized" ? "default" : "grab",
+              userSelect: "none",
             }}
           >
             <span
@@ -493,6 +494,7 @@ export default function Home() {
               fontSize: 14,
               lineHeight: 1.7,
               color: "var(--color-body)",
+              cursor: "text",
             }}
           >
             <header style={{ marginBottom: 28 }}>
@@ -739,6 +741,7 @@ export default function Home() {
               WebkitBackdropFilter: "blur(20px)",
               borderRadius: 16,
               border: "1px solid var(--dock-border)",
+              userSelect: "none",
             }}
           >
             {dockItems.map((item) => {
