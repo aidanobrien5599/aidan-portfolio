@@ -27,7 +27,7 @@ export function DesktopIcons({ icons, onBrowserOpen }: DesktopIconsProps) {
               style={{
                 width: 52,
                 height: 52,
-                background: "rgba(255,255,255,0.06)",
+                background: "var(--desktop-icon-bg, rgba(255,255,255,0.06))",
                 borderRadius: 12,
                 display: "flex",
                 alignItems: "center",
@@ -35,7 +35,9 @@ export function DesktopIcons({ icons, onBrowserOpen }: DesktopIconsProps) {
                 fontSize: 26,
               }}
             >
-              {icon.emoji}
+              {icon.icon
+                ? <img src={icon.icon} alt={icon.label} className={icon.icon.includes("github") ? "icon-invert-dark" : ""} style={{ width: 28, height: 28, objectFit: "contain" }} />
+                : icon.emoji}
             </div>
             <span
               style={{
