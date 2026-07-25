@@ -10,18 +10,22 @@ import type { DockItem } from "@/components/desktop/Dock";
 import { DesktopIcons } from "@/components/desktop/DesktopIcons";
 import { TerminalWindow } from "@/components/desktop/TerminalWindow";
 import { BrowserWindow } from "@/components/desktop/BrowserWindow";
+import { SettingsWindow } from "@/components/desktop/SettingsWindow";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
-  const [activeWindow, setActiveWindow] = useState<"terminal" | "browser">("terminal");
+  const [activeWindow, setActiveWindow] = useState<"terminal" | "browser" | "settings">("terminal");
   const [bouncingIcon, setBouncingIcon] = useState<string | null>(null);
 
   const clock = useClock();
+  const { backgroundValue } = useTheme();
 
   const terminal = useWindowManager({ defaultWidth: 720, isMobile, mounted, initialState: "open" });
   const browser = useWindowManager({ defaultWidth: 820, isMobile, mounted, initialState: "closed" });
+  const settings = useWindowManager({ defaultWidth: 480, isMobile, mounted, initialState: "closed" });
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -50,6 +54,11 @@ export default function Home() {
     setActiveWindow("browser");
   };
 
+  const openSettings = () => {
+    settings.open();
+    setActiveWindow("settings");
+  };
+
   const menuActions: Record<string, () => void> = {
     restore: terminal.restore,
     maximize: terminal.maximize,
@@ -57,7 +66,7 @@ export default function Home() {
     restoreDefault: () => { terminal.restore(); terminal.resetPosition(); },
   };
 
-  const anyMaximized = terminal.state === "maximized" || browser.state === "maximized";
+  const anyMaximized = terminal.state === "maximized" || browser.state === "maximized" || settings.state === "maximized";
 
   const dockItems: DockItem[] = dockItemsConfig.map((cfg) => {
     if (cfg.id === "sep") return { id: "sep" };
@@ -98,6 +107,25 @@ export default function Home() {
         },
       };
     }
+    if (cfg.id === "settings") {
+      return {
+        id: "settings",
+        label: "Settings",
+        icon: <span style={{ fontSize: 20 }}>⚙️</span>,
+        bg: cfg.bg,
+        border: cfg.border,
+        active: settings.state === "open" || settings.state === "maximized",
+        action: () => {
+          if (settings.state === "minimized" || settings.state === "closed") {
+            settings.open();
+            setActiveWindow("settings");
+          } else {
+            settings.minimize();
+            handleBounce("settings");
+          }
+        },
+      };
+    }
     return {
       id: cfg.id,
       label: cfg.label,
@@ -115,7 +143,7 @@ export default function Home() {
       style={{
         width: "100vw",
         height: "100vh",
-        background: "var(--desktop-bg)",
+        background: backgroundValue || "var(--desktop-bg)",
         display: "flex",
         flexDirection: "column",
         fontFamily: "var(--font-mono)",
@@ -138,7 +166,7 @@ export default function Home() {
 
       <div style={{ flex: 1, position: "relative" }}>
         {!isMobile && (
-          <DesktopIcons icons={desktopIconsConfig} onBrowserOpen={openBrowser} />
+          <DesktopIcons icons={desktopIconsConfig} onBrowserOpen={openBrowser} onSettingsOpen={openSettings} />
         )}
 
         <TerminalWindow
@@ -150,7 +178,8 @@ export default function Home() {
         />
 
         {(terminal.state === "minimized" || terminal.state === "closed") &&
-          browser.state !== "open" && browser.state !== "maximized" && !isMobile && (
+          browser.state !== "open" && browser.state !== "maximized" &&
+          settings.state !== "open" && settings.state !== "maximized" && !isMobile && (
           <div
             style={{
               position: "absolute",
@@ -190,6 +219,15 @@ export default function Home() {
             onFocus={() => setActiveWindow("browser")}
             onBounce={handleBounce}
             activeZIndex={activeWindow === "browser" ? 20 : 10}
+          />
+        )}
+
+        {settings.state !== "closed" && (
+          <SettingsWindow
+            wm={settings}
+            onFocus={() => setActiveWindow("settings")}
+            onBounce={handleBounce}
+            activeZIndex={activeWindow === "settings" ? 20 : 10}
           />
         )}
       </div>

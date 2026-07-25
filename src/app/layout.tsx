@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { PostHogProvider } from "@/components/PostHogProvider";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
@@ -26,10 +27,12 @@ export default function RootLayout({
           color: "var(--color-body)",
         }}
       >
-        <PostHogProvider>
-          {children}
-          <Analytics />
-        </PostHogProvider>
+        <ThemeProvider>
+          <PostHogProvider>
+            {children}
+            <Analytics />
+          </PostHogProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

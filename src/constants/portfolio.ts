@@ -56,12 +56,13 @@ export type DockItemConfig = {
   bg?: string;
   border?: string;
   href?: string;
-  actionType?: "terminal" | "browser";
+  actionType?: "terminal" | "browser" | "settings";
 };
 
 export const dockItemsConfig: DockItemConfig[] = [
   { id: "terminal", label: "Terminal", actionType: "terminal", bg: "#1A1A1A", border: "#333" },
   { id: "browser", label: "Browser", emoji: "🌐", actionType: "browser", bg: "#3B82F6", border: "#2563EB" },
+  { id: "settings", label: "Settings", emoji: "⚙️", actionType: "settings", bg: "#6B7280", border: "#4B5563" },
   { id: "resume", label: "Resume", emoji: "📄", bg: "#E8E8E8", border: "#CCC", href: links.resume },
   { id: "sep" },
   { id: "github", label: "GitHub", icon: "/images/github.svg", bg: "var(--github-icon-bg)", border: "var(--github-icon-border)", href: links.github },
@@ -74,7 +75,7 @@ export type DesktopIconConfig = {
   icon?: string;
   label: string;
   href?: string;
-  actionType?: "browser";
+  actionType?: "browser" | "settings";
 };
 
 export const desktopIconsConfig: DesktopIconConfig[] = [
@@ -83,4 +84,5 @@ export const desktopIconsConfig: DesktopIconConfig[] = [
   { icon: "/images/icons8-linkedin-144.png", label: "LinkedIn", href: links.linkedin },
   { icon: "/images/chess.png", label: "Chess.com", href: links.chess },
   { emoji: "🌐", label: "Browser", actionType: "browser" },
+  { emoji: "⚙️", label: "Settings", actionType: "settings" },
 ];
