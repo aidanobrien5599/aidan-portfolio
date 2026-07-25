@@ -31,6 +31,9 @@
   --dropdown-hover: rgba(0, 0, 0, 0.06);
   --dropdown-border: rgba(0, 0, 0, 0.1);
   --window-shadow: 0 8px 40px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  --desktop-icon-bg: rgba(0, 0, 0, 0.08);
+  --github-icon-bg: #F0F0F0;
+  --github-icon-border: #CCC;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -59,6 +62,9 @@
     --dropdown-hover: rgba(255, 255, 255, 0.08);
     --dropdown-border: rgba(255, 255, 255, 0.08);
     --window-shadow: 0 8px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    --desktop-icon-bg: rgba(255, 255, 255, 0.06);
+    --github-icon-bg: #222;
+    --github-icon-border: #333;
   }
 }
 
@@ -67,6 +73,11 @@ html, body {
   height: 100%;
   width: 100%;
   overscroll-behavior: none;
+}
+
+.icon-invert-dark { filter: none; }
+@media (prefers-color-scheme: dark) {
+  .icon-invert-dark { filter: invert(1) brightness(2); }
 }
 
 @keyframes blink { 50% { opacity: 0; } }
