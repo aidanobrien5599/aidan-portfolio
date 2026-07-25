@@ -17,7 +17,6 @@ export default function Home() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [activeWindow, setActiveWindow] = useState<"terminal" | "browser">("terminal");
   const [bouncingIcon, setBouncingIcon] = useState<string | null>(null);
-  const [browserInputUrl, setBrowserInputUrl] = useState("");
 
   const clock = useClock();
 
@@ -48,7 +47,6 @@ export default function Home() {
 
   const openBrowser = () => {
     browser.open();
-    setBrowserInputUrl("");
     setActiveWindow("browser");
   };
 
@@ -100,20 +98,12 @@ export default function Home() {
         },
       };
     }
-    if (cfg.id === "linkedin") {
-      return {
-        id: cfg.id,
-        label: cfg.label,
-        icon: <span style={{ color: "white", fontSize: 14, fontWeight: 700 }}>in</span>,
-        bg: cfg.bg,
-        border: cfg.border,
-        href: cfg.href,
-      };
-    }
     return {
       id: cfg.id,
       label: cfg.label,
-      icon: <span style={{ fontSize: 20 }}>{cfg.emoji}</span>,
+      icon: cfg.icon
+        ? <img src={cfg.icon} alt={cfg.label} className={cfg.icon.includes("github") ? "icon-invert-dark" : ""} style={{ width: 22, height: 22, objectFit: "contain" }} />
+        : <span style={{ fontSize: 20 }}>{cfg.emoji}</span>,
       bg: cfg.bg,
       border: cfg.border,
       href: cfg.href,
@@ -197,8 +187,6 @@ export default function Home() {
         {browser.state !== "closed" && (
           <BrowserWindow
             wm={browser}
-            browserInputUrl={browserInputUrl}
-            setBrowserInputUrl={setBrowserInputUrl}
             onFocus={() => setActiveWindow("browser")}
             onBounce={handleBounce}
             activeZIndex={activeWindow === "browser" ? 20 : 10}

@@ -17,31 +17,6 @@ export const links = {
   marchmadness: "https://github.com/aidanobrien5599/MarchMadnessPredictor",
 };
 
-export const START_PAGE = `<!DOCTYPE html><html><head><style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#1C1C1C;color:#BABABA;font-family:ui-monospace,'SF Mono','Cascadia Code',monospace;display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:24px}
-@media(prefers-color-scheme:light){body{background:#FAFAFA;color:#444}input{background:#F0F0F0!important;border-color:#DDD!important;color:#333!important}input::placeholder{color:#999!important}.links a{color:#1A8A3A!important;border-color:#DDD!important}.links a:hover{background:#F0F0F0!important}h1{color:#333!important}}
-h1{font-size:32px;font-weight:700;color:#F0F0F0;letter-spacing:-0.5px}
-form{width:100%;max-width:480px}
-input{width:100%;padding:12px 16px;border-radius:8px;border:1px solid #333;background:#252525;color:#F0F0F0;font-size:14px;font-family:inherit;outline:none;transition:border-color 0.2s}
-input:focus{border-color:#28C840}
-input::placeholder{color:#555}
-.links{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-.links a{color:#28C840;text-decoration:none;font-size:12px;padding:6px 12px;border:1px solid #2E2E2E;border-radius:6px;transition:background 0.15s}
-.links a:hover{background:#252525}
-</style></head><body>
-<h1>☘ Search</h1>
-<form onsubmit="window.top.postMessage({type:'browser-navigate',url:this.q.value},'*');return false">
-<input name="q" placeholder="Search DuckDuckGo or enter URL…" autofocus autocomplete="off"/>
-</form>
-<div class="links">
-<a href="#" onclick="window.top.postMessage({type:'browser-navigate',url:'https://www.coolmathgames.com'},'*');return false">Cool Math Games</a>
-<a href="#" onclick="window.top.postMessage({type:'browser-navigate',url:'https://aidanpobrien.com'},'*');return false">aidanpobrien.com</a>
-<a href="#" onclick="window.top.postMessage({type:'browser-navigate',url:'https://en.wikipedia.org'},'*');return false">Wikipedia</a>
-<a href="#" onclick="window.top.postMessage({type:'browser-navigate',url:'https://badgerbase.app'},'*');return false">BadgerBase</a>
-</div>
-</body></html>`;
-
 export type MenuItem = {
   label: string;
   action?: string;
@@ -77,6 +52,7 @@ export type DockItemConfig = {
   id: string;
   label?: string;
   emoji?: string;
+  icon?: string;
   bg?: string;
   border?: string;
   href?: string;
@@ -88,13 +64,14 @@ export const dockItemsConfig: DockItemConfig[] = [
   { id: "browser", label: "Browser", emoji: "🌐", actionType: "browser", bg: "#3B82F6", border: "#2563EB" },
   { id: "resume", label: "Resume", emoji: "📄", bg: "#E8E8E8", border: "#CCC", href: links.resume },
   { id: "sep" },
-  { id: "github", label: "GitHub", emoji: "🐙", bg: "#222", border: "#333", href: links.github },
-  { id: "linkedin", label: "LinkedIn", bg: "#0A66C2", border: "#0858A8", href: links.linkedin },
-  { id: "chess", label: "Chess", emoji: "♟️", bg: "#769656", border: "#5A7A40", href: links.chess },
+  { id: "github", label: "GitHub", icon: "/images/github.svg", bg: "var(--github-icon-bg)", border: "var(--github-icon-border)", href: links.github },
+  { id: "linkedin", label: "LinkedIn", icon: "/images/icons8-linkedin-144.png", bg: "#0A66C2", border: "#0858A8", href: links.linkedin },
+  { id: "chess", label: "Chess", icon: "/images/chess.png", bg: "#769656", border: "#5A7A40", href: links.chess },
 ];
 
 export type DesktopIconConfig = {
-  emoji: string;
+  emoji?: string;
+  icon?: string;
   label: string;
   href?: string;
   actionType?: "browser";
@@ -102,8 +79,8 @@ export type DesktopIconConfig = {
 
 export const desktopIconsConfig: DesktopIconConfig[] = [
   { emoji: "📄", label: "resume.pdf", href: links.resume },
-  { emoji: "🐙", label: "GitHub", href: links.github },
-  { emoji: "🔗", label: "LinkedIn", href: links.linkedin },
-  { emoji: "♟️", label: "Chess.com", href: links.chess },
+  { icon: "/images/github.svg", label: "GitHub", href: links.github },
+  { icon: "/images/icons8-linkedin-144.png", label: "LinkedIn", href: links.linkedin },
+  { icon: "/images/chess.png", label: "Chess.com", href: links.chess },
   { emoji: "🌐", label: "Browser", actionType: "browser" },
 ];
