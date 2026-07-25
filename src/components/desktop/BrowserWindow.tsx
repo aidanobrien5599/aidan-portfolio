@@ -1,17 +1,15 @@
 "use client";
 
-import { useRef } from "react";
-import { WindowChrome } from "./WindowChrome";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { START_PAGE } from "@/constants/portfolio";
 import type { useWindowManager } from "@/hooks/useWindowManager";
 
+const SCRAMJET_URL = "https://scramjet-app-production-1e06.up.railway.app";
+
 interface BrowserWindowProps {
   wm: ReturnType<typeof useWindowManager>;
-  navigateBrowser: (input: string) => void;
-  browserUrl: string;
   browserInputUrl: string;
   setBrowserInputUrl: (url: string) => void;
-  setBrowserUrl: (url: string) => void;
   onFocus: () => void;
   onBounce: (id: string) => void;
   activeZIndex: number;
@@ -19,16 +17,14 @@ interface BrowserWindowProps {
 
 export function BrowserWindow({
   wm,
-  navigateBrowser,
-  browserUrl,
   browserInputUrl,
   setBrowserInputUrl,
-  setBrowserUrl,
   onFocus,
   onBounce,
   activeZIndex,
 }: BrowserWindowProps) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [showStartPage, setShowStartPage] = useState(true);
 
   const handleMinimize = () => {
     wm.minimize();
@@ -37,9 +33,35 @@ export function BrowserWindow({
 
   const handleClose = () => {
     wm.setState("closed");
-    setBrowserUrl("");
     setBrowserInputUrl("");
+    setShowStartPage(true);
   };
+
+  const handleHome = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setBrowserInputUrl("");
+    setShowStartPage(true);
+  };
+
+  const handleNavigate = useCallback((input: string) => {
+    let url = input.trim();
+    if (!url) return;
+    if (url.includes(".") && !url.includes(" ") && !url.startsWith("http")) {
+      url = "https://" + url;
+    } else if (!url.startsWith("http")) {
+      url = "https://duckduckgo.com/?q=" + encodeURIComponent(url);
+    }
+    setBrowserInputUrl(url);
+    setShowStartPage(false);
+  }, [setBrowserInputUrl]);
+
+  useEffect(() => {
+    const handler = (e: MessageEvent) => {
+      if (e.data?.type === "browser-navigate") handleNavigate(e.data.url);
+    };
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
+  }, [handleNavigate]);
 
   return (
     <div
@@ -85,7 +107,7 @@ export function BrowserWindow({
         />
         <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 6, marginLeft: 4 }}>
           <button
-            onClick={(e) => { e.stopPropagation(); setBrowserUrl(""); setBrowserInputUrl(""); }}
+            onClick={handleHome}
             style={{
               background: "transparent", border: "none", color: "var(--color-muted)",
               fontSize: 14, cursor: "pointer", padding: "2px 4px", fontFamily: "inherit",
@@ -97,7 +119,7 @@ export function BrowserWindow({
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              navigateBrowser(browserInputUrl);
+              handleNavigate(browserInputUrl);
             }}
             style={{ flex: 1 }}
           >
@@ -123,28 +145,26 @@ export function BrowserWindow({
         </div>
       </div>
 
-      <div style={{ flex: 1, background: "var(--color-bg)", overflow: "hidden" }}>
+      <div style={{ flex: 1, background: "var(--color-bg)", overflow: "hidden", position: "relative" }}>
+        {showStartPage && (
+          <iframe
+            srcDoc={START_PAGE}
+            style={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 2,
+              width: "100%",
+              height: "100%",
+              border: "none",
+            }}
+            title="Start Page"
+          />
+        )}
         <iframe
           ref={iframeRef}
-          {...(browserUrl ? { src: browserUrl } : { srcDoc: START_PAGE })}
+          src={SCRAMJET_URL}
           style={{ width: "100%", height: "100%", border: "none" }}
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
           title="Browser"
-          onLoad={() => {
-            if (!browserUrl || !iframeRef.current) return;
-            try {
-              const doc = iframeRef.current.contentDocument;
-              if (doc && doc.title === "" && doc.body && doc.body.children.length === 0) {
-                window.open(browserUrl, "_blank");
-                setBrowserUrl("");
-                setBrowserInputUrl("");
-              }
-            } catch {
-              window.open(browserUrl, "_blank");
-              setBrowserUrl("");
-              setBrowserInputUrl("");
-            }
-          }}
         />
       </div>
     </div>

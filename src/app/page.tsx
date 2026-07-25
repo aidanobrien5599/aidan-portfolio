@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { useWindowManager } from "@/hooks/useWindowManager";
 import { useClock } from "@/hooks/useClock";
 import { menuItemsConfig, desktopIconsConfig, dockItemsConfig } from "@/constants/portfolio";
@@ -17,7 +17,6 @@ export default function Home() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [activeWindow, setActiveWindow] = useState<"terminal" | "browser">("terminal");
   const [bouncingIcon, setBouncingIcon] = useState<string | null>(null);
-  const [browserUrl, setBrowserUrl] = useState("");
   const [browserInputUrl, setBrowserInputUrl] = useState("");
 
   const clock = useClock();
@@ -32,26 +31,6 @@ export default function Home() {
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
-
-  const navigateBrowser = useCallback((input: string) => {
-    let url = input.trim();
-    if (!url) return;
-    if (url.includes(".") && !url.includes(" ") && !url.startsWith("http")) {
-      url = "https://" + url;
-    } else if (!url.startsWith("http")) {
-      url = "https://duckduckgo.com/?q=" + encodeURIComponent(url);
-    }
-    setBrowserUrl(url);
-    setBrowserInputUrl(url);
-  }, []);
-
-  useEffect(() => {
-    const handler = (e: MessageEvent) => {
-      if (e.data?.type === "browser-navigate") navigateBrowser(e.data.url);
-    };
-    window.addEventListener("message", handler);
-    return () => window.removeEventListener("message", handler);
-  }, [navigateBrowser]);
 
   const closeMenu = () => setActiveMenu(null);
 
@@ -69,7 +48,6 @@ export default function Home() {
 
   const openBrowser = () => {
     browser.open();
-    setBrowserUrl("");
     setBrowserInputUrl("");
     setActiveWindow("browser");
   };
@@ -219,11 +197,8 @@ export default function Home() {
         {browser.state !== "closed" && (
           <BrowserWindow
             wm={browser}
-            navigateBrowser={navigateBrowser}
-            browserUrl={browserUrl}
             browserInputUrl={browserInputUrl}
             setBrowserInputUrl={setBrowserInputUrl}
-            setBrowserUrl={setBrowserUrl}
             onFocus={() => setActiveWindow("browser")}
             onBounce={handleBounce}
             activeZIndex={activeWindow === "browser" ? 20 : 10}
