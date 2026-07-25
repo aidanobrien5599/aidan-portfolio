@@ -17,7 +17,7 @@ interface UseWindowManagerReturn {
   state: WindowState;
   setState: React.Dispatch<React.SetStateAction<WindowState>>;
   offset: { x: number; y: number };
-  ref: React.RefObject<HTMLDivElement | null>;
+  ref: React.RefObject<HTMLDivElement>;
   minimize: () => string;
   maximize: () => void;
   restore: () => void;
