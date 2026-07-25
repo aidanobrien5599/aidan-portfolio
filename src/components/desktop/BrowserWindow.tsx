@@ -130,21 +130,6 @@ export function BrowserWindow({
           style={{ width: "100%", height: "100%", border: "none" }}
           sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
           title="Browser"
-          onLoad={() => {
-            if (!browserUrl || !iframeRef.current) return;
-            try {
-              const doc = iframeRef.current.contentDocument;
-              if (doc && doc.title === "" && doc.body && doc.body.children.length === 0) {
-                window.open(browserUrl, "_blank");
-                setBrowserUrl("");
-                setBrowserInputUrl("");
-              }
-            } catch {
-              window.open(browserUrl, "_blank");
-              setBrowserUrl("");
-              setBrowserInputUrl("");
-            }
-          }}
         />
       </div>
     </div>

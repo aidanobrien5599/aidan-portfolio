@@ -41,7 +41,8 @@ export default function Home() {
     } else if (!url.startsWith("http")) {
       url = "https://duckduckgo.com/?q=" + encodeURIComponent(url);
     }
-    setBrowserUrl(url);
+    const parsed = new URL(url);
+    setBrowserUrl(`/api/proxy/${parsed.protocol.slice(0, -1)}/${parsed.host}${parsed.pathname}${parsed.search}`);
     setBrowserInputUrl(url);
   }, []);
 
