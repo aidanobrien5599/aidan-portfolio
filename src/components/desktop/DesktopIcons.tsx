@@ -5,9 +5,10 @@ import type { DesktopIconConfig } from "@/constants/portfolio";
 interface DesktopIconsProps {
   icons: DesktopIconConfig[];
   onBrowserOpen: () => void;
+  onSettingsOpen?: () => void;
 }
 
-export function DesktopIcons({ icons, onBrowserOpen }: DesktopIconsProps) {
+export function DesktopIcons({ icons, onBrowserOpen, onSettingsOpen }: DesktopIconsProps) {
   return (
     <div
       style={{
@@ -60,11 +61,11 @@ export function DesktopIcons({ icons, onBrowserOpen }: DesktopIconsProps) {
           transition: "opacity 0.15s",
           cursor: "pointer",
         };
-        if (icon.actionType === "browser") {
+        if (icon.actionType === "browser" || icon.actionType === "settings") {
           return (
             <div
               key={icon.label}
-              onClick={onBrowserOpen}
+              onClick={icon.actionType === "settings" ? onSettingsOpen : onBrowserOpen}
               style={sharedStyle}
               onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
               onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.7")}
