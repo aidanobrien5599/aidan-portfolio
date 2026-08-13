@@ -205,7 +205,8 @@ export default function Home() {
 
         {(terminal.state === "minimized" || terminal.state === "closed") &&
           browser.state !== "open" && browser.state !== "maximized" &&
-          settings.state !== "open" && settings.state !== "maximized" && !isMobile && (
+          settings.state !== "open" && settings.state !== "maximized" &&
+          doom.state !== "open" && doom.state !== "maximized" && !isMobile && (
           <div
             style={{
               position: "absolute",
