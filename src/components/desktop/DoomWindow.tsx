@@ -11,7 +11,7 @@ interface DoomWindowProps {
   activeZIndex: number;
 }
 
-declare const Dos: (element: HTMLDivElement, options: { url: string }) => { stop: () => void };
+declare const Dos: (element: HTMLDivElement, options: { url: string; autoStart?: boolean }) => { stop: () => void };
 
 let jsDosLoadPromise: Promise<void> | null = null;
 
@@ -55,7 +55,7 @@ export function DoomWindow({ wm, onFocus, onBounce, activeZIndex }: DoomWindowPr
       try {
         await loadJsDos();
         if (cancelled || !containerRef.current) return;
-        instanceRef.current = Dos(containerRef.current, { url: "/doom.jsdos" });
+        instanceRef.current = Dos(containerRef.current, { url: "/doom.jsdos", autoStart: true });
         setLoading(false);
       } catch {
         if (!cancelled) setError("Failed to load DOOM");
@@ -86,20 +86,20 @@ export function DoomWindow({ wm, onFocus, onBounce, activeZIndex }: DoomWindowPr
         ...wm.getWindowStyle(),
         display: "flex",
         flexDirection: "column",
-        borderRadius: wm.state === "maximized" ? 0 : 10,
-        boxShadow: wm.state === "maximized" ? "none" : "var(--window-shadow)",
+        borderRadius: 10,
+        boxShadow: "var(--window-shadow)",
         overflow: "hidden",
-        zIndex: wm.state === "maximized" ? 200 : activeZIndex,
-        height: wm.state === "maximized" ? "100%" : 500,
+        zIndex: activeZIndex,
+        height: 500,
       }}
     >
       <WindowChrome
         onClose={() => wm.setState("closed")}
         onMinimize={handleMinimize}
-        onMaximize={wm.maximize}
+        onMaximize={() => {}}
         onDragStart={wm.handleDragStart}
-        onDoubleClick={wm.maximize}
-        isMaximized={wm.state === "maximized"}
+        onDoubleClick={() => {}}
+        isMaximized={false}
         title="DOOM"
       />
 
