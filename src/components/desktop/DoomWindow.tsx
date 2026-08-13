@@ -13,8 +13,12 @@ interface DoomWindowProps {
 
 declare const Dos: (element: HTMLDivElement, options: { url: string }) => { stop: () => void };
 
+let jsDosLoadPromise: Promise<void> | null = null;
+
 function loadJsDos(): Promise<void> {
-  return new Promise((resolve, reject) => {
+  if (jsDosLoadPromise) return jsDosLoadPromise;
+
+  jsDosLoadPromise = new Promise((resolve, reject) => {
     if (typeof Dos !== "undefined") {
       resolve();
       return;
@@ -28,9 +32,14 @@ function loadJsDos(): Promise<void> {
     const script = document.createElement("script");
     script.src = "https://v8.js-dos.com/latest/js-dos.js";
     script.onload = () => resolve();
-    script.onerror = () => reject(new Error("Failed to load js-dos"));
+    script.onerror = () => {
+      jsDosLoadPromise = null;
+      reject(new Error("Failed to load js-dos"));
+    };
     document.head.appendChild(script);
   });
+
+  return jsDosLoadPromise;
 }
 
 export function DoomWindow({ wm, onFocus, onBounce, activeZIndex }: DoomWindowProps) {
