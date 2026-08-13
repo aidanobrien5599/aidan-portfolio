@@ -73,7 +73,7 @@ export default function Home() {
     restoreDefault: () => { terminal.restore(); terminal.resetPosition(); },
   };
 
-  const anyMaximized = terminal.state === "maximized" || browser.state === "maximized" || settings.state === "maximized" || doom.state === "maximized";
+  const anyMaximized = terminal.state === "maximized" || browser.state === "maximized" || settings.state === "maximized";
 
   const dockItems: DockItem[] = dockItemsConfig.map((cfg) => {
     if (cfg.id === "sep") return { id: "sep" };
