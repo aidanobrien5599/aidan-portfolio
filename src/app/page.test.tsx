@@ -423,6 +423,11 @@ describe("Dock", () => {
     expect(screen.getByTitle("Chess")).toBeInTheDocument();
   });
 
+  it("renders DOOM dock icon", () => {
+    renderAndMount();
+    expect(screen.getByTitle("DOOM")).toBeInTheDocument();
+  });
+
   it("terminal dock icon shows active indicator when terminal is open", () => {
     renderAndMount();
     const termDock = screen.getByTitle("Terminal");
@@ -487,6 +492,11 @@ describe("Desktop icons", () => {
     const resumeLink = screen.getByText("resume.pdf").closest("a");
     expect(resumeLink).toHaveAttribute("href", "/OBRIEN_AIDAN_RESUME.pdf");
   });
+
+  it("renders DOOM desktop icon", () => {
+    renderAndMount();
+    expect(screen.getByText("DOOM")).toBeInTheDocument();
+  });
 });
 
 // ─── Browser window ─────────────────────────────────────────────────
@@ -528,6 +538,34 @@ describe("Browser window", () => {
     const urlInput = screen.getByPlaceholderText("Search or enter URL…");
     const browserWindow = urlInput.closest("div[style*='pointer-events']");
     expect(browserWindow).toBeTruthy();
+  });
+});
+
+// ─── DOOM window ────────────────────────────────────────────────────
+
+describe("DOOM window", () => {
+  it("doom is closed by default", () => {
+    renderAndMount();
+    expect(screen.queryByText("Loading DOOM...")).not.toBeInTheDocument();
+  });
+
+  it("clicking doom dock icon opens doom window", () => {
+    renderAndMount();
+    const doomDock = screen.getByTitle("DOOM");
+    fireEvent.click(doomDock);
+    expect(screen.getByText("Loading DOOM...")).toBeInTheDocument();
+  });
+
+  it("clicking doom dock when open minimizes it", () => {
+    renderAndMount();
+    const doomDock = screen.getByTitle("DOOM");
+    fireEvent.click(doomDock);
+    expect(screen.getByText("Loading DOOM...")).toBeInTheDocument();
+
+    fireEvent.click(doomDock);
+    const loadingText = screen.getByText("Loading DOOM...");
+    const doomWindow = loadingText.closest("div[style*='pointer-events']");
+    expect(doomWindow).toBeTruthy();
   });
 });
 
