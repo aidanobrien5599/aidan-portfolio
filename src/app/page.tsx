@@ -11,13 +11,14 @@ import { DesktopIcons } from "@/components/desktop/DesktopIcons";
 import { TerminalWindow } from "@/components/desktop/TerminalWindow";
 import { BrowserWindow } from "@/components/desktop/BrowserWindow";
 import { SettingsWindow } from "@/components/desktop/SettingsWindow";
+import { DoomWindow } from "@/components/desktop/DoomWindow";
 import { useTheme } from "@/contexts/ThemeContext";
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
-  const [activeWindow, setActiveWindow] = useState<"terminal" | "browser" | "settings">("terminal");
+  const [activeWindow, setActiveWindow] = useState<"terminal" | "browser" | "settings" | "doom">("terminal");
   const [bouncingIcon, setBouncingIcon] = useState<string | null>(null);
 
   const clock = useClock();
@@ -26,6 +27,7 @@ export default function Home() {
   const terminal = useWindowManager({ defaultWidth: 720, isMobile, mounted, initialState: "open" });
   const browser = useWindowManager({ defaultWidth: 820, isMobile, mounted, initialState: "closed" });
   const settings = useWindowManager({ defaultWidth: 480, isMobile, mounted, initialState: "closed" });
+  const doom = useWindowManager({ defaultWidth: 640, isMobile, mounted, initialState: "closed" });
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -57,6 +59,11 @@ export default function Home() {
   const openSettings = () => {
     settings.open();
     setActiveWindow("settings");
+  };
+
+  const openDoom = () => {
+    doom.open();
+    setActiveWindow("doom");
   };
 
   const menuActions: Record<string, () => void> = {
@@ -126,6 +133,25 @@ export default function Home() {
         },
       };
     }
+    if (cfg.id === "doom") {
+      return {
+        id: "doom",
+        label: "DOOM",
+        icon: <span style={{ fontSize: 20 }}>💀</span>,
+        bg: cfg.bg,
+        border: cfg.border,
+        active: doom.state === "open" || doom.state === "maximized",
+        action: () => {
+          if (doom.state === "minimized" || doom.state === "closed") {
+            doom.open();
+            setActiveWindow("doom");
+          } else {
+            doom.minimize();
+            handleBounce("doom");
+          }
+        },
+      };
+    }
     return {
       id: cfg.id,
       label: cfg.label,
@@ -166,7 +192,7 @@ export default function Home() {
 
       <div style={{ flex: 1, position: "relative" }}>
         {!isMobile && (
-          <DesktopIcons icons={desktopIconsConfig} onBrowserOpen={openBrowser} onSettingsOpen={openSettings} />
+          <DesktopIcons icons={desktopIconsConfig} onBrowserOpen={openBrowser} onSettingsOpen={openSettings} onDoomOpen={openDoom} />
         )}
 
         <TerminalWindow
@@ -179,7 +205,8 @@ export default function Home() {
 
         {(terminal.state === "minimized" || terminal.state === "closed") &&
           browser.state !== "open" && browser.state !== "maximized" &&
-          settings.state !== "open" && settings.state !== "maximized" && !isMobile && (
+          settings.state !== "open" && settings.state !== "maximized" &&
+          doom.state !== "open" && doom.state !== "maximized" && !isMobile && (
           <div
             style={{
               position: "absolute",
@@ -228,6 +255,15 @@ export default function Home() {
             onFocus={() => setActiveWindow("settings")}
             onBounce={handleBounce}
             activeZIndex={activeWindow === "settings" ? 20 : 10}
+          />
+        )}
+
+        {doom.state !== "closed" && (
+          <DoomWindow
+            wm={doom}
+            onFocus={() => setActiveWindow("doom")}
+            onBounce={handleBounce}
+            activeZIndex={activeWindow === "doom" ? 20 : 10}
           />
         )}
       </div>
