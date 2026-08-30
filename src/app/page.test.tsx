@@ -28,7 +28,7 @@ describe("Rendering basics", () => {
 
   it("shows the tagline", () => {
     renderAndMount();
-    expect(screen.getByText(/Software engineer\. CS @ UW–Madison\./)).toBeInTheDocument();
+    expect(screen.getByText(/Software engineer\. CS @ UW-Madison\./)).toBeInTheDocument();
   });
 
   it("shows all work entries", () => {

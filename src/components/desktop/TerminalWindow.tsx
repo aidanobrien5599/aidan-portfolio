@@ -78,7 +78,7 @@ export function TerminalWindow({ wm, isMobile, onFocus, onBounce, activeZIndex }
           </h1>
           <p style={{ color: "var(--color-muted)", fontSize: 13 }}>
             <span style={{ color: "var(--color-accent)", opacity: 0.5 }}>~ $ </span>
-            Software engineer. CS @ UW–Madison.
+            Software engineer. CS @ UW-Madison.
           </p>
         </header>
 
@@ -98,9 +98,9 @@ export function TerminalWindow({ wm, isMobile, onFocus, onBounce, activeZIndex }
               }}
             />
             <p>
-              I&apos;m an incoming software engineer intern at{" "}
-              <span style={{ color: "var(--color-heading)", fontWeight: 700 }}>Netflix</span>,
-              joining the Retention team this summer. Before that I was a founding
+              I was a software engineer intern at{" "}
+              <span style={{ color: "var(--color-heading)", fontWeight: 700 }}>Netflix</span>{" "}
+              on the Retention team this summer. Before that I was a founding
               engineer at{" "}
               <span style={{ color: "var(--color-heading)", fontWeight: 700 }}>Intelligible</span>,
               building data connectors for an early-stage AI company.
@@ -167,7 +167,7 @@ export function TerminalWindow({ wm, isMobile, onFocus, onBounce, activeZIndex }
               BadgerBase
             </a>
             <p style={{ marginTop: 4, fontSize: 13 }}>
-              A course discovery tool for UW–Madison students. 2,000+ users use it
+              A course discovery tool for UW-Madison students. 2,000+ users use it
               to find, compare, and plan courses. Built with Next.js on top of a
               custom data pipeline scraping Madgrades, RateMyProfessor, and the
               university&apos;s course catalog.
