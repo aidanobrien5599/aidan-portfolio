@@ -3,6 +3,7 @@
 import { WindowChrome } from "./WindowChrome";
 import { Section } from "./Section";
 import { work, links } from "@/constants/portfolio";
+import { posts } from "@/constants/blog";
 import type { useWindowManager } from "@/hooks/useWindowManager";
 
 interface TerminalWindowProps {
@@ -192,7 +193,21 @@ export function TerminalWindow({ wm, isMobile, onFocus, onBounce, activeZIndex }
         </Section>
 
         <Section title="Writing">
-          <p style={{ color: "var(--color-muted)" }}>Nothing here yet.</p>
+          {posts.map((post) => (
+            <div key={post.slug} style={{ marginBottom: 14 }}>
+              <a
+                href={`/blog/${post.slug}`}
+                style={{ color: "var(--color-accent)", textDecoration: "none" }}
+                onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
+                onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
+              >
+                {post.title}
+              </a>
+              <p style={{ marginTop: 4, fontSize: 13 }}>
+                {post.description}
+              </p>
+            </div>
+          ))}
         </Section>
 
         <Section title="Contact">

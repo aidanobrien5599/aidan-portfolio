@@ -72,9 +72,62 @@ html, body {
   width: 100%;
   overscroll-behavior: none;
 }
+html:has(.blog-content), html:has(.blog-content) body {
+  overflow: auto;
+  height: auto;
+}
 
 .icon-invert-dark { filter: none; }
 [data-theme="dark"] .icon-invert-dark { filter: invert(1) brightness(2); }
+
+.blog-content p {
+  margin-bottom: 16px;
+}
+.blog-content h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-heading);
+  margin-top: 36px;
+  margin-bottom: 16px;
+}
+.blog-content a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+.blog-content a:hover {
+  text-decoration: underline;
+}
+.blog-content ul, .blog-content ol {
+  margin-bottom: 16px;
+  padding-left: 24px;
+}
+.blog-content li {
+  margin-bottom: 8px;
+}
+.blog-content code {
+  background: var(--color-border);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+.blog-content strong {
+  color: var(--color-heading);
+  font-weight: 600;
+}
+.blog-content .quote-block {
+  border-left: 3px solid var(--color-accent);
+  padding: 16px 20px;
+  margin: 20px 0;
+  background: var(--desktop-icon-bg);
+  border-radius: 0 6px 6px 0;
+  font-size: 13px;
+}
+.blog-content .quote-block p {
+  margin-bottom: 12px;
+}
+.blog-content .quote-block p:last-child {
+  margin-bottom: 0;
+}
 
 @keyframes blink { 50% { opacity: 0; } }
 @keyframes bounce {
