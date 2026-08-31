@@ -12,14 +12,21 @@ import { TerminalWindow } from "@/components/desktop/TerminalWindow";
 import { BrowserWindow } from "@/components/desktop/BrowserWindow";
 import { SettingsWindow } from "@/components/desktop/SettingsWindow";
 import { DoomWindow } from "@/components/desktop/DoomWindow";
-import { BlogWindow } from "@/components/desktop/BlogWindow";
+import { BlogFolderWindow } from "@/components/desktop/BlogFolderWindow";
+import { ArticleWindow } from "@/components/desktop/ArticleWindow";
 import { useTheme } from "@/contexts/ThemeContext";
+
+type BlogWindowId = "blogFolder" | `article:${string}`;
+type WindowId = "terminal" | "browser" | "settings" | "doom" | BlogWindowId;
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
-  const [activeWindow, setActiveWindow] = useState<"terminal" | "browser" | "settings" | "doom" | "blog">("terminal");
+  const [activeWindow, setActiveWindow] = useState<WindowId>("terminal");
+  const [openArticles, setOpenArticles] = useState<string[]>([]);
+  const [blogZOrder, setBlogZOrder] = useState<BlogWindowId[]>([]);
+  const [maximizedArticles, setMaximizedArticles] = useState<Set<string>>(new Set());
   const [bouncingIcon, setBouncingIcon] = useState<string | null>(null);
 
   const clock = useClock();
@@ -29,7 +36,7 @@ export default function Home() {
   const browser = useWindowManager({ defaultWidth: 820, isMobile, mounted, initialState: "closed" });
   const settings = useWindowManager({ defaultWidth: 480, isMobile, mounted, initialState: "closed" });
   const doom = useWindowManager({ defaultWidth: 640, isMobile, mounted, initialState: "closed" });
-  const blog = useWindowManager({ defaultWidth: 680, isMobile, mounted, initialState: "closed" });
+  const blogFolder = useWindowManager({ defaultWidth: 680, isMobile, mounted, initialState: "closed" });
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -68,10 +75,70 @@ export default function Home() {
     setActiveWindow("doom");
   };
 
-  const openBlog = () => {
-    blog.open();
-    setActiveWindow("blog");
+  const focusBlogWindow = (id: BlogWindowId) => {
+    setBlogZOrder((prev) => [...prev.filter((x) => x !== id), id]);
+    setActiveWindow(id);
   };
+
+  const openBlogFolder = () => {
+    blogFolder.open();
+    setBlogZOrder((prev) => (prev.includes("blogFolder") ? prev : [...prev, "blogFolder"]));
+    focusBlogWindow("blogFolder");
+  };
+
+  const openArticle = (slug: string) => {
+    setOpenArticles((prev) => (prev.includes(slug) ? prev : [...prev, slug]));
+    focusBlogWindow(`article:${slug}`);
+  };
+
+  const closeArticle = (slug: string) => {
+    setOpenArticles((prev) => prev.filter((s) => s !== slug));
+    setBlogZOrder((prev) => prev.filter((id) => id !== `article:${slug}`));
+    setMaximizedArticles((prev) => {
+      if (!prev.has(slug)) return prev;
+      const next = new Set(prev);
+      next.delete(slug);
+      return next;
+    });
+  };
+
+  const setArticleMaximized = (slug: string, isMaximized: boolean) => {
+    setMaximizedArticles((prev) => {
+      const has = prev.has(slug);
+      if (isMaximized === has) return prev;
+      const next = new Set(prev);
+      if (isMaximized) next.add(slug); else next.delete(slug);
+      return next;
+    });
+  };
+
+  const isBlogClusterActive = activeWindow === "blogFolder" || activeWindow.startsWith("article:");
+  const blogTierBase = isBlogClusterActive ? 20 : 10;
+  const blogZIndex = (id: BlogWindowId) => blogTierBase + blogZOrder.indexOf(id);
+
+  useEffect(() => {
+    if (activeWindow === "blogFolder") {
+      if (window.location.pathname !== "/blog") window.history.pushState(null, "", "/blog");
+    } else if (activeWindow.startsWith("article:")) {
+      const slug = activeWindow.slice("article:".length);
+      const path = `/blog/${slug}`;
+      if (window.location.pathname !== path) window.history.pushState(null, "", path);
+    }
+  }, [activeWindow]);
+
+  useEffect(() => {
+    const onPopState = () => {
+      const match = window.location.pathname.match(/^\/blog\/(.+)$/);
+      if (match) {
+        openArticle(match[1]);
+      } else if (window.location.pathname === "/blog") {
+        openBlogFolder();
+      }
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const menuActions: Record<string, () => void> = {
     restore: terminal.restore,
@@ -80,7 +147,13 @@ export default function Home() {
     restoreDefault: () => { terminal.restore(); terminal.resetPosition(); },
   };
 
-  const anyMaximized = terminal.state === "maximized" || browser.state === "maximized" || settings.state === "maximized" || blog.state === "maximized";
+  const anyMaximized =
+    terminal.state === "maximized" ||
+    browser.state === "maximized" ||
+    settings.state === "maximized" ||
+    doom.state === "maximized" ||
+    blogFolder.state === "maximized" ||
+    maximizedArticles.size > 0;
 
   const dockItems: DockItem[] = dockItemsConfig.map((cfg) => {
     if (cfg.id === "sep") return { id: "sep" };
@@ -199,7 +272,7 @@ export default function Home() {
 
       <div style={{ flex: 1, position: "relative" }}>
         {!isMobile && (
-          <DesktopIcons icons={desktopIconsConfig} onBrowserOpen={openBrowser} onSettingsOpen={openSettings} onDoomOpen={openDoom} onBlogOpen={openBlog} />
+          <DesktopIcons icons={desktopIconsConfig} onBrowserOpen={openBrowser} onSettingsOpen={openSettings} onDoomOpen={openDoom} onBlogOpen={openBlogFolder} />
         )}
 
         <TerminalWindow
@@ -208,14 +281,15 @@ export default function Home() {
           onFocus={() => setActiveWindow("terminal")}
           onBounce={handleBounce}
           activeZIndex={activeWindow === "terminal" ? 20 : 10}
-          onBlogOpen={openBlog}
+          onBlogOpen={openBlogFolder}
         />
 
         {(terminal.state === "minimized" || terminal.state === "closed") &&
           browser.state !== "open" && browser.state !== "maximized" &&
           settings.state !== "open" && settings.state !== "maximized" &&
           doom.state !== "open" && doom.state !== "maximized" &&
-          blog.state !== "open" && blog.state !== "maximized" && !isMobile && (
+          blogFolder.state !== "open" && blogFolder.state !== "maximized" &&
+          openArticles.length === 0 && !isMobile && (
           <div
             style={{
               position: "absolute",
@@ -276,14 +350,29 @@ export default function Home() {
           />
         )}
 
-        {blog.state !== "closed" && (
-          <BlogWindow
-            wm={blog}
-            onFocus={() => setActiveWindow("blog")}
+        {blogFolder.state !== "closed" && (
+          <BlogFolderWindow
+            wm={blogFolder}
+            onFocus={() => focusBlogWindow("blogFolder")}
             onBounce={handleBounce}
-            activeZIndex={activeWindow === "blog" ? 20 : 10}
+            activeZIndex={blogZIndex("blogFolder")}
+            onOpenArticle={openArticle}
           />
         )}
+
+        {openArticles.map((slug, index) => (
+          <ArticleWindow
+            key={slug}
+            slug={slug}
+            isMobile={isMobile}
+            mounted={mounted}
+            initialOffset={{ x: index * 28, y: index * 28 }}
+            onFocus={() => focusBlogWindow(`article:${slug}`)}
+            onClose={() => closeArticle(slug)}
+            onMaximizedChange={(isMax) => setArticleMaximized(slug, isMax)}
+            activeZIndex={blogZIndex(`article:${slug}`)}
+          />
+        ))}
       </div>
 
       {!isMobile && !anyMaximized && (

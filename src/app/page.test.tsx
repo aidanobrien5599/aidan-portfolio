@@ -2,6 +2,21 @@ import { render, screen, fireEvent, waitFor, within } from "@testing-library/rea
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import Home from "./page";
 
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ push: vi.fn() }),
+}));
+
+// Home() calls useTheme() from ThemeContext (pre-existing, unrelated to this task —
+// see src/app/layout.tsx, which wraps the app in <ThemeProvider> in production).
+// useTheme() throws outside a ThemeProvider, which plain render(<Home />) doesn't
+// supply. This was previously masked because page.tsx failed to even compile (it
+// imported the now-deleted BlogWindow); fixing that import surfaces this pre-existing
+// gap. Mocked the same way next/navigation is mocked above, rather than mounting the
+// real ThemeProvider, to avoid an unrelated jsdom/localStorage environment issue.
+vi.mock("@/contexts/ThemeContext", () => ({
+  useTheme: () => ({ backgroundValue: "" }),
+}));
+
 beforeEach(() => {
   vi.useFakeTimers({ shouldAdvanceTime: true });
   Object.defineProperty(window, "innerWidth", { writable: true, value: 1024 });
@@ -605,6 +620,89 @@ describe("Hydration safety", () => {
     const { container } = renderAndMount();
     const root = container.firstElementChild as HTMLElement;
     expect(root.style.opacity).toBe("1");
+  });
+});
+
+describe("Blog multi-window", () => {
+  it("opens an article as its own window when clicked from the folder", () => {
+    renderAndMount();
+    // "Blog" appears once (desktop icon label) before the folder window is open —
+    // the desktop icon is always index 0, since DesktopIcons renders before any
+    // window in page.tsx's JSX tree.
+    fireEvent.click(screen.getAllByText("Blog")[0]);
+    // Once the folder is open, /SaaS is Dead to Me/ matches twice: TerminalWindow's
+    // "Writing" section link (index 0 — TerminalWindow renders before
+    // BlogFolderWindow in page.tsx's JSX tree, and stays mounted since it's open by
+    // default) and the folder's own row (index 1), which is the one wired to
+    // onOpenArticle.
+    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    // "Mox" also appears in the Terminal/folder row descriptions, so use getAllByText
+    // rather than getByText (which requires a single match).
+    expect(screen.getAllByText(/Mox/).length).toBeGreaterThan(0);
+  });
+
+  it("dedups: clicking the same post twice keeps only one article window open, just refocused", () => {
+    renderAndMount();
+    // "Blog" appears once (desktop icon label) before the folder window is open —
+    // the desktop icon is always index 0, since DesktopIcons renders before any
+    // window in page.tsx's JSX tree.
+    fireEvent.click(screen.getAllByText("Blog")[0]);
+    // Once the folder is open, /SaaS is Dead to Me/ matches twice: TerminalWindow's
+    // "Writing" section link (index 0) and the folder's own row (index 1), which is
+    // the one wired to onOpenArticle.
+    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    // "Blog" appears twice once the folder window is open (desktop icon label +
+    // window title bar) — the desktop icon is always index 0, since DesktopIcons
+    // renders before any window in page.tsx's JSX tree.
+    fireEvent.click(screen.getAllByText("Blog")[0]);
+    // Same index reasoning as above: the folder's row is still index 1 (Terminal's
+    // link is index 0) even with the article window open, since the article window's
+    // own title text renders after the folder row in DOM order.
+    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    // "Mox" appears many times within a single article's own body content (it's the
+    // product name discussed throughout), so counting "Mox" occurrences cannot
+    // distinguish one open article window from two. Instead assert there is exactly
+    // one <h1> with this title — ArticleWindow renders the title in an <h1> only in
+    // its body (its titlebar uses a <span>), so this <h1> count is exactly the count
+    // of mounted ArticleWindow instances for this slug.
+    expect(screen.getAllByRole("heading", { level: 1, name: /SaaS is Dead to Me/ }).length).toBe(1);
+  });
+
+  it("closing an article does not close the folder window", () => {
+    renderAndMount();
+    // "Blog" appears once (desktop icon label) before the folder window is open —
+    // the desktop icon is always index 0, since DesktopIcons renders before any
+    // window in page.tsx's JSX tree.
+    fireEvent.click(screen.getAllByText("Blog")[0]);
+    // Once the folder is open, /SaaS is Dead to Me/ matches twice: TerminalWindow's
+    // "Writing" section link (index 0) and the folder's own row (index 1), which is
+    // the one wired to onOpenArticle.
+    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    // DOM order: TerminalWindow renders first (open by default, 3 dots: red, yellow,
+    // green), then BlogFolderWindow (3 more dots), then the ArticleWindow (2 dots:
+    // red, green), then the Dock's small active-indicator dot for the open Terminal
+    // icon (1 more, also styled with border-radius: 50%) — 9 total. Index 6 is the
+    // article's close (red) dot.
+    const dots = document.querySelectorAll('span[style*="border-radius: 50%"]');
+    expect(dots.length).toBe(9);
+    fireEvent.click(dots[6]);
+    // The article's <h1> (unique to its body, see the dedup test above) should be gone.
+    expect(screen.queryByRole("heading", { level: 1, name: /SaaS is Dead to Me/ })).not.toBeInTheDocument();
+    // "Blog" still appears twice: desktop icon label + the still-open folder window's title
+    expect(screen.getAllByText("Blog").length).toBe(2);
+  });
+
+  it("updates the URL to /blog/<slug> when an article is opened", () => {
+    renderAndMount();
+    // "Blog" appears once (desktop icon label) before the folder window is open —
+    // the desktop icon is always index 0, since DesktopIcons renders before any
+    // window in page.tsx's JSX tree.
+    fireEvent.click(screen.getAllByText("Blog")[0]);
+    // Once the folder is open, /SaaS is Dead to Me/ matches twice: TerminalWindow's
+    // "Writing" section link (index 0) and the folder's own row (index 1), which is
+    // the one wired to onOpenArticle.
+    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    expect(window.location.pathname).toBe("/blog/self-hosted-email");
   });
 });
 
