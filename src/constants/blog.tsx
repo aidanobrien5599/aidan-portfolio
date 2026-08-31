@@ -9,7 +9,7 @@ export type BlogPost = {
 export const posts: BlogPost[] = [
   {
     slug: "self-hosted-email",
-    title: "I Set Up My Own Email Server for $22/Year",
+    title: "SaaS is Dead to Me: How I Set Up My Own Email Server for $22/Year",
     date: "2026-08-30",
     description: "Replacing $300/year in SaaS email with a self-hosted Mox server on a cheap VPS.",
     content: (
@@ -224,17 +224,17 @@ export const posts: BlogPost[] = [
           professional:
         </p>
         <p>
-          Set up a Google account with your sender domain. This way, when you send emails to Gmail
-          accounts, your logo or face shows up and looks seriously more professional. This is a
-          feature that would cost $90 a year with a Google Workspace email with a custom domain that
-          we are now getting for free.
+          I set up a Google account with my sender domain. Now when I send emails to Gmail accounts,
+          my logo shows up next to the message and it looks seriously more professional. This is a
+          feature that would normally cost $90 a year with a Google Workspace custom domain email
+          that I&apos;m now getting for free.
         </p>
         <p>
-          Similarly, set up a BIMI record on your domain. BIMI (Brand Indicators for Message
+          I also set up a BIMI record on my domain. BIMI (Brand Indicators for Message
           Identification) is a DNS standard that lets you display your logo next to your emails in
-          supporting mail clients. Certain email providers like Yahoo and Apple Mail use it &mdash;
-          just host an SVG of your logo and add a DNS TXT record at{" "}
-          <code>default._bimi.yourdomain.com</code> pointing to it.
+          supporting mail clients. I hosted an SVG of my logo and added a DNS TXT record at{" "}
+          <code>default._bimi.badgerbase.app</code> pointing to it. Yahoo and Apple Mail pick it up
+          automatically.
         </p>
 
         <h2>The Result</h2>
@@ -243,12 +243,6 @@ export const posts: BlogPost[] = [
           across my domains with zero usage limits, that can be reused across future side projects.
           I also now can do fun things like go by the email handle{" "}
           <code>aidan@aidanpobrien.com</code> and set up email-triggered CI/CD.
-        </p>
-        <p>
-          It is clear as to why I would want to do this. I am running a small-scale project that
-          doesn&apos;t need an industry-size solution like SES (which is a pain to get approved for
-          unless you are a serious company) and wanted cheap, limitless, fine-grained control over
-          the system.
         </p>
         <p>
           Total cost: <strong>$21.99/year</strong>. Down from <strong>$300/year</strong>.
