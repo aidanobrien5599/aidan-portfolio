@@ -11,6 +11,7 @@ interface UseWindowManagerConfig {
   isMobile: boolean;
   mounted: boolean;
   initialState?: WindowState;
+  initialOffset?: { x: number; y: number };
 }
 
 interface UseWindowManagerReturn {
@@ -29,10 +30,10 @@ interface UseWindowManagerReturn {
 }
 
 export function useWindowManager(config: UseWindowManagerConfig): UseWindowManagerReturn {
-  const { defaultWidth, isMobile, mounted, initialState = "closed" } = config;
+  const { defaultWidth, isMobile, mounted, initialState = "closed", initialOffset } = config;
 
   const [state, setState] = useState<WindowState>(initialState);
-  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [offset, setOffset] = useState(initialOffset ?? { x: 0, y: 0 });
   const ref = useRef<HTMLDivElement>(null);
   const dragRef = useRef<DragState>(null);
 
