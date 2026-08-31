@@ -13,7 +13,6 @@ import { BrowserWindow } from "@/components/desktop/BrowserWindow";
 import { SettingsWindow } from "@/components/desktop/SettingsWindow";
 import { DoomWindow } from "@/components/desktop/DoomWindow";
 import { BlogWindow } from "@/components/desktop/BlogWindow";
-import { posts } from "@/constants/blog";
 import { useTheme } from "@/contexts/ThemeContext";
 
 export default function Home() {
@@ -160,25 +159,6 @@ export default function Home() {
         },
       };
     }
-    if (cfg.id === "blog") {
-      return {
-        id: "blog",
-        label: "Blog",
-        icon: <span style={{ fontSize: 20 }}>✎</span>,
-        bg: cfg.bg,
-        border: cfg.border,
-        active: blog.state === "open" || blog.state === "maximized",
-        action: () => {
-          if (blog.state === "minimized" || blog.state === "closed") {
-            blog.open();
-            setActiveWindow("blog");
-          } else {
-            blog.minimize();
-            handleBounce("blog");
-          }
-        },
-      };
-    }
     return {
       id: cfg.id,
       label: cfg.label,
@@ -296,10 +276,9 @@ export default function Home() {
           />
         )}
 
-        {blog.state !== "closed" && posts[0] && (
+        {blog.state !== "closed" && (
           <BlogWindow
             wm={blog}
-            post={posts[0]}
             onFocus={() => setActiveWindow("blog")}
             onBounce={handleBounce}
             activeZIndex={activeWindow === "blog" ? 20 : 10}
