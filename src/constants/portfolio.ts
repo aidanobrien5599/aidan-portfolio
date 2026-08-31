@@ -56,12 +56,13 @@ export type DockItemConfig = {
   bg?: string;
   border?: string;
   href?: string;
-  actionType?: "terminal" | "browser" | "settings" | "doom";
+  actionType?: "terminal" | "browser" | "settings" | "doom" | "blog";
 };
 
 export const dockItemsConfig: DockItemConfig[] = [
   { id: "terminal", label: "Terminal", actionType: "terminal", bg: "#1A1A1A", border: "#333" },
   { id: "browser", label: "Browser", emoji: "🌐", actionType: "browser", bg: "#3B82F6", border: "#2563EB" },
+  { id: "blog", label: "Blog", emoji: "✎", actionType: "blog", bg: "#D97706", border: "#B45309" },
   { id: "settings", label: "Settings", emoji: "⚙️", actionType: "settings", bg: "#6B7280", border: "#4B5563" },
   { id: "doom", label: "DOOM", emoji: "💀", actionType: "doom", bg: "#8B0000", border: "#5C0000" },
   { id: "resume", label: "Resume", emoji: "📄", bg: "#E8E8E8", border: "#CCC", href: links.resume },
@@ -76,10 +77,11 @@ export type DesktopIconConfig = {
   icon?: string;
   label: string;
   href?: string;
-  actionType?: "browser" | "settings" | "doom";
+  actionType?: "browser" | "settings" | "doom" | "blog";
 };
 
 export const desktopIconsConfig: DesktopIconConfig[] = [
+  { emoji: "✎", label: "Blog", actionType: "blog" },
   { emoji: "📄", label: "resume.pdf", href: links.resume },
   { icon: "/images/github.svg", label: "GitHub", href: links.github },
   { icon: "/images/icons8-linkedin-144.png", label: "LinkedIn", href: links.linkedin },

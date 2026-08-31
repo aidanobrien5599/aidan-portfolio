@@ -7,9 +7,10 @@ interface DesktopIconsProps {
   onBrowserOpen: () => void;
   onSettingsOpen?: () => void;
   onDoomOpen?: () => void;
+  onBlogOpen?: () => void;
 }
 
-export function DesktopIcons({ icons, onBrowserOpen, onSettingsOpen, onDoomOpen }: DesktopIconsProps) {
+export function DesktopIcons({ icons, onBrowserOpen, onSettingsOpen, onDoomOpen, onBlogOpen }: DesktopIconsProps) {
   return (
     <div
       style={{
@@ -62,11 +63,12 @@ export function DesktopIcons({ icons, onBrowserOpen, onSettingsOpen, onDoomOpen 
           transition: "opacity 0.15s",
           cursor: "pointer",
         };
-        if (icon.actionType === "browser" || icon.actionType === "settings" || icon.actionType === "doom") {
+        if (icon.actionType === "browser" || icon.actionType === "settings" || icon.actionType === "doom" || icon.actionType === "blog") {
+          const actionMap = { browser: onBrowserOpen, settings: onSettingsOpen, doom: onDoomOpen, blog: onBlogOpen };
           return (
             <div
               key={icon.label}
-              onClick={icon.actionType === "doom" ? onDoomOpen : icon.actionType === "settings" ? onSettingsOpen : onBrowserOpen}
+              onClick={actionMap[icon.actionType]}
               style={sharedStyle}
               onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
               onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.7")}

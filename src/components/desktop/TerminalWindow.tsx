@@ -12,9 +12,10 @@ interface TerminalWindowProps {
   onFocus: () => void;
   onBounce: (id: string) => void;
   activeZIndex: number;
+  onBlogOpen?: () => void;
 }
 
-export function TerminalWindow({ wm, isMobile, onFocus, onBounce, activeZIndex }: TerminalWindowProps) {
+export function TerminalWindow({ wm, isMobile, onFocus, onBounce, activeZIndex, onBlogOpen }: TerminalWindowProps) {
   const handleMinimize = () => {
     wm.minimize();
     onBounce("terminal");
@@ -195,14 +196,14 @@ export function TerminalWindow({ wm, isMobile, onFocus, onBounce, activeZIndex }
         <Section title="Writing">
           {posts.map((post) => (
             <div key={post.slug} style={{ marginBottom: 14 }}>
-              <a
-                href={`/blog/${post.slug}`}
-                style={{ color: "var(--color-accent)", textDecoration: "none" }}
+              <span
+                onClick={onBlogOpen}
+                style={{ color: "var(--color-accent)", textDecoration: "none", cursor: "pointer" }}
                 onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
                 onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
               >
                 {post.title}
-              </a>
+              </span>
               <p style={{ marginTop: 4, fontSize: 13 }}>
                 {post.description}
               </p>

@@ -72,10 +72,6 @@ html, body {
   width: 100%;
   overscroll-behavior: none;
 }
-html:has(.blog-content), html:has(.blog-content) body {
-  overflow: auto;
-  height: auto;
-}
 
 .icon-invert-dark { filter: none; }
 [data-theme="dark"] .icon-invert-dark { filter: invert(1) brightness(2); }
