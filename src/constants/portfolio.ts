@@ -76,10 +76,11 @@ export type DesktopIconConfig = {
   icon?: string;
   label: string;
   href?: string;
-  actionType?: "browser" | "settings" | "doom";
+  actionType?: "browser" | "settings" | "doom" | "blog";
 };
 
 export const desktopIconsConfig: DesktopIconConfig[] = [
+  { emoji: "📁", label: "Blog", actionType: "blog" },
   { emoji: "📄", label: "resume.pdf", href: links.resume },
   { icon: "/images/github.svg", label: "GitHub", href: links.github },
   { icon: "/images/icons8-linkedin-144.png", label: "LinkedIn", href: links.linkedin },

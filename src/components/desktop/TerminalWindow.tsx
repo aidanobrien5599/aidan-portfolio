@@ -3,6 +3,7 @@
 import { WindowChrome } from "./WindowChrome";
 import { Section } from "./Section";
 import { work, links } from "@/constants/portfolio";
+import { posts } from "@/constants/blog";
 import type { useWindowManager } from "@/hooks/useWindowManager";
 
 interface TerminalWindowProps {
@@ -11,9 +12,10 @@ interface TerminalWindowProps {
   onFocus: () => void;
   onBounce: (id: string) => void;
   activeZIndex: number;
+  onBlogOpen?: () => void;
 }
 
-export function TerminalWindow({ wm, isMobile, onFocus, onBounce, activeZIndex }: TerminalWindowProps) {
+export function TerminalWindow({ wm, isMobile, onFocus, onBounce, activeZIndex, onBlogOpen }: TerminalWindowProps) {
   const handleMinimize = () => {
     wm.minimize();
     onBounce("terminal");
@@ -192,7 +194,21 @@ export function TerminalWindow({ wm, isMobile, onFocus, onBounce, activeZIndex }
         </Section>
 
         <Section title="Writing">
-          <p style={{ color: "var(--color-muted)" }}>Nothing here yet.</p>
+          {posts.map((post) => (
+            <div key={post.slug} style={{ marginBottom: 14 }}>
+              <span
+                onClick={onBlogOpen}
+                style={{ color: "var(--color-accent)", textDecoration: "none", cursor: "pointer" }}
+                onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
+                onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
+              >
+                {post.title}
+              </span>
+              <p style={{ marginTop: 4, fontSize: 13 }}>
+                {post.description}
+              </p>
+            </div>
+          ))}
         </Section>
 
         <Section title="Contact">

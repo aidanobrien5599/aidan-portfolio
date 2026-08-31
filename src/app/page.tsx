@@ -12,13 +12,14 @@ import { TerminalWindow } from "@/components/desktop/TerminalWindow";
 import { BrowserWindow } from "@/components/desktop/BrowserWindow";
 import { SettingsWindow } from "@/components/desktop/SettingsWindow";
 import { DoomWindow } from "@/components/desktop/DoomWindow";
+import { BlogWindow } from "@/components/desktop/BlogWindow";
 import { useTheme } from "@/contexts/ThemeContext";
 
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
-  const [activeWindow, setActiveWindow] = useState<"terminal" | "browser" | "settings" | "doom">("terminal");
+  const [activeWindow, setActiveWindow] = useState<"terminal" | "browser" | "settings" | "doom" | "blog">("terminal");
   const [bouncingIcon, setBouncingIcon] = useState<string | null>(null);
 
   const clock = useClock();
@@ -28,6 +29,7 @@ export default function Home() {
   const browser = useWindowManager({ defaultWidth: 820, isMobile, mounted, initialState: "closed" });
   const settings = useWindowManager({ defaultWidth: 480, isMobile, mounted, initialState: "closed" });
   const doom = useWindowManager({ defaultWidth: 640, isMobile, mounted, initialState: "closed" });
+  const blog = useWindowManager({ defaultWidth: 680, isMobile, mounted, initialState: "closed" });
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -66,6 +68,11 @@ export default function Home() {
     setActiveWindow("doom");
   };
 
+  const openBlog = () => {
+    blog.open();
+    setActiveWindow("blog");
+  };
+
   const menuActions: Record<string, () => void> = {
     restore: terminal.restore,
     maximize: terminal.maximize,
@@ -73,7 +80,7 @@ export default function Home() {
     restoreDefault: () => { terminal.restore(); terminal.resetPosition(); },
   };
 
-  const anyMaximized = terminal.state === "maximized" || browser.state === "maximized" || settings.state === "maximized";
+  const anyMaximized = terminal.state === "maximized" || browser.state === "maximized" || settings.state === "maximized" || blog.state === "maximized";
 
   const dockItems: DockItem[] = dockItemsConfig.map((cfg) => {
     if (cfg.id === "sep") return { id: "sep" };
@@ -192,7 +199,7 @@ export default function Home() {
 
       <div style={{ flex: 1, position: "relative" }}>
         {!isMobile && (
-          <DesktopIcons icons={desktopIconsConfig} onBrowserOpen={openBrowser} onSettingsOpen={openSettings} onDoomOpen={openDoom} />
+          <DesktopIcons icons={desktopIconsConfig} onBrowserOpen={openBrowser} onSettingsOpen={openSettings} onDoomOpen={openDoom} onBlogOpen={openBlog} />
         )}
 
         <TerminalWindow
@@ -201,12 +208,14 @@ export default function Home() {
           onFocus={() => setActiveWindow("terminal")}
           onBounce={handleBounce}
           activeZIndex={activeWindow === "terminal" ? 20 : 10}
+          onBlogOpen={openBlog}
         />
 
         {(terminal.state === "minimized" || terminal.state === "closed") &&
           browser.state !== "open" && browser.state !== "maximized" &&
           settings.state !== "open" && settings.state !== "maximized" &&
-          doom.state !== "open" && doom.state !== "maximized" && !isMobile && (
+          doom.state !== "open" && doom.state !== "maximized" &&
+          blog.state !== "open" && blog.state !== "maximized" && !isMobile && (
           <div
             style={{
               position: "absolute",
@@ -264,6 +273,15 @@ export default function Home() {
             onFocus={() => setActiveWindow("doom")}
             onBounce={handleBounce}
             activeZIndex={activeWindow === "doom" ? 20 : 10}
+          />
+        )}
+
+        {blog.state !== "closed" && (
+          <BlogWindow
+            wm={blog}
+            onFocus={() => setActiveWindow("blog")}
+            onBounce={handleBounce}
+            activeZIndex={activeWindow === "blog" ? 20 : 10}
           />
         )}
       </div>
