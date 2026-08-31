@@ -499,6 +499,16 @@ describe("Desktop icons", () => {
   });
 });
 
+// ─── Blog folder icon ───────────────────────────────────────────────
+
+describe("Blog folder icon", () => {
+  it("renders the FolderIcon svg instead of the folder emoji on the desktop", () => {
+    const { container } = renderAndMount();
+    expect(container.querySelector('svg[aria-hidden="true"]')).toBeInTheDocument();
+    expect(screen.queryByText("📁")).not.toBeInTheDocument();
+  });
+});
+
 // ─── Browser window ─────────────────────────────────────────────────
 
 describe("Browser window", () => {

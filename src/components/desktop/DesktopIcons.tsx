@@ -1,6 +1,7 @@
 "use client";
 
 import type { DesktopIconConfig } from "@/constants/portfolio";
+import { FolderIcon } from "@/components/icons/FolderIcon";
 
 interface DesktopIconsProps {
   icons: DesktopIconConfig[];
@@ -38,9 +39,11 @@ export function DesktopIcons({ icons, onBrowserOpen, onSettingsOpen, onDoomOpen,
                 fontSize: 26,
               }}
             >
-              {icon.icon
-                ? <img src={icon.icon} alt={icon.label} className={icon.icon.includes("github") ? "icon-invert-dark" : ""} style={{ width: 28, height: 28, objectFit: "contain" }} />
-                : icon.emoji}
+              {icon.actionType === "blog"
+                ? <FolderIcon size={30} />
+                : icon.icon
+                  ? <img src={icon.icon} alt={icon.label} className={icon.icon.includes("github") ? "icon-invert-dark" : ""} style={{ width: 28, height: 28, objectFit: "contain" }} />
+                  : icon.emoji}
             </div>
             <span
               style={{
