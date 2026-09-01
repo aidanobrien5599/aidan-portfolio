@@ -36,7 +36,7 @@ export default function ArticlePage({ params }: PageParams) {
         position: "relative",
         width: "100vw",
         height: "100vh",
-        background: "var(--color-bg)",
+        background: "var(--desktop-bg)",
         overflow: "hidden",
       }}
     >
