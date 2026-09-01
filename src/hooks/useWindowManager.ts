@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import type { WindowState } from "@/constants/portfolio";
 
 type DragState = { startX: number; startY: number; origX: number; origY: number } | null;
@@ -36,6 +36,11 @@ export function useWindowManager(config: UseWindowManagerConfig): UseWindowManag
   const [offset, setOffset] = useState(initialOffset ?? { x: 0, y: 0 });
   const ref = useRef<HTMLDivElement>(null);
   const dragRef = useRef<DragState>(null);
+  const isInitialRenderRef = useRef(true);
+
+  useEffect(() => {
+    isInitialRenderRef.current = false;
+  }, []);
 
   const handleDragStart = useCallback(
     (e: React.MouseEvent) => {
@@ -100,7 +105,7 @@ export function useWindowManager(config: UseWindowManagerConfig): UseWindowManag
         width: "100%",
         height: "100%",
         borderRadius: 0,
-        animation: mounted ? "windowOpen 0.25s ease" : "none",
+        animation: mounted && !isInitialRenderRef.current ? "windowOpen 0.25s ease" : "none",
         transition: "none",
       };
     }
