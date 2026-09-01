@@ -72,7 +72,7 @@ export function ArticleWindow({
     >
       <div
         onMouseDown={wm.handleDragStart}
-        onDoubleClick={wm.maximize}
+        onDoubleClick={standalone ? undefined : wm.maximize}
         style={{
           display: "flex",
           alignItems: "center",
@@ -89,10 +89,15 @@ export function ArticleWindow({
           onClick={(e) => { e.stopPropagation(); handleClose(); }}
           style={{ width: 12, height: 12, borderRadius: "50%", background: "var(--color-dot-r)", cursor: "pointer", flexShrink: 0 }}
         />
-        <span
-          onClick={(e) => { e.stopPropagation(); wm.maximize(); }}
-          style={{ width: 12, height: 12, borderRadius: "50%", background: "var(--color-dot-g)", cursor: "pointer", flexShrink: 0 }}
-        />
+        {/* Standalone pages always stay maximized (there's no desktop to restore
+            down into), so the maximize dot — the only way to leave that state —
+            isn't shown at all. */}
+        {!standalone && (
+          <span
+            onClick={(e) => { e.stopPropagation(); wm.maximize(); }}
+            style={{ width: 12, height: 12, borderRadius: "50%", background: "var(--color-dot-g)", cursor: "pointer", flexShrink: 0 }}
+          />
+        )}
         <FolderIcon size={13} style={{ marginLeft: 6, flexShrink: 0 }} />
         <span style={{ fontSize: 12, color: "var(--color-muted)" }}>{post.title}</span>
       </div>
