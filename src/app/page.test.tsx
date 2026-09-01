@@ -739,7 +739,7 @@ describe("Blog multi-window", () => {
     expect(Number(folderOuterAfter.style.zIndex)).toBeGreaterThan(Number(articleOuterAfter.style.zIndex));
   });
 
-  it("updates the URL to /blog/<slug> when an article is opened", () => {
+  it("does not update the URL when an article is merely opened (floating, not maximized)", () => {
     renderAndMount();
     // "Blog" appears once (desktop icon label) before the folder window is open —
     // the desktop icon is always index 0, since DesktopIcons renders before any
@@ -749,7 +749,47 @@ describe("Blog multi-window", () => {
     // "Writing" section link (index 0) and the folder's own row (index 1), which is
     // the one wired to onOpenArticle.
     fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    // Opening an article is a purely desktop-only interaction — only a maximized
+    // article counts as a full-page view worth reflecting in the address bar.
+    expect(window.location.pathname).toBe("/");
+  });
+
+  it("updates the URL to /blog/<slug> only once the article is maximized, and back to / when un-maximized", () => {
+    renderAndMount();
+    fireEvent.click(screen.getAllByText("Blog")[0]);
+    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    expect(window.location.pathname).toBe("/");
+
+    // Same DOM order as the "closing an article" test above: Terminal (3 dots) +
+    // Folder (3 dots) + Article (2 dots: red close at 6, green maximize at 7) +
+    // Dock's active-indicator dot (1) — 9 total.
+    const dots = document.querySelectorAll('span[style*="border-radius: 50%"]');
+    expect(dots.length).toBe(9);
+    fireEvent.click(dots[7]);
     expect(window.location.pathname).toBe("/blog/self-hosted-email");
+
+    // maximize() toggles — clicking the same dot again un-maximizes, which should
+    // pull the URL back to "/" since the article is no longer a full-page view.
+    fireEvent.click(dots[7]);
+    expect(window.location.pathname).toBe("/");
+  });
+
+  it("never updates the URL for the folder window, in any state", () => {
+    renderAndMount();
+    fireEvent.click(screen.getAllByText("Blog")[0]);
+    expect(window.location.pathname).toBe("/");
+
+    // With only the folder open (no article), DOM order is: Terminal (3 dots:
+    // red/yellow/green at 0,1,2, open by default), BlogFolderWindow (3 dots:
+    // red/yellow/green at 3,4,5), then the Dock's active-indicator dot for the
+    // open Terminal icon (1 more) — 7 total. Index 5 is the folder's green
+    // (maximize) dot.
+    const dots = document.querySelectorAll('span[style*="border-radius: 50%"]');
+    expect(dots.length).toBe(7);
+    fireEvent.click(dots[5]);
+    // Maximizing the folder must not touch the URL either — only a maximized
+    // article does.
+    expect(window.location.pathname).toBe("/");
   });
 });
 

@@ -92,19 +92,14 @@ export default function Home() {
   };
 
   // Shared fallback: when the window named by `activeWindow` closes, activeWindow
-  // must be reassigned to something still mounted — otherwise the URL-sync effect
-  // (keyed on activeWindow) never re-runs and the address bar keeps naming a window
-  // that no longer exists. Falls back to the new topmost entry in blogZOrder (the
-  // blog window now "on top"), or to "terminal" — and resets the URL to "/" — if the
-  // blog cluster is now completely empty.
+  // must be reassigned to something still mounted — otherwise z-index tiering
+  // keeps referencing a window that no longer exists. Falls back to the new
+  // topmost entry in blogZOrder (the blog window now "on top"), or to "terminal"
+  // if the blog cluster is now completely empty. URL cleanup is handled
+  // separately by the showingMaximizedArticle-driven effect below.
   const reassignActiveWindowIfClosed = (closedId: BlogWindowId, nextZOrder: BlogWindowId[]) => {
     if (activeWindow !== closedId) return;
-    if (nextZOrder.length > 0) {
-      setActiveWindow(nextZOrder[nextZOrder.length - 1]);
-    } else {
-      if (window.location.pathname !== "/") window.history.pushState(null, "", "/");
-      setActiveWindow("terminal");
-    }
+    setActiveWindow(nextZOrder.length > 0 ? nextZOrder[nextZOrder.length - 1] : "terminal");
   };
 
   const closeArticle = (slug: string) => {
@@ -142,15 +137,22 @@ export default function Home() {
   const blogTierBase = isBlogClusterActive ? 20 : 10;
   const blogZIndex = (id: BlogWindowId) => blogTierBase + blogZOrder.indexOf(id);
 
+  // The address bar only ever reflects a maximized article — a floating article
+  // window (the normal, desktop-only browsing experience) doesn't touch the URL,
+  // and the folder listing never does either, in any state. A maximized article
+  // is effectively a full-page view, which is the only time the "/blog/<slug>"
+  // URL genuinely matches what's on screen.
+  const activeArticleSlug = activeWindow.startsWith("article:") ? activeWindow.slice("article:".length) : null;
+  const showingMaximizedArticle = activeArticleSlug && maximizedArticles.has(activeArticleSlug) ? activeArticleSlug : null;
+
   useEffect(() => {
-    if (activeWindow === "blogFolder") {
-      if (window.location.pathname !== "/blog") window.history.pushState(null, "", "/blog");
-    } else if (activeWindow.startsWith("article:")) {
-      const slug = activeWindow.slice("article:".length);
-      const path = `/blog/${slug}`;
+    if (showingMaximizedArticle) {
+      const path = `/blog/${showingMaximizedArticle}`;
       if (window.location.pathname !== path) window.history.pushState(null, "", path);
+    } else if (window.location.pathname.startsWith("/blog")) {
+      window.history.pushState(null, "", "/");
     }
-  }, [activeWindow]);
+  }, [showingMaximizedArticle]);
 
   useEffect(() => {
     const onPopState = () => {
