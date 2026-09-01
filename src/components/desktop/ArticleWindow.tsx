@@ -36,7 +36,7 @@ export function ArticleWindow({
     defaultWidth: 680,
     isMobile,
     mounted,
-    initialState: "open",
+    initialState: standalone ? "maximized" : "open",
     initialOffset,
   });
 
