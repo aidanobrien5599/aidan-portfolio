@@ -22,7 +22,7 @@ function makeWm() {
 describe("BlogFolderWindow", () => {
   it("lists posts by title, not their content", () => {
     render(
-      <BlogFolderWindow wm={makeWm()} onFocus={vi.fn()} onBounce={vi.fn()} activeZIndex={10} onOpenArticle={vi.fn()} />
+      <BlogFolderWindow wm={makeWm()} onFocus={vi.fn()} onBounce={vi.fn()} activeZIndex={10} onOpenArticle={vi.fn()} onClose={vi.fn()} />
     );
     expect(screen.getByText(/SaaS is Dead to Me/)).toBeInTheDocument();
     expect(screen.queryByText(/How I Pulled This Off/)).not.toBeInTheDocument();
@@ -31,7 +31,7 @@ describe("BlogFolderWindow", () => {
   it("calls onOpenArticle with the slug when a post row is clicked, without changing local content", () => {
     const onOpenArticle = vi.fn();
     render(
-      <BlogFolderWindow wm={makeWm()} onFocus={vi.fn()} onBounce={vi.fn()} activeZIndex={10} onOpenArticle={onOpenArticle} />
+      <BlogFolderWindow wm={makeWm()} onFocus={vi.fn()} onBounce={vi.fn()} activeZIndex={10} onOpenArticle={onOpenArticle} onClose={vi.fn()} />
     );
     // Same reasoning as above: once the article window is open, its title also
     // matches /SaaS is Dead to Me/ (rendered again in the ArticleWindow's <h1>),
@@ -44,7 +44,7 @@ describe("BlogFolderWindow", () => {
 
   it("has no back button (no inline article view)", () => {
     render(
-      <BlogFolderWindow wm={makeWm()} onFocus={vi.fn()} onBounce={vi.fn()} activeZIndex={10} onOpenArticle={vi.fn()} />
+      <BlogFolderWindow wm={makeWm()} onFocus={vi.fn()} onBounce={vi.fn()} activeZIndex={10} onOpenArticle={vi.fn()} onClose={vi.fn()} />
     );
     expect(screen.queryByText(/all posts/)).not.toBeInTheDocument();
   });
