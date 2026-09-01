@@ -53,6 +53,19 @@ export function ArticleWindow({
     }
   };
 
+  // Standalone pages start maximized and have no desktop underneath them, so
+  // there's no floating-card state to toggle into locally — un-maximizing
+  // instead navigates into the real desktop app with this article already
+  // open (normal, floating, not maximized), the same as opening it from the
+  // folder. Home reads the ?article= param on mount and opens it.
+  const handleMaximizeToggle = () => {
+    if (standalone) {
+      router.push(`/?article=${slug}`);
+    } else {
+      wm.maximize();
+    }
+  };
+
   if (!post) return null;
 
   return (
@@ -72,7 +85,7 @@ export function ArticleWindow({
     >
       <div
         onMouseDown={wm.handleDragStart}
-        onDoubleClick={standalone ? undefined : wm.maximize}
+        onDoubleClick={handleMaximizeToggle}
         style={{
           display: "flex",
           alignItems: "center",
@@ -89,15 +102,10 @@ export function ArticleWindow({
           onClick={(e) => { e.stopPropagation(); handleClose(); }}
           style={{ width: 12, height: 12, borderRadius: "50%", background: "var(--color-dot-r)", cursor: "pointer", flexShrink: 0 }}
         />
-        {/* Standalone pages always stay maximized (there's no desktop to restore
-            down into), so the maximize dot — the only way to leave that state —
-            isn't shown at all. */}
-        {!standalone && (
-          <span
-            onClick={(e) => { e.stopPropagation(); wm.maximize(); }}
-            style={{ width: 12, height: 12, borderRadius: "50%", background: "var(--color-dot-g)", cursor: "pointer", flexShrink: 0 }}
-          />
-        )}
+        <span
+          onClick={(e) => { e.stopPropagation(); handleMaximizeToggle(); }}
+          style={{ width: 12, height: 12, borderRadius: "50%", background: "var(--color-dot-g)", cursor: "pointer", flexShrink: 0 }}
+        />
         <FolderIcon size={13} style={{ marginLeft: 6, flexShrink: 0 }} />
         <span style={{ fontSize: 12, color: "var(--color-muted)" }}>{post.title}</span>
       </div>

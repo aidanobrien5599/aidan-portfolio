@@ -168,6 +168,20 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Un-maximizing a standalone article (src/components/desktop/ArticleWindow.tsx)
+  // navigates here with ?article=<slug> to reveal the real desktop with that
+  // article already open, floating, same as opening it from the folder. Runs
+  // once on mount, then strips the query string so it doesn't linger.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const articleSlug = params.get("article");
+    if (articleSlug) {
+      openArticle(articleSlug);
+      window.history.replaceState(null, "", "/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const menuActions: Record<string, () => void> = {
     restore: terminal.restore,
     maximize: terminal.maximize,

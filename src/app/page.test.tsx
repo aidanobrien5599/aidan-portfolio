@@ -793,6 +793,27 @@ describe("Blog multi-window", () => {
   });
 });
 
+describe("Reveal-the-desktop navigation (?article= param)", () => {
+  it("opens the given article, floating, on mount when ?article=<slug> is present, and strips the query string", () => {
+    // Simulates arriving here the way ArticleWindow's standalone un-maximize
+    // navigates: router.push(`/?article=${slug}`).
+    window.history.pushState(null, "", "/?article=self-hosted-email");
+    renderAndMount();
+
+    expect(screen.getByRole("heading", { level: 1, name: /SaaS is Dead to Me/ })).toBeInTheDocument();
+    // The query string is a one-shot signal, not part of the app's normal URL
+    // vocabulary — it's consumed and cleaned up immediately.
+    expect(window.location.search).toBe("");
+    expect(window.location.pathname).toBe("/");
+  });
+
+  it("does nothing when there is no ?article= param", () => {
+    window.history.pushState(null, "", "/");
+    renderAndMount();
+    expect(screen.queryByRole("heading", { level: 1, name: /SaaS is Dead to Me/ })).not.toBeInTheDocument();
+  });
+});
+
 // ─── Mobile behavior ────────────────────────────────────────────────
 
 describe("Mobile behavior", () => {
