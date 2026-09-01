@@ -27,6 +27,7 @@ export default function Home() {
   const [openArticles, setOpenArticles] = useState<string[]>([]);
   const [blogZOrder, setBlogZOrder] = useState<BlogWindowId[]>([]);
   const [maximizedArticles, setMaximizedArticles] = useState<Set<string>>(new Set());
+  const [articlesOpenedMaximized, setArticlesOpenedMaximized] = useState<Set<string>>(new Set());
   const [bouncingIcon, setBouncingIcon] = useState<string | null>(null);
 
   const clock = useClock();
@@ -86,7 +87,16 @@ export default function Home() {
     focusBlogWindow("blogFolder");
   };
 
+  // Opening an article while the folder is maximized (full-screen) would
+  // otherwise be invisible — a floating window rendered behind an
+  // equally-topmost maximized folder — so it starts maximized instead in
+  // that case, taking over the screen (and, via the maximized-article URL
+  // sync above, pushing /blog/<slug> the same as any other maximize).
   const openArticle = (slug: string) => {
+    const isNewlyOpened = !openArticles.includes(slug);
+    if (isNewlyOpened && blogFolder.state === "maximized") {
+      setArticlesOpenedMaximized((prev) => (prev.has(slug) ? prev : new Set(prev).add(slug)));
+    }
     setOpenArticles((prev) => (prev.includes(slug) ? prev : [...prev, slug]));
     focusBlogWindow(`article:${slug}`);
   };
@@ -108,6 +118,12 @@ export default function Home() {
     setOpenArticles((prev) => prev.filter((s) => s !== slug));
     setBlogZOrder(nextZOrder);
     setMaximizedArticles((prev) => {
+      if (!prev.has(slug)) return prev;
+      const next = new Set(prev);
+      next.delete(slug);
+      return next;
+    });
+    setArticlesOpenedMaximized((prev) => {
       if (!prev.has(slug)) return prev;
       const next = new Set(prev);
       next.delete(slug);
@@ -410,6 +426,7 @@ export default function Home() {
             isMobile={isMobile}
             mounted={mounted}
             initialOffset={{ x: index * 28, y: index * 28 }}
+            startMaximized={articlesOpenedMaximized.has(slug)}
             onFocus={() => focusBlogWindow(`article:${slug}`)}
             onClose={() => closeArticle(slug)}
             onMaximizedChange={(isMax) => setArticleMaximized(slug, isMax)}

@@ -9,6 +9,7 @@ import { posts } from "@/constants/blog";
 interface ArticleWindowProps {
   slug: string;
   standalone?: boolean;
+  startMaximized?: boolean;
   isMobile?: boolean;
   mounted?: boolean;
   initialOffset?: { x: number; y: number };
@@ -21,6 +22,7 @@ interface ArticleWindowProps {
 export function ArticleWindow({
   slug,
   standalone = false,
+  startMaximized = false,
   isMobile = false,
   mounted = true,
   initialOffset,
@@ -36,7 +38,7 @@ export function ArticleWindow({
     defaultWidth: 680,
     isMobile,
     mounted,
-    initialState: standalone ? "maximized" : "open",
+    initialState: standalone || startMaximized ? "maximized" : "open",
     initialOffset,
   });
 

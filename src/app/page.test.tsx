@@ -793,6 +793,62 @@ describe("Blog multi-window", () => {
   });
 });
 
+describe("Opening an article while the folder is maximized", () => {
+  it("starts the article maximized (not floating-behind-the-folder) and pushes the URL", () => {
+    renderAndMount();
+    fireEvent.click(screen.getAllByText("Blog")[0]);
+
+    // Maximize the folder first. With only Terminal + the folder open (no
+    // article yet), DOM order is: Terminal (3 dots: 0,1,2), BlogFolderWindow
+    // (3 dots: 3,4,5), Dock's active-indicator dot (1) — 7 total. Index 5 is
+    // the folder's green (maximize) dot — same layout as the "never updates
+    // the URL for the folder window" test above.
+    let dots = document.querySelectorAll('span[style*="border-radius: 50%"]');
+    expect(dots.length).toBe(7);
+    fireEvent.click(dots[5]);
+
+    // Now open the article from the folder's row (index 1 — Terminal's
+    // "Writing" link is index 0, same reasoning as the other tests above).
+    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+
+    // A floating article would render with borderRadius: 10 and a boxShadow;
+    // a maximized one renders borderRadius: 0, no boxShadow, position: fixed.
+    // Find the article's outer window via its <h1>.
+    const h1 = screen.getByRole("heading", { level: 1, name: /SaaS is Dead to Me/ });
+    let articleOuter: HTMLElement | null = h1;
+    while (articleOuter && !articleOuter.getAttribute("style")?.includes("border-radius")) {
+      articleOuter = articleOuter.parentElement;
+    }
+    expect(articleOuter?.getAttribute("style")).toContain("border-radius: 0");
+    expect(articleOuter?.getAttribute("style")).toContain("position: fixed");
+
+    // Maximized article -> URL syncs, same as any other maximize.
+    expect(window.location.pathname).toBe("/blog/self-hosted-email");
+  });
+
+  it("does not retroactively maximize an article that was already open floating before the folder maximized", () => {
+    renderAndMount();
+    fireEvent.click(screen.getAllByText("Blog")[0]);
+    // Open the article first, while the folder is still just "open" (not
+    // maximized) — it should be floating, per normal behavior.
+    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    expect(window.location.pathname).toBe("/");
+
+    // Now maximize the folder. DOM order with folder + one floating article
+    // open: Terminal (3), Folder (3), Article (2), Dock (1) — 9 total (same
+    // count as the "closing an article" test above). Folder's green dot is
+    // still index 5.
+    let dots = document.querySelectorAll('span[style*="border-radius: 50%"]');
+    expect(dots.length).toBe(9);
+    fireEvent.click(dots[5]);
+
+    // Re-clicking the already-open article's row should just refocus it —
+    // "isNewlyOpened" is false, so it must not suddenly jump to maximized.
+    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    expect(window.location.pathname).toBe("/");
+  });
+});
+
 describe("Reveal-the-desktop navigation (?article= param)", () => {
   it("opens the given article, floating, on mount when ?article=<slug> is present, and strips the query string", () => {
     // Simulates arriving here the way ArticleWindow's standalone un-maximize
