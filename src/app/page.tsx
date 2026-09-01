@@ -339,7 +339,7 @@ export default function Home() {
           onFocus={() => setActiveWindow("terminal")}
           onBounce={handleBounce}
           activeZIndex={activeWindow === "terminal" ? 20 : 10}
-          onBlogOpen={openBlogFolder}
+          onOpenArticle={openArticle}
         />
 
         {(terminal.state === "minimized" || terminal.state === "closed") &&

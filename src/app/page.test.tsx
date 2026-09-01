@@ -624,6 +624,17 @@ describe("Hydration safety", () => {
 });
 
 describe("Blog multi-window", () => {
+  it("clicking a post title in the Terminal's Writing section opens that article directly, not the folder", () => {
+    renderAndMount();
+    // Before the folder is ever opened, the Terminal's Writing section link is
+    // the only thing rendering the post title — no index ambiguity here.
+    fireEvent.click(screen.getByText(/SaaS is Dead to Me/));
+    expect(screen.getByRole("heading", { level: 1, name: /SaaS is Dead to Me/ })).toBeInTheDocument();
+    // The folder itself must not have opened as an intermediary step — "Blog"
+    // should still only match the desktop icon label.
+    expect(screen.getAllByText("Blog").length).toBe(1);
+  });
+
   it("opens an article as its own window when clicked from the folder", () => {
     renderAndMount();
     // "Blog" appears once (desktop icon label) before the folder window is open —

@@ -12,10 +12,10 @@ interface TerminalWindowProps {
   onFocus: () => void;
   onBounce: (id: string) => void;
   activeZIndex: number;
-  onBlogOpen?: () => void;
+  onOpenArticle?: (slug: string) => void;
 }
 
-export function TerminalWindow({ wm, isMobile, onFocus, onBounce, activeZIndex, onBlogOpen }: TerminalWindowProps) {
+export function TerminalWindow({ wm, isMobile, onFocus, onBounce, activeZIndex, onOpenArticle }: TerminalWindowProps) {
   const handleMinimize = () => {
     wm.minimize();
     onBounce("terminal");
@@ -197,7 +197,7 @@ export function TerminalWindow({ wm, isMobile, onFocus, onBounce, activeZIndex, 
           {posts.map((post) => (
             <div key={post.slug} style={{ marginBottom: 14 }}>
               <span
-                onClick={onBlogOpen}
+                onClick={() => onOpenArticle?.(post.slug)}
                 style={{ color: "var(--color-accent)", textDecoration: "none", cursor: "pointer" }}
                 onMouseEnter={(e) => (e.currentTarget.style.textDecoration = "underline")}
                 onMouseLeave={(e) => (e.currentTarget.style.textDecoration = "none")}
