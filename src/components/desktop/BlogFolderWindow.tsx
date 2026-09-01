@@ -8,12 +8,13 @@ import { FolderIcon } from "@/components/icons/FolderIcon";
 interface BlogFolderWindowProps {
   wm: ReturnType<typeof useWindowManager>;
   onFocus: () => void;
+  onClose: () => void;
   onBounce: (id: string) => void;
   activeZIndex: number;
   onOpenArticle: (slug: string) => void;
 }
 
-export function BlogFolderWindow({ wm, onFocus, onBounce, activeZIndex, onOpenArticle }: BlogFolderWindowProps) {
+export function BlogFolderWindow({ wm, onFocus, onClose, onBounce, activeZIndex, onOpenArticle }: BlogFolderWindowProps) {
   const handleMinimize = () => {
     wm.minimize();
     onBounce("blog");
@@ -34,7 +35,7 @@ export function BlogFolderWindow({ wm, onFocus, onBounce, activeZIndex, onOpenAr
       }}
     >
       <WindowChrome
-        onClose={() => wm.setState("closed")}
+        onClose={onClose}
         onMinimize={handleMinimize}
         onMaximize={wm.maximize}
         onDragStart={wm.handleDragStart}

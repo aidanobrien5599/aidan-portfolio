@@ -91,15 +91,41 @@ export default function Home() {
     focusBlogWindow(`article:${slug}`);
   };
 
+  // Shared fallback: when the window named by `activeWindow` closes, activeWindow
+  // must be reassigned to something still mounted — otherwise the URL-sync effect
+  // (keyed on activeWindow) never re-runs and the address bar keeps naming a window
+  // that no longer exists. Falls back to the new topmost entry in blogZOrder (the
+  // blog window now "on top"), or to "terminal" — and resets the URL to "/" — if the
+  // blog cluster is now completely empty.
+  const reassignActiveWindowIfClosed = (closedId: BlogWindowId, nextZOrder: BlogWindowId[]) => {
+    if (activeWindow !== closedId) return;
+    if (nextZOrder.length > 0) {
+      setActiveWindow(nextZOrder[nextZOrder.length - 1]);
+    } else {
+      if (window.location.pathname !== "/") window.history.pushState(null, "", "/");
+      setActiveWindow("terminal");
+    }
+  };
+
   const closeArticle = (slug: string) => {
+    const id: BlogWindowId = `article:${slug}`;
+    const nextZOrder = blogZOrder.filter((x) => x !== id);
     setOpenArticles((prev) => prev.filter((s) => s !== slug));
-    setBlogZOrder((prev) => prev.filter((id) => id !== `article:${slug}`));
+    setBlogZOrder(nextZOrder);
     setMaximizedArticles((prev) => {
       if (!prev.has(slug)) return prev;
       const next = new Set(prev);
       next.delete(slug);
       return next;
     });
+    reassignActiveWindowIfClosed(id, nextZOrder);
+  };
+
+  const closeBlogFolder = () => {
+    blogFolder.setState("closed");
+    const nextZOrder = blogZOrder.filter((x) => x !== "blogFolder");
+    setBlogZOrder(nextZOrder);
+    reassignActiveWindowIfClosed("blogFolder", nextZOrder);
   };
 
   const setArticleMaximized = (slug: string, isMaximized: boolean) => {
@@ -354,6 +380,7 @@ export default function Home() {
           <BlogFolderWindow
             wm={blogFolder}
             onFocus={() => focusBlogWindow("blogFolder")}
+            onClose={closeBlogFolder}
             onBounce={handleBounce}
             activeZIndex={blogZIndex("blogFolder")}
             onOpenArticle={openArticle}

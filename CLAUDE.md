@@ -8,9 +8,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 npm run dev      # Start development server (localhost:3000)
 npm run build    # Production build
 npm run lint     # ESLint (next/core-web-vitals)
+npm test         # Run the test suite once (vitest run)
+npm run test:watch # Run tests in watch mode (vitest)
 ```
-
-No test suite is configured.
 
 ## Architecture
 

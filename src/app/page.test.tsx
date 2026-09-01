@@ -692,6 +692,53 @@ describe("Blog multi-window", () => {
     expect(screen.getAllByText("Blog").length).toBe(2);
   });
 
+  it("refocusing the folder window brings it above an already-open article in z-order", () => {
+    renderAndMount();
+    // Open the folder (desktop icon, index 0 — see comment on the dedup test above).
+    fireEvent.click(screen.getAllByText("Blog")[0]);
+    // Open the article from the folder's row (index 1 — Terminal's "Writing" link is
+    // index 0, same index reasoning as the dedup test above).
+    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+
+    // Each window's outer div (the one carrying ref={wm.ref} in BlogFolderWindow.tsx /
+    // ArticleWindow.tsx) is the closest ancestor with an inline border-radius style —
+    // WindowChrome's titlebar div and the scrollable content div beneath it don't set
+    // border-radius, only the top-level window div does — so climbing from any element
+    // inside a window via closest() reliably lands on that window's outer div, whose
+    // inline zIndex is exactly blogZIndex(id) from page.tsx (getWindowStyle() only sets
+    // its own zIndex for the mobile/maximized case, which doesn't apply here).
+    function outerWindowOf(el: HTMLElement) {
+      return el.closest('div[style*="border-radius"]') as HTMLElement;
+    }
+
+    // Folder titlebar text is "Blog" at index 1 (index 0 is the desktop icon label).
+    const folderOuter = outerWindowOf(screen.getAllByText("Blog")[1]);
+    // The article's <h1> is unique to its body content (see the dedup test above).
+    const articleOuter = outerWindowOf(
+      screen.getByRole("heading", { level: 1, name: /SaaS is Dead to Me/ })
+    );
+
+    // The article was opened after the folder, so it was focused last and should sit
+    // above it in z-order.
+    expect(Number(articleOuter.style.zIndex)).toBeGreaterThan(Number(folderOuter.style.zIndex));
+
+    // Refocus the folder by mousing down on its titlebar. mousedown bubbles from
+    // WindowChrome's titlebar div (which only handles drag-start, no
+    // stopPropagation) up to BlogFolderWindow's outer div, whose onMouseDown={onFocus}
+    // calls focusBlogWindow("blogFolder") in page.tsx, pushing "blogFolder" back to
+    // the top of blogZOrder.
+    fireEvent.mouseDown(screen.getAllByText("Blog")[1]);
+
+    const folderOuterAfter = outerWindowOf(screen.getAllByText("Blog")[1]);
+    const articleOuterAfter = outerWindowOf(
+      screen.getByRole("heading", { level: 1, name: /SaaS is Dead to Me/ })
+    );
+
+    // The folder was just refocused, so it must now render above the article — this
+    // is the part a no-op or constant-z-index focusBlogWindow would fail to satisfy.
+    expect(Number(folderOuterAfter.style.zIndex)).toBeGreaterThan(Number(articleOuterAfter.style.zIndex));
+  });
+
   it("updates the URL to /blog/<slug> when an article is opened", () => {
     renderAndMount();
     // "Blog" appears once (desktop icon label) before the folder window is open —
