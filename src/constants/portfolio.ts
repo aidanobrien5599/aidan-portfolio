@@ -1,12 +1,5 @@
 export type WindowState = "open" | "minimized" | "maximized" | "closed";
 
-export const work = [
-  { year: "2026", company: "Netflix", title: "Software Engineer Intern", note: null },
-  { year: "2025-2026", company: "Intelligible", title: "Founding Engineer", note: null },
-  { year: "2025", company: "CargoLabs", title: "Software Engineer Intern", note: null },
-  { year: "2024", company: "Collectwise", title: "Software Engineer Intern", note: "YC F'24" },
-];
-
 export const links = {
   github: "https://github.com/aidanobrien5599",
   linkedin: "https://www.linkedin.com/in/aidan-o-brien-393486274/",
