@@ -53,6 +53,7 @@ export type DockItemConfig = {
   label?: string;
   emoji?: string;
   icon?: string;
+  iconCover?: boolean;
   bg?: string;
   border?: string;
   href?: string;
@@ -63,7 +64,7 @@ export const dockItemsConfig: DockItemConfig[] = [
   { id: "terminal", label: "Terminal", actionType: "terminal", bg: "#1A1A1A", border: "#333" },
   { id: "browser", label: "Browser", emoji: "🌐", actionType: "browser", bg: "#3B82F6", border: "#2563EB" },
   { id: "settings", label: "Settings", emoji: "⚙️", actionType: "settings", bg: "#6B7280", border: "#4B5563" },
-  { id: "doom", label: "DOOM", emoji: "💀", actionType: "doom", bg: "#8B0000", border: "#5C0000" },
+  { id: "doom", label: "DOOM", icon: "/images/doom.webp", iconCover: true, actionType: "doom", bg: "#8B0000", border: "#5C0000" },
   { id: "resume", label: "Resume", emoji: "📄", bg: "#E8E8E8", border: "#CCC", href: links.resume },
   { id: "sep" },
   { id: "github", label: "GitHub", icon: "/images/github.svg", bg: "var(--github-icon-bg)", border: "var(--github-icon-border)", href: links.github },
@@ -74,6 +75,7 @@ export const dockItemsConfig: DockItemConfig[] = [
 export type DesktopIconConfig = {
   emoji?: string;
   icon?: string;
+  iconCover?: boolean;
   label: string;
   href?: string;
   actionType?: "browser" | "settings" | "doom" | "blog";
@@ -87,5 +89,5 @@ export const desktopIconsConfig: DesktopIconConfig[] = [
   { icon: "/images/chess.png", label: "Chess.com", href: links.chess },
   { emoji: "🌐", label: "Browser", actionType: "browser" },
   { emoji: "⚙️", label: "Settings", actionType: "settings" },
-  { emoji: "💀", label: "DOOM", actionType: "doom" },
+  { icon: "/images/doom.webp", iconCover: true, label: "DOOM", actionType: "doom" },
 ];
