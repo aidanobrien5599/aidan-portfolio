@@ -11,7 +11,7 @@ export const posts: BlogPost[] = [
     slug: "self-hosted-email",
     title: "SaaS is Dead to Me: How I Set Up My Own Email Server for $22/Year",
     date: "2026-08-30",
-    description: "Replacing $300/year in SaaS email with a self-hosted Mox server on a cheap VPS.",
+    description: "How I Set Up My Own Email Server for $22/Year",
     content: (
       <>
         <p>
