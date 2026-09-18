@@ -11,6 +11,6 @@ describe("BlogIndexPage", () => {
 
   it("shows the post description", () => {
     render(<BlogIndexPage />);
-    expect(screen.getByText(/Replacing \$300\/year in SaaS email/)).toBeInTheDocument();
+    expect(screen.getByText(/^How I Set Up My Own Email Server for \$22\/Year/)).toBeInTheDocument();
   });
 });
