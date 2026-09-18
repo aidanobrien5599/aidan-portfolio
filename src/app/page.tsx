@@ -275,7 +275,7 @@ export default function Home() {
       return {
         id: "doom",
         label: "DOOM",
-        icon: <span style={{ fontSize: 20 }}>💀</span>,
+        icon: <img src={cfg.icon} alt="DOOM" style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: 10 }} />,
         bg: cfg.bg,
         border: cfg.border,
         active: doom.state === "open" || doom.state === "maximized",

@@ -37,12 +37,13 @@ export function DesktopIcons({ icons, onBrowserOpen, onSettingsOpen, onDoomOpen,
                 alignItems: "center",
                 justifyContent: "center",
                 fontSize: 26,
+                overflow: "hidden",
               }}
             >
               {icon.actionType === "blog"
                 ? <FolderIcon size={30} />
                 : icon.icon
-                  ? <img src={icon.icon} alt={icon.label} className={icon.icon.includes("github") ? "icon-invert-dark" : ""} style={{ width: 28, height: 28, objectFit: "contain" }} />
+                  ? <img src={icon.icon} alt={icon.label} className={icon.icon.includes("github") ? "icon-invert-dark" : ""} style={icon.iconCover ? { width: "100%", height: "100%", objectFit: "cover" } : { width: 28, height: 28, objectFit: "contain" }} />
                   : icon.emoji}
             </div>
             <span
