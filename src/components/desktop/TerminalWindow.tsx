@@ -2,7 +2,7 @@
 
 import { WindowChrome } from "./WindowChrome";
 import { Section } from "./Section";
-import { work, links } from "@/constants/portfolio";
+import { links } from "@/constants/portfolio";
 import { posts } from "@/constants/blog";
 import type { useWindowManager } from "@/hooks/useWindowManager";
 
@@ -119,42 +119,6 @@ export function TerminalWindow({ wm, isMobile, onFocus, onBounce, activeZIndex, 
             </p>
           </div>
         </section>
-
-        <Section title="Work">
-          {work.map((job, i) => (
-            <div
-              key={i}
-              style={{
-                display: "flex",
-                gap: 16,
-                fontSize: 13,
-                lineHeight: 1.7,
-                marginTop: i > 0 ? 4 : 0,
-              }}
-            >
-              <span
-                style={{
-                  color: "var(--color-heading)",
-                  fontWeight: 600,
-                  width: 80,
-                  flexShrink: 0,
-                  whiteSpace: "nowrap",
-                  fontVariantNumeric: "tabular-nums",
-                }}
-              >
-                {job.year}
-              </span>
-              <span>
-                {job.company} · {job.title}
-                {job.note && (
-                  <span style={{ fontSize: 11, color: "var(--color-accent)", marginLeft: 6 }}>
-                    {job.note}
-                  </span>
-                )}
-              </span>
-            </div>
-          ))}
-        </Section>
 
         <Section title="Projects">
           <div style={{ marginBottom: 14 }}>

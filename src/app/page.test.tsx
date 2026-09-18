@@ -46,34 +46,6 @@ describe("Rendering basics", () => {
     expect(screen.getByText(/Software engineer\. CS @ UW-Madison\./)).toBeInTheDocument();
   });
 
-  it("shows all work entries", () => {
-    renderAndMount();
-    expect(screen.getAllByText(/Netflix/).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/Intelligible/).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/CargoLabs/).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/Collectwise/).length).toBeGreaterThan(0);
-  });
-
-  it("shows work titles", () => {
-    renderAndMount();
-    expect(screen.getAllByText(/Software Engineer Intern/).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/Founding Engineer/).length).toBeGreaterThan(0);
-  });
-
-  it("shows work years", () => {
-    renderAndMount();
-    expect(screen.getByText("2026")).toBeInTheDocument();
-    expect(screen.getByText("2025-2026")).toBeInTheDocument();
-    expect(screen.getByText("2025")).toBeInTheDocument();
-    expect(screen.getByText("2024")).toBeInTheDocument();
-  });
-
-  it("shows work notes", () => {
-    renderAndMount();
-    expect(screen.getByText("Incoming in May")).toBeInTheDocument();
-    expect(screen.getByText("YC F'24")).toBeInTheDocument();
-  });
-
   it("shows projects", () => {
     renderAndMount();
     expect(screen.getByText("BadgerBase")).toBeInTheDocument();
@@ -129,12 +101,9 @@ describe("Rendering basics", () => {
 describe("Section component", () => {
   it("renders section titles with $ prefix", () => {
     renderAndMount();
-    const workHeading = screen.getByRole("heading", { name: /Work/ });
-    expect(workHeading).toBeInTheDocument();
-    expect(workHeading.textContent).toContain("$");
-
     const projectsHeading = screen.getByRole("heading", { name: /Projects/ });
     expect(projectsHeading).toBeInTheDocument();
+    expect(projectsHeading.textContent).toContain("$");
 
     const writingHeading = screen.getByRole("heading", { name: /Writing/ });
     expect(writingHeading).toBeInTheDocument();
@@ -143,12 +112,17 @@ describe("Section component", () => {
     expect(contactHeading).toBeInTheDocument();
   });
 
+  it("does not render a Work section", () => {
+    renderAndMount();
+    expect(screen.queryByRole("heading", { name: /Work/ })).not.toBeInTheDocument();
+  });
+
   it("renders all expected sections", () => {
     renderAndMount();
     const headings = screen.getAllByRole("heading");
     const headingTexts = headings.map((h) => h.textContent?.trim());
     expect(headingTexts).toEqual(
-      expect.arrayContaining(["$ Work", "$ Projects", "$ Writing", "$ Contact"])
+      expect.arrayContaining(["$ Projects", "$ Writing", "$ Contact"])
     );
   });
 });
