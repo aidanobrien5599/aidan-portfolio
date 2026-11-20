@@ -22,7 +22,7 @@ describe("ArticleWindow", () => {
 
   it("renders the post title and content", () => {
     render(<ArticleWindow slug={REAL_SLUG} />);
-    expect(screen.getAllByText(/SaaS is Dead to Me/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Fun stuff with self-hosted email servers/).length).toBeGreaterThan(0);
     // "Mox" (the SMTP server product name) appears many times throughout the
     // real post content, so getByText would throw on multiple matches here.
     expect(screen.getAllByText(/Mox/).length).toBeGreaterThan(0);

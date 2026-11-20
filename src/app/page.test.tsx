@@ -602,8 +602,8 @@ describe("Blog multi-window", () => {
     renderAndMount();
     // Before the folder is ever opened, the Terminal's Writing section link is
     // the only thing rendering the post title — no index ambiguity here.
-    fireEvent.click(screen.getByText(/SaaS is Dead to Me/));
-    expect(screen.getByRole("heading", { level: 1, name: /SaaS is Dead to Me/ })).toBeInTheDocument();
+    fireEvent.click(screen.getByText(/Fun stuff with self-hosted email servers/));
+    expect(screen.getByRole("heading", { level: 1, name: /Fun stuff with self-hosted email servers/ })).toBeInTheDocument();
     // The folder itself must not have opened as an intermediary step — "Blog"
     // should still only match the desktop icon label.
     expect(screen.getAllByText("Blog").length).toBe(1);
@@ -615,12 +615,12 @@ describe("Blog multi-window", () => {
     // the desktop icon is always index 0, since DesktopIcons renders before any
     // window in page.tsx's JSX tree.
     fireEvent.click(screen.getAllByText("Blog")[0]);
-    // Once the folder is open, /SaaS is Dead to Me/ matches twice: TerminalWindow's
+    // Once the folder is open, /Fun stuff with self-hosted email servers/ matches twice: TerminalWindow's
     // "Writing" section link (index 0 — TerminalWindow renders before
     // BlogFolderWindow in page.tsx's JSX tree, and stays mounted since it's open by
     // default) and the folder's own row (index 1), which is the one wired to
     // onOpenArticle.
-    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    fireEvent.click(screen.getAllByText(/Fun stuff with self-hosted email servers/)[1]);
     // "Mox" also appears in the Terminal/folder row descriptions, so use getAllByText
     // rather than getByText (which requires a single match).
     expect(screen.getAllByText(/Mox/).length).toBeGreaterThan(0);
@@ -632,10 +632,10 @@ describe("Blog multi-window", () => {
     // the desktop icon is always index 0, since DesktopIcons renders before any
     // window in page.tsx's JSX tree.
     fireEvent.click(screen.getAllByText("Blog")[0]);
-    // Once the folder is open, /SaaS is Dead to Me/ matches twice: TerminalWindow's
+    // Once the folder is open, /Fun stuff with self-hosted email servers/ matches twice: TerminalWindow's
     // "Writing" section link (index 0) and the folder's own row (index 1), which is
     // the one wired to onOpenArticle.
-    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    fireEvent.click(screen.getAllByText(/Fun stuff with self-hosted email servers/)[1]);
     // "Blog" appears twice once the folder window is open (desktop icon label +
     // window title bar) — the desktop icon is always index 0, since DesktopIcons
     // renders before any window in page.tsx's JSX tree.
@@ -643,14 +643,14 @@ describe("Blog multi-window", () => {
     // Same index reasoning as above: the folder's row is still index 1 (Terminal's
     // link is index 0) even with the article window open, since the article window's
     // own title text renders after the folder row in DOM order.
-    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    fireEvent.click(screen.getAllByText(/Fun stuff with self-hosted email servers/)[1]);
     // "Mox" appears many times within a single article's own body content (it's the
     // product name discussed throughout), so counting "Mox" occurrences cannot
     // distinguish one open article window from two. Instead assert there is exactly
     // one <h1> with this title — ArticleWindow renders the title in an <h1> only in
     // its body (its titlebar uses a <span>), so this <h1> count is exactly the count
     // of mounted ArticleWindow instances for this slug.
-    expect(screen.getAllByRole("heading", { level: 1, name: /SaaS is Dead to Me/ }).length).toBe(1);
+    expect(screen.getAllByRole("heading", { level: 1, name: /Fun stuff with self-hosted email servers/ }).length).toBe(1);
   });
 
   it("closing an article does not close the folder window", () => {
@@ -659,10 +659,10 @@ describe("Blog multi-window", () => {
     // the desktop icon is always index 0, since DesktopIcons renders before any
     // window in page.tsx's JSX tree.
     fireEvent.click(screen.getAllByText("Blog")[0]);
-    // Once the folder is open, /SaaS is Dead to Me/ matches twice: TerminalWindow's
+    // Once the folder is open, /Fun stuff with self-hosted email servers/ matches twice: TerminalWindow's
     // "Writing" section link (index 0) and the folder's own row (index 1), which is
     // the one wired to onOpenArticle.
-    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    fireEvent.click(screen.getAllByText(/Fun stuff with self-hosted email servers/)[1]);
     // DOM order: TerminalWindow renders first (open by default, 3 dots: red, yellow,
     // green), then BlogFolderWindow (3 more dots), then the ArticleWindow (2 dots:
     // red, green), then the Dock's small active-indicator dot for the open Terminal
@@ -672,7 +672,7 @@ describe("Blog multi-window", () => {
     expect(dots.length).toBe(9);
     fireEvent.click(dots[6]);
     // The article's <h1> (unique to its body, see the dedup test above) should be gone.
-    expect(screen.queryByRole("heading", { level: 1, name: /SaaS is Dead to Me/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { level: 1, name: /Fun stuff with self-hosted email servers/ })).not.toBeInTheDocument();
     // "Blog" still appears twice: desktop icon label + the still-open folder window's title
     expect(screen.getAllByText("Blog").length).toBe(2);
   });
@@ -683,7 +683,7 @@ describe("Blog multi-window", () => {
     fireEvent.click(screen.getAllByText("Blog")[0]);
     // Open the article from the folder's row (index 1 — Terminal's "Writing" link is
     // index 0, same index reasoning as the dedup test above).
-    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    fireEvent.click(screen.getAllByText(/Fun stuff with self-hosted email servers/)[1]);
 
     // Each window's outer div (the one carrying ref={wm.ref} in BlogFolderWindow.tsx /
     // ArticleWindow.tsx) is the closest ancestor with an inline border-radius style —
@@ -700,7 +700,7 @@ describe("Blog multi-window", () => {
     const folderOuter = outerWindowOf(screen.getAllByText("Blog")[1]);
     // The article's <h1> is unique to its body content (see the dedup test above).
     const articleOuter = outerWindowOf(
-      screen.getByRole("heading", { level: 1, name: /SaaS is Dead to Me/ })
+      screen.getByRole("heading", { level: 1, name: /Fun stuff with self-hosted email servers/ })
     );
 
     // The article was opened after the folder, so it was focused last and should sit
@@ -716,7 +716,7 @@ describe("Blog multi-window", () => {
 
     const folderOuterAfter = outerWindowOf(screen.getAllByText("Blog")[1]);
     const articleOuterAfter = outerWindowOf(
-      screen.getByRole("heading", { level: 1, name: /SaaS is Dead to Me/ })
+      screen.getByRole("heading", { level: 1, name: /Fun stuff with self-hosted email servers/ })
     );
 
     // The folder was just refocused, so it must now render above the article — this
@@ -730,10 +730,10 @@ describe("Blog multi-window", () => {
     // the desktop icon is always index 0, since DesktopIcons renders before any
     // window in page.tsx's JSX tree.
     fireEvent.click(screen.getAllByText("Blog")[0]);
-    // Once the folder is open, /SaaS is Dead to Me/ matches twice: TerminalWindow's
+    // Once the folder is open, /Fun stuff with self-hosted email servers/ matches twice: TerminalWindow's
     // "Writing" section link (index 0) and the folder's own row (index 1), which is
     // the one wired to onOpenArticle.
-    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    fireEvent.click(screen.getAllByText(/Fun stuff with self-hosted email servers/)[1]);
     // Opening an article is a purely desktop-only interaction — only a maximized
     // article counts as a full-page view worth reflecting in the address bar.
     expect(window.location.pathname).toBe("/");
@@ -742,7 +742,7 @@ describe("Blog multi-window", () => {
   it("updates the URL to /blog/<slug> only once the article is maximized, and back to / when un-maximized", () => {
     renderAndMount();
     fireEvent.click(screen.getAllByText("Blog")[0]);
-    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    fireEvent.click(screen.getAllByText(/Fun stuff with self-hosted email servers/)[1]);
     expect(window.location.pathname).toBe("/");
 
     // Same DOM order as the "closing an article" test above: Terminal (3 dots) +
@@ -794,12 +794,12 @@ describe("Opening an article while the folder is maximized", () => {
 
     // Now open the article from the folder's row (index 1 — Terminal's
     // "Writing" link is index 0, same reasoning as the other tests above).
-    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    fireEvent.click(screen.getAllByText(/Fun stuff with self-hosted email servers/)[1]);
 
     // A floating article would render with borderRadius: 10 and a boxShadow;
     // a maximized one renders borderRadius: 0, no boxShadow, position: fixed.
     // Find the article's outer window via its <h1>.
-    const h1 = screen.getByRole("heading", { level: 1, name: /SaaS is Dead to Me/ });
+    const h1 = screen.getByRole("heading", { level: 1, name: /Fun stuff with self-hosted email servers/ });
     let articleOuter: HTMLElement | null = h1;
     while (articleOuter && !articleOuter.getAttribute("style")?.includes("border-radius")) {
       articleOuter = articleOuter.parentElement;
@@ -816,7 +816,7 @@ describe("Opening an article while the folder is maximized", () => {
     fireEvent.click(screen.getAllByText("Blog")[0]);
     // Open the article first, while the folder is still just "open" (not
     // maximized) — it should be floating, per normal behavior.
-    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    fireEvent.click(screen.getAllByText(/Fun stuff with self-hosted email servers/)[1]);
     expect(window.location.pathname).toBe("/");
 
     // Now maximize the folder. DOM order with folder + one floating article
@@ -829,7 +829,7 @@ describe("Opening an article while the folder is maximized", () => {
 
     // Re-clicking the already-open article's row should just refocus it —
     // "isNewlyOpened" is false, so it must not suddenly jump to maximized.
-    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[1]);
+    fireEvent.click(screen.getAllByText(/Fun stuff with self-hosted email servers/)[1]);
     expect(window.location.pathname).toBe("/");
   });
 });
@@ -841,7 +841,7 @@ describe("Reveal-the-desktop navigation (?article= param)", () => {
     window.history.pushState(null, "", "/?article=self-hosted-email");
     renderAndMount();
 
-    expect(screen.getByRole("heading", { level: 1, name: /SaaS is Dead to Me/ })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: /Fun stuff with self-hosted email servers/ })).toBeInTheDocument();
     // The query string is a one-shot signal, not part of the app's normal URL
     // vocabulary — it's consumed and cleaned up immediately.
     expect(window.location.search).toBe("");
@@ -851,7 +851,7 @@ describe("Reveal-the-desktop navigation (?article= param)", () => {
   it("does nothing when there is no ?article= param", () => {
     window.history.pushState(null, "", "/");
     renderAndMount();
-    expect(screen.queryByRole("heading", { level: 1, name: /SaaS is Dead to Me/ })).not.toBeInTheDocument();
+    expect(screen.queryByRole("heading", { level: 1, name: /Fun stuff with self-hosted email servers/ })).not.toBeInTheDocument();
   });
 });
 

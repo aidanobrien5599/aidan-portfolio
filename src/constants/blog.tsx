@@ -9,7 +9,7 @@ export type BlogPost = {
 export const posts: BlogPost[] = [
   {
     slug: "self-hosted-email",
-    title: "SaaS is Dead to Me: How I Set Up My Own Email Server for $22/Year",
+    title: "Fun stuff with self-hosted email servers",
     date: "2026-08-30",
     description: "How I Set Up My Own Email Server for $22/Year",
     content: (
