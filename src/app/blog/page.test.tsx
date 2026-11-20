@@ -5,7 +5,7 @@ import BlogIndexPage from "./page";
 describe("BlogIndexPage", () => {
   it("lists every post with a link to its slug", () => {
     render(<BlogIndexPage />);
-    const link = screen.getByRole("link", { name: /SaaS is Dead to Me/ });
+    const link = screen.getByRole("link", { name: /Fun stuff with self-hosted email servers/ });
     expect(link).toHaveAttribute("href", "/blog/self-hosted-email");
   });
 

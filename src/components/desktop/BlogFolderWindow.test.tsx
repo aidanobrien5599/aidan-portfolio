@@ -24,7 +24,7 @@ describe("BlogFolderWindow", () => {
     render(
       <BlogFolderWindow wm={makeWm()} onFocus={vi.fn()} onBounce={vi.fn()} activeZIndex={10} onOpenArticle={vi.fn()} onClose={vi.fn()} />
     );
-    expect(screen.getByText(/SaaS is Dead to Me/)).toBeInTheDocument();
+    expect(screen.getByText(/Fun stuff with self-hosted email servers/)).toBeInTheDocument();
     expect(screen.queryByText(/How I Pulled This Off/)).not.toBeInTheDocument();
   });
 
@@ -34,12 +34,12 @@ describe("BlogFolderWindow", () => {
       <BlogFolderWindow wm={makeWm()} onFocus={vi.fn()} onBounce={vi.fn()} activeZIndex={10} onOpenArticle={onOpenArticle} onClose={vi.fn()} />
     );
     // Same reasoning as above: once the article window is open, its title also
-    // matches /SaaS is Dead to Me/ (rendered again in the ArticleWindow's <h1>),
+    // matches /Fun stuff with self-hosted email servers/ (rendered again in the ArticleWindow's <h1>),
     // so index 0 (the folder's row, which is what's wired to onOpenArticle) is
     // the one to click.
-    fireEvent.click(screen.getAllByText(/SaaS is Dead to Me/)[0]);
+    fireEvent.click(screen.getAllByText(/Fun stuff with self-hosted email servers/)[0]);
     expect(onOpenArticle).toHaveBeenCalledWith("self-hosted-email");
-    expect(screen.getByText(/SaaS is Dead to Me/)).toBeInTheDocument();
+    expect(screen.getByText(/Fun stuff with self-hosted email servers/)).toBeInTheDocument();
   });
 
   it("has no back button (no inline article view)", () => {

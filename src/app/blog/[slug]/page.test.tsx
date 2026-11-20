@@ -18,7 +18,7 @@ describe("generateStaticParams", () => {
 describe("generateMetadata", () => {
   it("returns the post's title and description for a known slug", async () => {
     const meta = await generateMetadata({ params: { slug: "self-hosted-email" } });
-    expect(meta.title).toContain("SaaS is Dead to Me");
+    expect(meta.title).toContain("Fun stuff with self-hosted email servers");
     expect(meta.description).toBe(
       "Replacing $300/year in SaaS email with a self-hosted Mox server on a cheap VPS."
     );
@@ -28,7 +28,7 @@ describe("generateMetadata", () => {
 describe("ArticlePage", () => {
   it("renders the real article content server-side (crawlable, not gated behind client state)", () => {
     render(<ArticlePage params={{ slug: "self-hosted-email" }} />);
-    expect(screen.getAllByText(/SaaS is Dead to Me/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Fun stuff with self-hosted email servers/).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Mox/).length).toBeGreaterThan(0);
   });
 });
